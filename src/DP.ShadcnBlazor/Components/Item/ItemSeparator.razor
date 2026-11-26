@@ -1,0 +1,8 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<Separator data-slot="item-separator" Orientation="ShadcnOrientation.Horizontal" Class="@Classes" />
+
+@code {
+    private string? Classes => Cx("my-0", Class);
+}

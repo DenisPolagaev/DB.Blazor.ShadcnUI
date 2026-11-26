@@ -1,0 +1,11 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<Separator data-slot="button-group-separator" Orientation="@Orientation" Class="@Classes" />
+
+@code {
+    /// <summary><c>vertical</c> by default, like shadcn.</summary>
+    [Parameter] public ShadcnOrientation Orientation { get; set; } = ShadcnOrientation.Vertical;
+
+    private string? Classes => Cx("relative m-0! self-stretch bg-input data-[orientation=vertical]:h-auto", Class);
+}

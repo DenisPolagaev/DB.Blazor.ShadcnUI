@@ -1,0 +1,21 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<div data-slot="item-media" data-variant="@VariantName" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    /// <summary><c>default</c>, <c>icon</c> or <c>image</c>.</summary>
+    [Parameter] public ItemMediaVariant Variant { get; set; } = ItemMediaVariant.Default;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string VariantName => Variant switch
+    {
+        ItemMediaVariant.Icon => "icon",
+        ItemMediaVariant.Image => "image",
+        _ => "default",
+    };
+
+    private string? Classes => MergeClass(ItemMediaVariants.Get(Variant));
+}

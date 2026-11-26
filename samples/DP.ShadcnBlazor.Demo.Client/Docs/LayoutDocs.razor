@@ -160,6 +160,81 @@ else if (Slug == "empty")
     </DocPage>
 }
 
+else if (Slug == "button-group")
+{
+    <DocPage Title="Button Group" Description="A container that groups related buttons together with consistent styling."
+             Code="@ButtonGroupCode" Usage="@ButtonGroupUsage">
+        <Preview>
+            <ButtonGroup>
+                <Button Variant="ButtonVariant.Outline">Copy</Button>
+                <Button Variant="ButtonVariant.Outline">Cut</Button>
+                <Button Variant="ButtonVariant.Outline">Paste</Button>
+            </ButtonGroup>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Vertical</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ButtonGroup Orientation="ShadcnOrientation.Vertical">
+                    <Button Variant="ButtonVariant.Outline">Top</Button>
+                    <Button Variant="ButtonVariant.Outline">Middle</Button>
+                    <Button Variant="ButtonVariant.Outline">Bottom</Button>
+                </ButtonGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">With separator and text</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ButtonGroup>
+                    <Button Variant="ButtonVariant.Outline">Bold</Button>
+                    <ButtonGroupSeparator />
+                    <Button Variant="ButtonVariant.Outline">Italic</Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <ButtonGroupText>https://</ButtonGroupText>
+                    <Button Variant="ButtonVariant.Outline">Open</Button>
+                </ButtonGroup>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "item")
+{
+    <DocPage Title="Item" Description="A flexible component for displaying an item in a container."
+             Code="@ItemCode" Usage="@ItemUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 460px">
+                <Item Variant="ItemVariant.Outline">
+                    <ItemMedia Variant="ItemMediaVariant.Icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+                            <path d="m2 17 10 5 10-5" />
+                        </svg>
+                    </ItemMedia>
+                    <ItemContent>
+                        <ItemTitle>Design system</ItemTitle>
+                        <ItemDescription>Tokens, primitives and docs in one place.</ItemDescription>
+                    </ItemContent>
+                    <ItemActions><Button Size="ButtonSize.Sm">Open</Button></ItemActions>
+                </Item>
+            </div>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Group with separators</h3>
+            <div class="docs-preview"><div class="docs-preview-body docs-preview-block">
+                <ItemGroup>
+                    <Item>
+                        <ItemContent><ItemTitle>Notifications</ItemTitle></ItemContent>
+                        <ItemActions><Switch Checked="true" /></ItemActions>
+                    </Item>
+                    <ItemSeparator />
+                    <Item>
+                        <ItemContent><ItemTitle>Sounds</ItemTitle></ItemContent>
+                        <ItemActions><Switch /></ItemActions>
+                    </Item>
+                </ItemGroup>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
@@ -243,6 +318,42 @@ else if (Slug == "empty")
 </ScrollArea>
 """;
 
+    private const string ButtonGroupCode = """
+<ButtonGroup>
+    <Button Variant="ButtonVariant.Outline">Copy</Button>
+    <Button Variant="ButtonVariant.Outline">Cut</Button>
+</ButtonGroup>
+""";
+
+    private const string ButtonGroupUsage = """
+@using DP.ShadcnBlazor.Components
+
+<ButtonGroup>
+    <Button Variant="ButtonVariant.Outline">Copy</Button>
+</ButtonGroup>
+""";
+
+    private const string ItemCode = """
+<Item>
+    <ItemMedia Variant="ItemMediaVariant.Icon"><Icon /></ItemMedia>
+    <ItemContent>
+        <ItemTitle>Design system</ItemTitle>
+        <ItemDescription>Tokens, primitives and docs in one place.</ItemDescription>
+    </ItemContent>
+    <ItemActions><Button Size="ButtonSize.Sm">Open</Button></ItemActions>
+</Item>
+""";
+
+    private const string ItemUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Item>
+    <ItemContent>
+        <ItemTitle>Item title</ItemTitle>
+        <ItemDescription>Item description</ItemDescription>
+    </ItemContent>
+</Item>
+""";
     private const string EmptyCode = """
 <Empty>
     <EmptyHeader>

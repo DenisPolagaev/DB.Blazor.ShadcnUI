@@ -1,0 +1,12 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<div role="list" data-slot="item-group" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("group/item-group flex flex-col");
+}

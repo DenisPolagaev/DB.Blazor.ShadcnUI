@@ -1,0 +1,26 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<div data-slot="item" data-variant="@VariantName" data-size="@SizeName" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    /// <summary><c>default</c>, <c>outline</c> or <c>muted</c>.</summary>
+    [Parameter] public ItemVariant Variant { get; set; } = ItemVariant.Default;
+
+    /// <summary><c>default</c> or <c>sm</c>.</summary>
+    [Parameter] public ItemSize Size { get; set; } = ItemSize.Default;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string VariantName => Variant switch
+    {
+        ItemVariant.Outline => "outline",
+        ItemVariant.Muted => "muted",
+        _ => "default",
+    };
+
+    private string SizeName => Size == ItemSize.Sm ? "sm" : "default";
+
+    private string? Classes => MergeClass(ItemVariants.Get(Variant, Size));
+}
