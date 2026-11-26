@@ -83,3 +83,16 @@ up. Every class string below was copied from the `new-york-v4` registry of
   Radix also implements typeahead (typing to jump to an item).
 * `RadioGroup` does not implement roving focus with arrow keys yet (all items are tabbable).
 * Tooltips do not follow the pointer and do not stay open when the content is hovered.
+
+## Automated parity check
+
+`scripts/check-parity.ps1 -ReferenceDir <new-york-v4>` compares the class tokens of the shadcn/ui
+registry against the ported sources in both directions:
+
+* every utility that appears in the registry must appear somewhere in the port (a missing
+  `data-[state=open]:animate-accordion-down` is a real omission, not a style choice);
+* every utility a component uses must appear in at least one reference file (an unknown class is
+  usually an invention).
+
+Last run: 28 components, 0 invented classes; the only "missing" tokens left are import paths and
+`data-slot` values, which the ports carry as attributes rather than as class tokens.

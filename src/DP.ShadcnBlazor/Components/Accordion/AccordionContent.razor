@@ -3,7 +3,8 @@
 @implements IAsyncDisposable
 
 <div @ref="_panel" data-slot="accordion-content" data-state="@(Item?.Open == true ? "open" : "closed")"
-     role="region" aria-labelledby="@Item?.TriggerId" inert="@(Item?.Open != true)" class="overflow-hidden text-sm">
+     role="region" aria-labelledby="@Item?.TriggerId" inert="@(Item?.Open != true)"
+     class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
     <div class="@Classes">@ChildContent</div>
 </div>
 

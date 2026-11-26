@@ -142,6 +142,28 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Radix's accordion animation variables, so the component keeps the original class list. */
+  --animate-accordion-down: dp-accordion-down 200ms ease-out both;
+  --animate-accordion-up: dp-accordion-up 200ms ease-out both;
+}
+
+@keyframes dp-accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes dp-accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 /* ---------------------------------------------------------------------------------------------
@@ -282,13 +304,12 @@
  * ------------------------------------------------------------------------------------------- */
 
 @layer components {
-  /* Accordion: the panel animates its height. Radix measures the content and exposes
+  /* Accordion: the target height of each state. Radix measures the content and exposes
      --radix-accordion-content-height; the Blazor port sets the same variable from JavaScript
-     (`syncAccordion`), so the CSS — and the class list — stay identical to the original. */
+     (`syncAccordion`), and the `animate-accordion-*` utilities run the height animation. */
   [data-slot="accordion-content"] {
     height: 0;
     overflow: hidden;
-    transition: height 200ms ease-out;
   }
 
   [data-slot="accordion-content"][data-state="open"] {
