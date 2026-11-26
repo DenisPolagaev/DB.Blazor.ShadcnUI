@@ -116,8 +116,8 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
    React without `asChild`); for a link, put `ButtonVariants.Get(...)` on an `<a>`, which is what
    the shadcn docs recommend for `<a>` elements. Triggers are the one place where the child element
    needs the handler, so they render a `display: contents` wrapper instead of cloning it.
-4. **Accordion animates with `grid-template-rows`** instead of Radix's measured
-   `--radix-accordion-content-height`, so no JS measure pass and no resize handling.
+4. **Accordion height** is measured by the same mechanism Radix uses
+   (`--radix-accordion-content-height`), so the CSS transition and the class list are identical.
 5. **Tooltip arrow** is a rotated square positioned by CSS on `data-side`, not an SVG arrow.
 6. `Select`, `Sonner`/toasts, `Slider`, `Combobox`, `Command`, `Calendar`, `DatePicker`, `Sidebar`,
    `Resizable`, `Charts`, `DataTable`, `Carousel`, `Menubar`, `NavigationMenu`, `ContextMenu`,

@@ -282,21 +282,17 @@
  * ------------------------------------------------------------------------------------------- */
 
 @layer components {
-  /* Accordion: animate height without measuring it (Radix's --radix-accordion-content-height
-     needs a measurement pass that a Blazor component would have to repeat on every resize). */
+  /* Accordion: the panel animates its height. Radix measures the content and exposes
+     --radix-accordion-content-height; the Blazor port sets the same variable from JavaScript
+     (`syncAccordion`), so the CSS — and the class list — stay identical to the original. */
   [data-slot="accordion-content"] {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 200ms ease-out;
+    height: 0;
+    overflow: hidden;
+    transition: height 200ms ease-out;
   }
 
   [data-slot="accordion-content"][data-state="open"] {
-    grid-template-rows: 1fr;
-  }
-
-  [data-slot="accordion-content"] > * {
-    min-height: 0;
-    overflow: hidden;
+    height: var(--radix-accordion-content-height);
   }
 
   /* Radix exposes --radix-*-content-available-height for the max-height utilities; the Blazor

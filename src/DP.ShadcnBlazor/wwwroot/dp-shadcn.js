@@ -381,3 +381,18 @@ export function closeDismissable(id) {
 export function focusPanel(el) {
   el?.focus?.({ preventScroll: true });
 }
+
+/**
+ * Sizes an accordion panel. Radix measures the content and exposes the height as
+ * `--radix-accordion-content-height`; doing the same keeps the CSS (and therefore the class
+ * list) identical to shadcn/ui, and the height transition runs on the real content height.
+ */
+export function syncAccordion(el, open) {
+  if (!el) {
+    return;
+  }
+
+  const height = el.scrollHeight;
+  el.style.setProperty("--radix-accordion-content-height", `${height}px`);
+  el.style.height = open ? `${height}px` : "0px";
+}

@@ -66,7 +66,7 @@ up. Every class string below was copied from the `new-york-v4` registry of
 | Menu keyboard navigation | Arrow/Home/End, roving focus | yes (ArrowUp/Down/Home/End, Enter/Space activate) |
 | Tabs keyboard navigation | Arrow/Home/End, roving tabindex | yes, including skipping disabled tabs, wrap-around |
 | Accordion | single/multiple + `collapsible` | `AccordionType.Single`/`.Multiple` + `Collapsible` |
-| Accordion animation | measured height | `grid-template-rows: 0fr → 1fr` (no measuring) |
+| Accordion animation | measures the content, animates `height` | same: `syncAccordion` measures `scrollHeight` into `--radix-accordion-content-height`, the CSS transitions `height` |
 | Tooltip delay | provider `delayDuration` | `TooltipProvider DelayDuration` (0 by default, as in shadcn v4) |
 | Tooltip stays open while hovered | yes | no — it closes when the pointer leaves the trigger (non-interactive tooltips only) |
 | Submenu opens on hover | yes | yes with a 150 ms grace period, plus click |
