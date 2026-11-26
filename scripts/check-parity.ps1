@@ -12,6 +12,12 @@ $srcRoot = Join-Path $root 'src/DP.ShadcnBlazor'
 
 $map = [ordered]@{
     'accordion'     = 'Accordion'
+    'aspect-ratio'  = 'AspectRatio'
+    'collapsible'   = 'Collapsible'
+    'empty'         = 'Empty'
+    'scroll-area'   = 'ScrollArea'
+    'toggle'        = 'Toggle'
+    'toggle-group'  = 'ToggleGroup'
     'alert'         = 'Alert'
     'alert-dialog'  = 'AlertDialog'
     'avatar'        = 'Avatar'

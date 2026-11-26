@@ -1,0 +1,267 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Docs
+
+@if (Slug == "aspect-ratio")
+{
+    <DocPage Title="Aspect Ratio" Description="Displays content within a desired ratio."
+             Code="@AspectCode" Usage="@AspectUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 420px">
+                <AspectRatio Ratio="16.0 / 9.0" Class="overflow-hidden rounded-lg bg-muted">
+                    <div class="demo-row" style="height: 100%; align-items: center; justify-content: center">
+                        <span class="demo-item-text">16 : 9</span>
+                    </div>
+                </AspectRatio>
+            </div>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Square</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <AspectRatio Ratio="1" Class="w-40 rounded-lg bg-muted">
+                    <div class="demo-row" style="height: 100%; align-items: center; justify-content: center">
+                        <span class="demo-item-text">1 : 1</span>
+                    </div>
+                </AspectRatio>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "toggle")
+{
+    <DocPage Title="Toggle" Description="A two-state button that can be either on or off."
+             Code="@ToggleCode" Usage="@ToggleUsage">
+        <Preview>
+            <Toggle aria-label="Toggle bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z" />
+                </svg>
+            </Toggle>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Outline</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Toggle Variant="ToggleVariant.Outline" aria-label="Toggle italic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M19 4h-9M14 20H5M15 4 9 20" />
+                    </svg>
+                </Toggle>
+            </div></div>
+
+            <h3 class="docs-example-title">Size</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Toggle Size="ToggleSize.Sm" aria-label="Toggle small">Sm</Toggle>
+                <Toggle aria-label="Toggle default">Default</Toggle>
+                <Toggle Size="ToggleSize.Lg" aria-label="Toggle large">Lg</Toggle>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Toggle Disabled="true">Underline</Toggle>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "toggle-group")
+{
+    <DocPage Title="Toggle Group" Description="A set of two-state buttons that can be toggled on or off."
+             Code="@ToggleGroupCode" Usage="@ToggleGroupUsage">
+        <Preview>
+            <ToggleGroup Type="ToggleGroupType.Single" Value="center">
+                <ToggleGroupItem Value="left" aria-label="Align left">Left</ToggleGroupItem>
+                <ToggleGroupItem Value="center" aria-label="Align center">Center</ToggleGroupItem>
+                <ToggleGroupItem Value="right" aria-label="Align right">Right</ToggleGroupItem>
+            </ToggleGroup>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Outline with spacing</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ToggleGroup Type="ToggleGroupType.Single" Variant="ToggleVariant.Outline" Spacing="1" Value="bold">
+                    <ToggleGroupItem Value="bold" aria-label="Bold">Bold</ToggleGroupItem>
+                    <ToggleGroupItem Value="italic" aria-label="Italic">Italic</ToggleGroupItem>
+                    <ToggleGroupItem Value="underline" aria-label="Underline">Underline</ToggleGroupItem>
+                </ToggleGroup>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "collapsible")
+{
+    <DocPage Title="Collapsible" Description="An interactive component which expands/collapses a panel."
+             Code="@CollapsibleCode" Usage="@CollapsibleUsage">
+        <Preview>
+            <div class="demo-stack" style="width: 100%; max-width: 360px">
+                <div class="demo-row" style="justify-content: space-between">
+                    <span class="demo-item-title">@(collapsibleOpen ? "3 repositories starred" : "1 repository starred")</span>
+                    <Collapsible Open="@collapsibleOpen" OpenChanged="@(value => collapsibleOpen = value)">
+                        <CollapsibleTrigger>
+                            <Button Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm">Toggle</Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                            <div class="demo-stack" style="margin-top: 8px">
+                                <div class="demo-repo">radix-ui/primitives</div>
+                                <div class="demo-repo">radix-ui/colors</div>
+                                <div class="demo-repo">radix-ui/icons</div>
+                            </div>
+                        </CollapsibleContent>
+                    </Collapsible>
+                </div>
+                <div class="demo-repo">radix-ui/react</div>
+            </div>
+        </Preview>
+    </DocPage>
+}
+else if (Slug == "scroll-area")
+{
+    <DocPage Title="Scroll Area" Description="Augments native scroll functionality for custom, cross-browser styling."
+             Code="@ScrollCode" Usage="@ScrollUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 420px">
+                <ScrollArea Class="h-56 w-full rounded-md border">
+                    <div class="demo-stack" style="padding: 16px">
+                        @for (var i = 1; i <= 12; i++)
+                        {
+                            <div class="demo-item-title">Item @i</div>
+                            <Separator />
+                        }
+                    </div>
+                </ScrollArea>
+            </div>
+        </Preview>
+    </DocPage>
+}
+else if (Slug == "empty")
+{
+    <DocPage Title="Empty" Description="Use the Empty component to display an empty state."
+             Code="@EmptyCode" Usage="@EmptyUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 480px">
+                <Empty Class="border">
+                    <EmptyHeader>
+                        <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path d="M21 8v13H3V8" />
+                                <path d="M1 3h22v5H1z" />
+                                <path d="M10 12h4" />
+                            </svg>
+                        </EmptyMedia>
+                        <EmptyTitle>No projects yet</EmptyTitle>
+                        <EmptyDescription>
+                            You haven't created any projects yet. Get started by creating your first project.
+                        </EmptyDescription>
+                    </EmptyHeader>
+                    <EmptyContent>
+                        <div class="demo-row" style="justify-content: center">
+                            <Button>Create project</Button>
+                            <Button Variant="ButtonVariant.Outline">Import project</Button>
+                        </div>
+                    </EmptyContent>
+                </Empty>
+            </div>
+        </Preview>
+    </DocPage>
+}
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+
+    private bool collapsibleOpen = true;
+
+    private const string aspectCode = "@radix-ui/react";
+    private const string radix = "@radix-ui";
+
+    private const string AspectCode = """
+<AspectRatio Ratio="16.0 / 9.0">
+    <img src="/image.jpg" alt="Photo" class="rounded-lg object-cover" />
+</AspectRatio>
+""";
+
+    private const string AspectUsage = """
+@using DP.ShadcnBlazor.Components
+
+<AspectRatio Ratio="16.0 / 9.0">
+    <img src="/image.jpg" alt="Photo" class="rounded-lg object-cover" />
+</AspectRatio>
+""";
+
+    private const string ToggleCode = """
+<Toggle aria-label="Toggle bookmark">
+    <BookmarkIcon />
+</Toggle>
+""";
+
+    private const string ToggleUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Toggle>Toggle</Toggle>
+""";
+
+    private const string ToggleGroupCode = """
+<ToggleGroup Type="ToggleGroupType.Single" Value="center">
+    <ToggleGroupItem Value="left">Left</ToggleGroupItem>
+    <ToggleGroupItem Value="center">Center</ToggleGroupItem>
+    <ToggleGroupItem Value="right">Right</ToggleGroupItem>
+</ToggleGroup>
+""";
+
+    private const string ToggleGroupUsage = """
+@using DP.ShadcnBlazor.Components
+
+<ToggleGroup Type="ToggleGroupType.Single">
+    <ToggleGroupItem Value="bold">Bold</ToggleGroupItem>
+    <ToggleGroupItem Value="italic">Italic</ToggleGroupItem>
+</ToggleGroup>
+""";
+
+    private const string CollapsibleCode = """
+<Collapsible @bind-Open="open">
+    <CollapsibleTrigger><Button Variant="ButtonVariant.Ghost">Toggle</Button></CollapsibleTrigger>
+    <CollapsibleContent>
+        <div class="rounded-md border px-4 py-2">Content</div>
+    </CollapsibleContent>
+</Collapsible>
+""";
+
+    private const string CollapsibleUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Collapsible>
+    <CollapsibleTrigger>Can I use this in my project?</CollapsibleTrigger>
+    <CollapsibleContent>Yes. Free to use for personal and commercial projects.</CollapsibleContent>
+</Collapsible>
+""";
+
+    private const string ScrollCode = """
+<ScrollArea Class="h-72 w-48 rounded-md border">
+    <div class="p-4">…</div>
+</ScrollArea>
+""";
+
+    private const string ScrollUsage = """
+@using DP.ShadcnBlazor.Components
+
+<ScrollArea Class="h-72 w-48 rounded-md border">
+    <div class="p-4">Jokester began sneaking into the castle…</div>
+</ScrollArea>
+""";
+
+    private const string EmptyCode = """
+<Empty>
+    <EmptyHeader>
+        <EmptyMedia Variant="EmptyMediaVariant.Icon"><InboxIcon /></EmptyMedia>
+        <EmptyTitle>No projects yet</EmptyTitle>
+        <EmptyDescription>Get started by creating your first project.</EmptyDescription>
+    </EmptyHeader>
+    <EmptyContent><Button>Create project</Button></EmptyContent>
+</Empty>
+""";
+
+    private const string EmptyUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Empty>
+    <EmptyHeader>
+        <EmptyTitle>No results</EmptyTitle>
+        <EmptyDescription>Try a different search.</EmptyDescription>
+    </EmptyHeader>
+</Empty>
+""";
+}

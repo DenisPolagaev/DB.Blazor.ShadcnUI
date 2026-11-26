@@ -216,4 +216,25 @@ public static class ShadcnNames
     /// <summary><c>DropdownMenuItemVariant</c> → <c>data-variant</c>.</summary>
     public static string ToDataValue(this DropdownMenuItemVariant value) =>
         value == DropdownMenuItemVariant.Destructive ? "destructive" : "default";
+
+    /// <summary><c>ToggleVariant</c> → <c>data-variant</c>.</summary>
+    public static string ToDataValue(this ToggleVariant value) =>
+        value == ToggleVariant.Outline ? "outline" : "default";
+
+    /// <summary><c>ToggleSize</c> → <c>data-size</c>.</summary>
+    public static string ToDataValue(this ToggleSize value) => value switch
+    {
+        ToggleSize.Sm => "sm",
+        ToggleSize.Lg => "lg",
+        _ => "default",
+    };
+}
+
+/// <summary>shadcn/ui <c>emptyMediaVariants.variant</c>.</summary>
+public enum EmptyMediaVariant
+{
+    /// <summary><c>default</c></summary>
+    Default,
+    /// <summary><c>icon</c></summary>
+    Icon,
 }

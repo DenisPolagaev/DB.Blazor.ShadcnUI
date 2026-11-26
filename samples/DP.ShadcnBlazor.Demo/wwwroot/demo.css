@@ -480,3 +480,10 @@ a {
 .docs-title:focus-visible {
   outline: none;
 }
+
+.demo-repo {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 14px;
+}

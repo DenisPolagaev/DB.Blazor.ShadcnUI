@@ -1,0 +1,16 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<div role="group" data-slot="toggle-group" data-variant="@Variant.ToDataValue()" data-size="@Size.ToDataValue()"
+     data-spacing="@Spacing" style="@StyleWith($"--gap: {Spacing}")" class="@Classes"
+     @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    private string? Classes => MergeClass(
+        "group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md " +
+        "data-[spacing=default]:data-[variant=outline]:shadow-xs");
+}

@@ -312,6 +312,21 @@
     overflow: hidden;
   }
 
+  /* ScrollArea: Radix drives its own scrollbar from JavaScript; the port keeps the markup and
+     lets the browser scroll the viewport (the scrollbar element stays hidden). */
+  [data-slot="scroll-area-viewport"] {
+    overflow: auto;
+  }
+
+  [data-slot="scroll-area-scrollbar"] {
+    display: none;
+  }
+
+  /* ToggleGroup spacing: Radix writes `--gap` inline and the class list uses
+     `gap-[--spacing(var(--gap))]`; this keeps the fallback arithmetic explicit. */
+  [data-slot="toggle-group"] {
+    gap: calc(var(--spacing) * var(--gap, 0));
+  }
   [data-slot="accordion-content"][data-state="open"] {
     height: var(--radix-accordion-content-height);
   }

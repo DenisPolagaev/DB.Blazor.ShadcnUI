@@ -1,0 +1,14 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+@if (Owner?.IsOpen == true)
+{
+    <div data-slot="collapsible-content" data-state="open" id="@Owner.ContentId" class="@Class" style="@Style"
+         @attributes="AdditionalAttributes">@ChildContent</div>
+}
+
+@code {
+    [CascadingParameter] private Collapsible? Owner { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

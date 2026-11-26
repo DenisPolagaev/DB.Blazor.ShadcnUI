@@ -1,0 +1,45 @@
+@namespace DP.ShadcnBlazor.Components
+@inherits ShadcnComponent
+
+<button type="button" data-slot="toggle-group-item" data-state="@(Pressed ? "on" : "off")"
+        aria-pressed="@(Pressed ? "true" : "false")" data-variant="@VariantValue" data-size="@SizeValue"
+        data-spacing="@(Group?.Spacing ?? 0)" disabled="@(Disabled || (Group?.Disabled ?? false))"
+        class="@Classes" style="@Style" @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
+    @ChildContent
+</button>
+
+@code {
+    [CascadingParameter] private ToggleGroup? Group { get; set; }
+
+    /// <summary>The value this item represents.</summary>
+    [Parameter] public string? Value { get; set; }
+
+    /// <summary>Disables this item.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private bool Pressed => Group?.IsPressed(Value) ?? false;
+
+    private string VariantValue => (Group?.Variant ?? ToggleVariant.Default).ToDataValue();
+
+    private string SizeValue => (Group?.Size ?? ToggleSize.Default).ToDataValue();
+
+    private async Task HandleClickAsync()
+    {
+        if (Disabled || Group is null)
+        {
+            return;
+        }
+
+        await Group.ToggleAsync(Value);
+    }
+
+    private string? Classes => MergeClass(
+        Cx(
+            ToggleVariants.Get(Group?.Variant ?? ToggleVariant.Default, Group?.Size ?? ToggleSize.Default),
+            "w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10",
+            "data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md " +
+            "data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 " +
+            "data-[spacing=0]:data-[variant=outline]:first:border-l"));
+}
