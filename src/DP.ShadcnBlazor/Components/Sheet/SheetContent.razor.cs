@@ -16,7 +16,7 @@ public partial class SheetContent : ShadcnOverlayBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <inheritdoc />
-    protected override Task OnAfterRenderAsync(bool firstRender) => SyncAsync(_panel, Root?.ContentId, Root?.IsOpen == true);
+    protected override Task OnAfterRenderAsync(bool firstRender) => SyncAsync(_panel, Root?.ContentId, Root?.IsVisible == true);
 
     /// <inheritdoc />
     protected override Task RequestDismissAsync() => Root?.CloseAsync() ?? Task.CompletedTask;

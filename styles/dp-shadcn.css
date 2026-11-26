@@ -353,3 +353,13 @@
     transform: translateY(-50%) rotate(45deg);
   }
 }
+
+/* tw-animate-css honors the user's motion preference; scope it to component subtrees so the
+   host application keeps its own behaviour. */
+@media (prefers-reduced-motion: reduce) {
+  :where([data-slot], [data-slot] *) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

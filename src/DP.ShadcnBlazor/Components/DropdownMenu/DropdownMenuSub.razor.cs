@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Components;
 namespace DP.ShadcnBlazor.Components;
 
 /// <summary>
-/// A submenu inside a dropdown: owns its open state and the hover timer that closes it when the
-/// pointer leaves both the sub-trigger and the sub-content.
+/// A submenu inside a dropdown: owns its open state, the hover timer that closes it when the
+/// pointer leaves both the sub-trigger and the sub-content, and the two-phase close that lets the
+/// exit animation run.
 /// </summary>
 public partial class DropdownMenuSub : ShadcnComponent
 {
     private bool _open;
+    private bool _closing;
     private CancellationTokenSource? _close;
 
     /// <summary><see cref="DropdownMenuSubTrigger"/> and <see cref="DropdownMenuSubContent"/>.</summary>
@@ -17,6 +19,9 @@ public partial class DropdownMenuSub : ShadcnComponent
 
     /// <summary>True when the submenu is open.</summary>
     public bool IsOpen => _open;
+
+    /// <summary>True while the submenu is rendered — open, or playing its exit animation.</summary>
+    public bool IsVisible => _open || _closing;
 
     /// <summary>The id of the renderless sub-trigger wrapper.</summary>
     public string TriggerId { get; private set; } = string.Empty;
@@ -40,21 +45,26 @@ public partial class DropdownMenuSub : ShadcnComponent
             return Task.CompletedTask;
         }
 
+        _closing = false;
         _open = true;
         return InvokeAsync(StateHasChanged);
     }
 
-    /// <summary>Closes the submenu.</summary>
-    public Task CloseAsync()
+    /// <summary>Closes the submenu with its exit animation.</summary>
+    public async Task CloseAsync()
     {
         CancelClose();
-        if (!_open)
+        if (!_open || _closing)
         {
-            return Task.CompletedTask;
+            return;
         }
 
+        _closing = true;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(150);
+        _closing = false;
         _open = false;
-        return InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <summary>Flips the submenu.</summary>

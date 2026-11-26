@@ -71,7 +71,7 @@ up. Every class string below was copied from the `new-york-v4` registry of
 | Tooltip stays open while hovered | yes | no — it closes when the pointer leaves the trigger (non-interactive tooltips only) |
 | Submenu opens on hover | yes | yes with a 150 ms grace period, plus click |
 | `aria-expanded` on the trigger | on the trigger element | on the renderless wrapper (see README) |
-| Exit animations | yes | no (entry only); the classes are present |
+| Exit animations | yes | yes — closing is two-phase: the panel stays mounted with `data-state="closed"` for 150–300 ms so `animate-out` plays, then is removed |
 
 ## Known gaps (next iterations)
 

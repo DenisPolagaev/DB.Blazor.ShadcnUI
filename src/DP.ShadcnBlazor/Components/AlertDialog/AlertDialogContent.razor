@@ -2,13 +2,13 @@
 
 @inherits ShadcnOverlayBase
 
-@if (Root is { IsOpen: true })
+@if (Root is { IsVisible: true })
 {
     <div data-slot="alert-dialog-portal">
-        <div data-slot="alert-dialog-overlay" data-state="open"
+        <div data-slot="alert-dialog-overlay" data-state="@(Root.IsOpen ? "open" : "closed")"
              class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"></div>
         <div @ref="_panel" role="alertdialog" aria-modal="true" tabindex="-1" data-slot="alert-dialog-content"
-             data-state="open" data-size="@SizeValue" id="@Root.ContentId" aria-labelledby="@Root.TitleId"
+             data-state="@(Root.IsOpen ? "open" : "closed")" data-size="@SizeValue" id="@Root.ContentId" aria-labelledby="@Root.TitleId"
              aria-describedby="@Root.DescriptionId" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
             @ChildContent
         </div>

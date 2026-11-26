@@ -6,9 +6,14 @@ namespace DP.ShadcnBlazor;
 /// Shared open state of a floating root (popover, tooltip, dropdown menu): controlled through
 /// <c>Open</c>/<c>OpenChanged</c> (<c>@bind-Open</c>), uncontrolled with <c>DefaultOpen</c>.
 /// </summary>
+/// <remarks>
+/// Like <see cref="ShadcnModalRoot"/>, closing is two-phase: the panel stays rendered with
+/// <c>data-state="closed"</c> for the exit animation, then is removed.
+/// </remarks>
 public abstract class ShadcnFloatingRoot : ShadcnComponent
 {
     private bool _internalOpen;
+    private bool _closing;
 
     /// <summary>Controlled open state.</summary>
     [Parameter]
@@ -29,6 +34,12 @@ public abstract class ShadcnFloatingRoot : ShadcnComponent
     /// <summary>True when the panel is open.</summary>
     public bool IsOpen => OpenChanged.HasDelegate ? Open : _internalOpen;
 
+    /// <summary>True while the panel is rendered — open, or playing its exit animation.</summary>
+    public bool IsVisible => IsOpen || _closing;
+
+    /// <summary>How long the exit animation runs before the panel is removed.</summary>
+    protected virtual int CloseAnimationMilliseconds => 150;
+
     /// <summary>The id of the renderless trigger wrapper.</summary>
     public string TriggerId { get; private set; } = string.Empty;
 
@@ -46,7 +57,7 @@ public abstract class ShadcnFloatingRoot : ShadcnComponent
     /// <summary>Opens the panel.</summary>
     public Task ShowAsync() => SetOpenAsync(true);
 
-    /// <summary>Closes the panel.</summary>
+    /// <summary>Closes the panel (with the exit animation).</summary>
     public Task CloseAsync() => SetOpenAsync(false);
 
     /// <summary>Flips the panel.</summary>
@@ -55,18 +66,43 @@ public abstract class ShadcnFloatingRoot : ShadcnComponent
     /// <summary>Sets the open state and notifies the consumer.</summary>
     public async Task SetOpenAsync(bool value)
     {
-        if (IsOpen == value)
+        if (value)
+        {
+            if (IsOpen && !_closing)
+            {
+                return;
+            }
+
+            _closing = false;
+            _internalOpen = true;
+            if (OpenChanged.HasDelegate)
+            {
+                Open = true;
+            }
+
+            await OpenChanged.InvokeAsync(true);
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (!IsOpen || _closing)
         {
             return;
         }
 
-        _internalOpen = value;
+        _closing = true;
+        await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(CloseAnimationMilliseconds);
+
+        _closing = false;
+        _internalOpen = false;
         if (OpenChanged.HasDelegate)
         {
-            Open = value;
+            Open = false;
         }
 
-        await OpenChanged.InvokeAsync(value);
+        await OpenChanged.InvokeAsync(false);
         await InvokeAsync(StateHasChanged);
     }
 }

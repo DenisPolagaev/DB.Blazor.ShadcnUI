@@ -6,9 +6,15 @@ namespace DP.ShadcnBlazor;
 /// Shared open state of a modal root (dialog, alert dialog, sheet): controlled through
 /// <c>Open</c>/<c>OpenChanged</c> (<c>@bind-Open</c>), uncontrolled with <c>DefaultOpen</c>.
 /// </summary>
+/// <remarks>
+/// Closing is two-phase so the exit animation can play: the panel stays rendered with
+/// <c>data-state="closed"</c> for <see cref="CloseAnimationMilliseconds"/>, and only then is it
+/// removed (exactly what Radix's Presence does with the animation end event).
+/// </remarks>
 public abstract class ShadcnModalRoot : ShadcnComponent
 {
     private bool _internalOpen;
+    private bool _closing;
 
     /// <summary>Controlled open state (<c>@bind-Open</c>).</summary>
     [Parameter]
@@ -26,8 +32,14 @@ public abstract class ShadcnModalRoot : ShadcnComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>True when the panel should be rendered.</summary>
+    /// <summary>True when the panel is open (not closing).</summary>
     public bool IsOpen => OpenChanged.HasDelegate ? Open : _internalOpen;
+
+    /// <summary>True while the panel is rendered — open, or playing its exit animation.</summary>
+    public bool IsVisible => IsOpen || _closing;
+
+    /// <summary>How long the exit animation runs before the panel is removed.</summary>
+    protected virtual int CloseAnimationMilliseconds => 200;
 
     /// <summary>The id of the panel, used for <c>aria-controls</c> and the trigger wiring.</summary>
     public string ContentId { get; private set; } = string.Empty;
@@ -54,7 +66,7 @@ public abstract class ShadcnModalRoot : ShadcnComponent
     /// <summary>Opens the panel.</summary>
     public Task ShowAsync() => SetOpenAsync(true);
 
-    /// <summary>Closes the panel.</summary>
+    /// <summary>Closes the panel (with the exit animation).</summary>
     public Task CloseAsync() => SetOpenAsync(false);
 
     /// <summary>Flips the panel.</summary>
@@ -63,18 +75,44 @@ public abstract class ShadcnModalRoot : ShadcnComponent
     /// <summary>Sets the open state and notifies the consumer.</summary>
     public async Task SetOpenAsync(bool value)
     {
-        if (IsOpen == value)
+        if (value)
+        {
+            if (IsOpen && !_closing)
+            {
+                return;
+            }
+
+            _closing = false;
+            _internalOpen = true;
+            if (OpenChanged.HasDelegate)
+            {
+                Open = true;
+            }
+
+            await OpenChanged.InvokeAsync(true);
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (!IsOpen || _closing)
         {
             return;
         }
 
-        _internalOpen = value;
+        // Keep the panel mounted with data-state="closed" so `animate-out` can run.
+        _closing = true;
+        await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(CloseAnimationMilliseconds);
+
+        _closing = false;
+        _internalOpen = false;
         if (OpenChanged.HasDelegate)
         {
-            Open = value;
+            Open = false;
         }
 
-        await OpenChanged.InvokeAsync(value);
+        await OpenChanged.InvokeAsync(false);
         await InvokeAsync(StateHasChanged);
     }
 }

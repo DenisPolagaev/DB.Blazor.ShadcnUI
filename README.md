@@ -108,10 +108,10 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
 1. **No portal element in `<body>`.** Panels render where the component is placed (`position: fixed`
    with a fixed z-index). A parent with `transform`, `filter` or `contain: paint` creates a
    containing block and will offset a fixed panel.
-2. **Exit animations are declared but not played.** Blazor removes the panel immediately when the
-   state closes; the `data-state="closed"` classes are still in the class list, so a consumer that
-   animates the node itself (a Blazor `Transition` wrapper) keeps working. Entry animations
-   (`animate-in`, `fade-in-0`, `zoom-in-95`, `slide-in-from-*`) run.
+2. **Exit animations play.** Closing is two-phase: the root keeps the panel mounted with
+   `data-state="closed"` for 150–300 ms (200 for dialogs, 300 for sheets) so `animate-out`,
+   `fade-out-0`, `zoom-out-95` and `slide-out-to-*` run, then removes it — the lifecycle Radix
+   gets from Presence.
 3. **`asChild` has no equivalent.** `Button` always renders a native `<button>` (as it does in
    React without `asChild`); for a link, put `ButtonVariants.Get(...)` on an `<a>`, which is what
    the shadcn docs recommend for `<a>` elements. Triggers are the one place where the child element

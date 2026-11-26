@@ -2,9 +2,9 @@
 
 @inherits ShadcnDismissableBase
 
-@if (Root is { IsOpen: true })
+@if (Root is { IsVisible: true })
 {
-    <div @ref="_panel" data-slot="tooltip-content" data-state="open" role="tooltip" id="@Root.ContentId"
+    <div @ref="_panel" data-slot="tooltip-content" data-state="@(Root.IsOpen ? "open" : "closed")" role="tooltip" id="@Root.ContentId"
          class="@Classes" style="@Style" @attributes="AdditionalAttributes">
         @ChildContent
         <span data-slot="tooltip-arrow"

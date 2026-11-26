@@ -32,7 +32,7 @@ public partial class DropdownMenuSubContent : ShadcnDismissableBase
     }
 
     /// <inheritdoc />
-    protected override Task OnAfterRenderAsync(bool firstRender) => SyncAsync(_panel, Owner?.IsOpen == true);
+    protected override Task OnAfterRenderAsync(bool firstRender) => SyncAsync(_panel, Owner?.IsVisible == true);
 
     /// <inheritdoc />
     protected override Task RequestDismissAsync() => Owner?.CloseAsync() ?? Task.CompletedTask;

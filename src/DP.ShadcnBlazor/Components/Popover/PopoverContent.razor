@@ -2,9 +2,9 @@
 
 @inherits ShadcnDismissableBase
 
-@if (Root is { IsOpen: true })
+@if (Root is { IsVisible: true })
 {
-    <div @ref="_panel" tabindex="-1" data-slot="popover-content" data-state="open" id="@Root.ContentId"
+    <div @ref="_panel" tabindex="-1" data-slot="popover-content" data-state="@(Root.IsOpen ? "open" : "closed")" id="@Root.ContentId"
          class="@Classes" style="@Style" @attributes="AdditionalAttributes">
         @ChildContent
     </div>

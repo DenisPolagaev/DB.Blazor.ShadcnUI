@@ -2,9 +2,9 @@
 
 @inherits ShadcnDismissableBase
 
-@if (Owner is { IsOpen: true })
+@if (Owner is { IsVisible: true })
 {
-    <div @ref="_panel" role="menu" tabindex="-1" data-slot="dropdown-menu-sub-content" data-state="open"
+    <div @ref="_panel" role="menu" tabindex="-1" data-slot="dropdown-menu-sub-content" data-state="@(Owner.IsOpen ? "open" : "closed")"
          id="@Owner.ContentId" aria-labelledby="@Owner.TriggerId" class="@Classes" style="@Style"
          @onpointerenter="CancelClose" @onpointerleave="ScheduleClose" @attributes="AdditionalAttributes">
         @ChildContent

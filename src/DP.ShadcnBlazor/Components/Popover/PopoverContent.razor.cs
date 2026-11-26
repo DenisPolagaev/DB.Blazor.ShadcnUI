@@ -44,7 +44,7 @@ public partial class PopoverContent : ShadcnDismissableBase
     }
 
     /// <inheritdoc />
-    protected override Task OnAfterRenderAsync(bool firstRender) => SyncAsync(_panel, Root?.IsOpen == true);
+    protected override Task OnAfterRenderAsync(bool firstRender) => SyncAsync(_panel, Root?.IsVisible == true);
 
     /// <inheritdoc />
     protected override Task RequestDismissAsync() => Root?.CloseAsync() ?? Task.CompletedTask;

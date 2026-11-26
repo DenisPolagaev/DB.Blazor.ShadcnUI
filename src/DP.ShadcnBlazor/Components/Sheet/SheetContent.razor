@@ -2,14 +2,14 @@
 
 @inherits ShadcnOverlayBase
 
-@if (Root is { IsOpen: true })
+@if (Root is { IsVisible: true })
 {
     <div data-slot="sheet-portal">
-        <div data-slot="sheet-overlay" data-state="open"
+        <div data-slot="sheet-overlay" data-state="@(Root.IsOpen ? "open" : "closed")"
              class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
              @onclick="CloseAsync"></div>
         <div @ref="_panel" role="dialog" aria-modal="true" tabindex="-1" data-slot="sheet-content"
-             data-state="open" data-side="@Side.ToDataValue()" id="@Root.ContentId"
+             data-state="@(Root.IsOpen ? "open" : "closed")" data-side="@Side.ToDataValue()" id="@Root.ContentId"
              aria-labelledby="@Root.TitleId" aria-describedby="@Root.DescriptionId"
              class="@Classes" style="@Style" @attributes="AdditionalAttributes">
             @ChildContent
