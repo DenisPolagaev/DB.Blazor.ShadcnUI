@@ -5,7 +5,7 @@ namespace DP.ShadcnBlazor.Components;
 /// <summary>
 /// shadcn/ui <c>Button</c>. Renders <c>&lt;button data-slot="button"&gt;</c>, or an
 /// <c>&lt;a&gt;</c> when <see cref="Href"/> is set — the Blazor equivalent of
-/// <c>asChild</c> + <c>&lt;Slot&gt;</c>, and what Radzen does with its <c>Link</c> components.
+/// <c>asChild</c> + <c>&lt;Slot&gt;</c>.
 /// </summary>
 public partial class Button : ShadcnComponent
 {

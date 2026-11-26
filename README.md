@@ -1,5 +1,7 @@
 # DP.ShadcnBlazor
 
+> Repository **DB.Blazor.ShadcnUI** · NuGet package **DP.ShadcnBlazor** · MIT license
+
 [shadcn/ui](https://ui.shadcn.com) ported to Blazor — Server and WebAssembly, `net10.0` and `net11.0`.
 
 The port keeps the **component contract of shadcn/ui v4**: the same component names (`Button`,
@@ -8,9 +10,9 @@ The port keeps the **component contract of shadcn/ui v4**: the same component na
 `data-slot` / `data-state` / `data-variant` markup and the same Tailwind class list — only the
 React/Radix plumbing is replaced by Blazor parameters, cascading contexts and one small JS module.
 
-Authoring follows [Radzen.Blazor](https://github.com/radzenhq/radzen-blazor): one component per
-folder, a shared `ShadcnComponent` base (`Class`, `Style`, `Id`, `AdditionalAttributes`), C# variant
-tables instead of `cva`, and explicit two-way parameters instead of React state.
+Authoring is one component per folder on a shared `ShadcnComponent` base (`Class`, `Style`, `Id`,
+`AdditionalAttributes`), C# variant tables instead of `cva`, cascading contexts instead of React
+context, and explicit two-way parameters instead of React state.
 
 ```
 libs/DP.ShadcnBlazor
@@ -105,7 +107,7 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
 
 1. **No portal element in `<body>`.** Panels render where the component is placed (`position: fixed`
    with a fixed z-index). A parent with `transform`, `filter` or `contain: paint` creates a
-   containing block and will offset a fixed panel — the same constraint Radzen has.
+   containing block and will offset a fixed panel.
 2. **Exit animations are declared but not played.** Blazor removes the panel immediately when the
    state closes; the `data-state="closed"` classes are still in the class list, so a consumer that
    animates the node itself (a Blazor `Transition` wrapper) keeps working. Entry animations
@@ -152,5 +154,8 @@ consumer work without Node.
 
 ## License
 
-MIT. shadcn/ui is MIT as well; the class strings and markup come from its `new-york-v4` registry
-(<https://ui.shadcn.com/r/styles/new-york-v4/…>).
+MIT — see [LICENSE](LICENSE).
+
+The ported class strings, markup and tokens come from [shadcn/ui](https://ui.shadcn.com) (MIT) and
+the inline glyphs from [lucide](https://lucide.dev) (ISC); the full texts are in
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

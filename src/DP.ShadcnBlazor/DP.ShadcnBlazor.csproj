@@ -10,7 +10,7 @@
     <AssemblyName>DP.ShadcnBlazor</AssemblyName>
     <IsPackable>true</IsPackable>
     <PackageId>DP.ShadcnBlazor</PackageId>
-    <Description>shadcn/ui ported to Blazor (Server and WebAssembly). Same component names, variants, data-slot markup and class list as shadcn/ui v4 — written the Radzen way: one component per folder, parameters in C#, cascading contexts instead of React context.</Description>
+    <Description>shadcn/ui ported to Blazor Server and WebAssembly (net10.0 / net11.0). MIT licensed. Same component names, variants, data-slot markup and Tailwind class list as shadcn/ui v4 — one component per folder, parameters in C#, cascading contexts instead of React context.</Description>
     <PackageTags>blazor;blazor-server;blazor-wasm;shadcn;tailwind;components;ui</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

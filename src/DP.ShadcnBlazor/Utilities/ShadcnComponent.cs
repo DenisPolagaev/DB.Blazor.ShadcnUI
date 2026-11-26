@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Components;
 namespace DP.ShadcnBlazor;
 
 /// <summary>
-/// Base class of every component in the library — the equivalent of Radzen's <c>RadzenComponent</c>.
+/// Base class of every component in the library. It owns the three parameters every shadcn/ui
+/// component accepts (<c>className</c>, <c>style</c> and pass-through HTML attributes) plus the two
+/// helpers a port needs: <see cref="Cx"/> (clsx join) and <see cref="MergeClass"/> (clsx +
+/// tailwind-merge).
 /// </summary>
 /// <remarks>
 /// <para>

@@ -8,7 +8,7 @@
     <Authors>Denis Polagaev</Authors>
     <Company>DP</Company>
     <Product>DP.ShadcnBlazor</Product>
-    <RepositoryUrl>https://github.com/DenisPolagaev/DP.ShadcnBlazor</RepositoryUrl>
+    <RepositoryUrl>https://github.com/DenisPolagaev/DB.Blazor.ShadcnUI</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Deterministic>true</Deterministic>

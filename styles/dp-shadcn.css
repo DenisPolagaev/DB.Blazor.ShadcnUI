@@ -6,8 +6,7 @@
  * Two deliberate differences from a shadcn/ui `globals.css`:
  *
  * 1. Preflight is NOT imported. The library is dropped into an existing Blazor site, and
- *    Tailwind's preflight would reset that site's own typography, forms and MudBlazor/Radzen
- *    widgets. `@layer base` below reproduces the parts of preflight that shadcn components
+ *    Tailwind's preflight would reset that site's own typography, forms and existing widgets. `@layer base` below reproduces the parts of preflight that shadcn components
  *    actually rely on (border-box, `border: 0 solid <border-color>`, form controls inheriting
  *    the page font), scoped to component subtrees via `[data-slot]` — every component renders
  *    a `data-slot` attribute exactly like the React original.
