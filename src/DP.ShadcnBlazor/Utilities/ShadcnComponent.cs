@@ -9,24 +9,13 @@ namespace DP.ShadcnBlazor;
 /// tailwind-merge).
 /// </summary>
 /// <remarks>
-/// <para>
-/// It owns the three parameters every shadcn/ui component accepts (<c>className</c>, <c>style</c>
-/// and pass-through HTML attributes) plus the two helpers a port needs:
-/// <see cref="Cx"/> (clsx join) and <see cref="MergeClass"/> (clsx + tailwind-merge).
-/// </para>
-/// <para>
-/// Blazor binds <c>class="…"</c> to the <see cref="Class"/> parameter case-insensitively, so a
-/// consumer overrides the component's classes exactly the way they would in React:
-/// <c>&lt;Button class="h-12"&gt;</c>.
-/// </para>
+/// There is deliberately no <c>Id</c> parameter: in React <c>id</c> is just another prop, so here
+/// it flows through <see cref="AdditionalAttributes"/> and lands on the root element unchanged.
+/// Components that need an id for ARIA wiring generate one internally (<see cref="ElementId"/>).
 /// </remarks>
 public abstract class ShadcnComponent : ComponentBase
 {
     private string? _generatedId;
-
-    /// <summary>The element id. Generated (and stable for the component's lifetime) when omitted.</summary>
-    [Parameter]
-    public string? Id { get; set; }
 
     /// <summary>Extra classes, merged with the component's own class list through <see cref="Cn.Merge(string?, string?)"/>.</summary>
     [Parameter]
@@ -36,15 +25,15 @@ public abstract class ShadcnComponent : ComponentBase
     [Parameter]
     public string? Style { get; set; }
 
-    /// <summary>Any unmatched attribute is splatted onto the root element (<c>aria-*</c>, <c>data-*</c>, <c>@onclick</c>, …).</summary>
+    /// <summary>Any unmatched attribute is splatted onto the root element (<c>aria-*</c>, <c>data-*</c>, <c>id</c>, <c>@onclick</c>, …).</summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>Namespace of the generated ids; overridden by components that need a meaningful prefix.</summary>
     protected virtual string SlotName => "component";
 
-    /// <summary>A generated-or-explicit id for this component instance.</summary>
-    protected string ElementId => Id ?? (_generatedId ??= ShadcnId.New(SlotName));
+    /// <summary>A generated id for this component instance, used by <c>aria-controls</c>/<c>aria-labelledby</c>.</summary>
+    protected string ElementId => _generatedId ??= ShadcnId.New(SlotName);
 
     /// <summary>Joins classes without conflict resolution (use for nested fragments of one element).</summary>
     protected static string? Cx(params string?[] values) => Cn.Join(values);

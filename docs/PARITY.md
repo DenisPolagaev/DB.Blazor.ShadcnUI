@@ -28,7 +28,12 @@ up. Every class string below was copied from the `new-york-v4` registry of
   `dropdown-menu-sub-trigger`, `dropdown-menu-sub-content`, `popover-content`, `popover-header`,
   `popover-title`, `popover-description`, `popover-anchor`, `tooltip-content`, `tooltip-arrow`.
 * `data-state` is `open`/`closed` on overlays, `checked`/`unchecked` on checkboxes, switches and
-  radio items, `active`/`inactive` on tab triggers, `selected` on table rows.
+  radio items, `active`/`inactive` on tab triggers.
+* There is no `Selected` prop on `TableRow` (the React table is plain HTML): pass
+  `data-state="selected"` as an attribute, exactly like the shadcn examples do.
+* The port exposes no parameters the original does not have. Two-way binding is the one addition —
+  `Value`/`ValueChanged`, `Checked`/`CheckedChanged`, `Open`/`OpenChanged` map React's
+  `value`/`onValueChange`, `checked`/`onCheckedChange`, `open`/`onOpenChange` onto `@bind-`.
 * `data-variant` / `data-size` / `data-orientation` / `data-inset` / `data-side` carry the same
   values as the React original.
 

@@ -1,5 +1,4 @@
 @namespace DP.ShadcnBlazor.Components
-
 @inherits ShadcnOverlayBase
 
 @if (Root is { IsOpen: true })
@@ -7,7 +6,7 @@
     <div data-slot="dialog-portal">
         <div data-slot="dialog-overlay" data-state="open"
              class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
-             @onclick="HandleOverlayClickAsync"></div>
+             @onclick="CloseAsync"></div>
         <div @ref="_panel" role="dialog" aria-modal="true" tabindex="-1" data-slot="dialog-content"
              data-state="open" id="@Root.ContentId" aria-labelledby="@Root.TitleId"
              aria-describedby="@Root.DescriptionId" class="@Classes" style="@Style" @attributes="AdditionalAttributes">

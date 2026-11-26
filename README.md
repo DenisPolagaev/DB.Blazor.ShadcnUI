@@ -80,7 +80,7 @@ modals and menus.
 | `className` | `Class` (Blazor binds `class="…"` to it), merged with `cn()` — a port of `clsx` + `tailwind-merge` |
 | `variant` / `size` props | `ButtonVariant` / `ButtonSize` enums, rendered as `data-variant` / `data-size` |
 | React context (`DialogContext`, `TabsContext`, …) | `CascadingValue` of the root component |
-| `asChild` + `<Slot>` | `Href` on `Button` (renders `<a>`); every trigger is *renderless* (see below) |
+| `asChild` + `<Slot>` | not supported. A link that looks like a button is an `<a>` with `class="@ButtonVariants.Get(...)"` — exactly shadcn's "As Link" recipe; triggers are renderless (see below) |
 | Portals (`DialogPortal`, `Popover` portal) | a `data-slot="…-portal"` wrapper rendered in place; panels are `position: fixed` |
 | Radix behaviour | `wwwroot/dp-shadcn.js`: focus trap, Escape, scroll lock, outside click, placement, menu keys |
 | `onValueChange` / `onCheckedChange` | `ValueChanged` / `CheckedChanged`, so `@bind-Value` / `@bind-Checked` work |
@@ -112,8 +112,10 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
    state closes; the `data-state="closed"` classes are still in the class list, so a consumer that
    animates the node itself (a Blazor `Transition` wrapper) keeps working. Entry animations
    (`animate-in`, `fade-in-0`, `zoom-in-95`, `slide-in-from-*`) run.
-3. **`asChild` has no general equivalent.** `Button`/`Badge` cover the common case with `Href`;
-   triggers cover the rest. There is no `Slot` component.
+3. **`asChild` has no equivalent.** `Button` always renders a native `<button>` (as it does in
+   React without `asChild`); for a link, put `ButtonVariants.Get(...)` on an `<a>`, which is what
+   the shadcn docs recommend for `<a>` elements. Triggers are the one place where the child element
+   needs the handler, so they render a `display: contents` wrapper instead of cloning it.
 4. **Accordion animates with `grid-template-rows`** instead of Radix's measured
    `--radix-accordion-content-height`, so no JS measure pass and no resize handling.
 5. **Tooltip arrow** is a rotated square positioned by CSS on `data-side`, not an SVG arrow.
@@ -122,6 +124,18 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
    `HoverCard`, `Toggle`/`ToggleGroup`, `InputOTP`, `Collapsible`, `Item`, `Field`, `Empty`,
    `ButtonGroup`, `InputGroup`, `AspectRatio`, `ScrollArea` are **not ported yet** — they are the
    next iterations. `Sonner`, `Select` and `Slider` come first.
+
+## Demo site
+
+`samples/DP.ShadcnBlazor.Demo` is a copy of the ui.shadcn.com documentation site: the same header,
+sidebar, "Preview / Code" cards, component pages, examples and copy, built from the ported
+components. `samples/DP.ShadcnBlazor.Demo/wwwroot/docs.css` is a demo-only Tailwind bundle
+(`styles/docs.css` = the library source + the demo pages), because the docs examples use utilities
+(`w-56`, `max-w-sm`, `text-right`, …) that the library itself never emits.
+
+```powershell
+dotnet run --project samples/DP.ShadcnBlazor.Demo   # http://localhost:5199
+```
 
 ## Styling contract
 
@@ -145,8 +159,8 @@ dotnet build DP.ShadcnBlazor.slnx        # library for net10.0 + net11.0, demo, 
 dotnet test tests/DP.ShadcnBlazor.Tests  # 44 tests (bUnit + xUnit v3)
 dotnet run --project samples/DP.ShadcnBlazor.Demo   # http://localhost:5199
 
-# Only after changing a component's class list or styles/dp-shadcn.css:
-scripts/build-css.ps1 -Install           # npm install once, then Tailwind v4 build
+# Only after changing a component's class list, styles/dp-shadcn.css or a demo page:
+scripts/build-css.ps1 -Install           # npm install once, then both Tailwind v4 builds
 ```
 
 The generated `wwwroot/dp-shadcn.css` is committed: `dotnet build`, `dotnet pack` and every NuGet

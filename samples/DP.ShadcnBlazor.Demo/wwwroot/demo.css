@@ -1,5 +1,6 @@
-/* Demo-only page scaffolding. Everything that belongs to a component comes from the library's
-   own `dp-shadcn.css` — this file only lays the pages out and uses the same tokens. */
+/* Documentation site scaffolding for the demo Р Р†Р вЂљРІР‚Сњ a plain-CSS port of the ui.shadcn.com docs layout.
+   Component appearance comes from the library stylesheet; this file only builds the shell:
+   header, sidebar, article, preview card and code block, all on the shadcn tokens. */
 
 *,
 *::before,
@@ -7,111 +8,416 @@
   box-sizing: border-box;
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  background: var(--background);
+  color: var(--foreground);
 }
 
-.demo-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+a {
+  color: inherit;
 }
 
-.demo-header {
+.site-header {
   position: sticky;
   top: 0;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  height: 56px;
-  padding: 0 24px;
+  z-index: 50;
+  width: 100%;
   border-bottom: 1px solid var(--border);
   background: color-mix(in oklch, var(--background) 95%, transparent);
   backdrop-filter: blur(8px);
 }
 
-.demo-brand {
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 56px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--foreground);
-  text-decoration: none;
 }
 
-.demo-nav {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
+.site-brand-mark {
+  width: 20px;
+  height: 20px;
 }
 
-.demo-nav a {
-  padding: 6px 10px;
+.site-brand-port {
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.site-nav {
+  display: none;
+  gap: 2px;
+  margin-left: 8px;
+}
+
+.site-nav-link {
+  padding: 6px 12px;
   border-radius: calc(var(--radius) - 2px);
   font-size: 14px;
   color: var(--muted-foreground);
   text-decoration: none;
 }
 
-.demo-nav a:hover {
+.site-nav-link:hover {
   background: var(--accent);
   color: var(--accent-foreground);
 }
 
-.demo-nav a.active {
-  background: var(--secondary);
-  color: var(--secondary-foreground);
+.site-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
 }
 
-.demo-theme {
-  margin-left: auto;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border);
+.site-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
   border-radius: calc(var(--radius) - 2px);
   background: transparent;
   color: var(--foreground);
   cursor: pointer;
 }
 
-.demo-main {
-  width: min(1080px, 100%);
+.site-icon-button:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.site-icon-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.site-body {
+  display: flex;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 24px 96px;
 }
 
-.demo-title {
-  font-size: 28px;
+.docs-sidebar {
+  display: none;
+  flex-shrink: 0;
+  width: 268px;
+  border-right: 1px solid var(--border);
+}
+
+.docs-sidebar nav {
+  position: sticky;
+  top: 56px;
+  max-height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: 28px 16px 48px;
+}
+
+.docs-nav-label {
+  margin: 24px 0 8px;
+  padding: 0 8px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0 0 8px;
-}
-
-.demo-lead {
-  color: var(--muted-foreground);
-  margin: 0 0 32px;
-}
-
-.demo-section {
-  margin-bottom: 40px;
-}
-
-.demo-section-title {
-  font-size: 13px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: var(--muted-foreground);
-  margin: 0 0 16px;
 }
 
+.docs-nav-label:first-child {
+  margin-top: 0;
+}
+
+.docs-nav-list {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-nav-link {
+  display: block;
+  padding: 6px 8px;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 14px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+}
+
+.docs-nav-link:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.docs-nav-link.is-active {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-weight: 500;
+}
+
+.docs-main {
+  flex: 1;
+  min-width: 0;
+  padding: 32px 20px 96px;
+}
+
+.docs-article {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.docs-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+.docs-crumbs a {
+  text-decoration: none;
+}
+
+.docs-crumbs a:hover {
+  color: var(--foreground);
+}
+
+.docs-crumbs svg {
+  width: 14px;
+  height: 14px;
+}
+
+.docs-title {
+  margin: 14px 0 6px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.docs-description {
+  margin: 0 0 28px;
+  font-size: 16px;
+  color: var(--muted-foreground);
+}
+
+.docs-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.docs-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--muted);
+}
+
+.docs-tab {
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: calc(var(--radius) - 4px);
+  background: transparent;
+  color: var(--muted-foreground);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.docs-tab.is-active {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px oklch(0 0 0 / 0.08);
+}
+
+.docs-preview {
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--background);
+  overflow: hidden;
+}
+
+.docs-preview-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 320px;
+  padding: 64px 40px;
+}
+
+.docs-preview-body > .docs-preview-block {
+  width: 100%;
+}
+
+.docs-code {
+  margin: 12px 0 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: color-mix(in oklch, var(--muted) 40%, transparent);
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--foreground);
+}
+
+.docs-h2 {
+  margin: 44px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.docs-example-title {
+  margin: 32px 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Landing page hero Р Р†Р вЂљРІР‚Сњ the copy and the two calls to action of ui.shadcn.com. */
+.home-hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 88px 20px 40px;
+  text-align: center;
+}
+
+.home-hero h1 {
+  margin: 0 0 16px;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.home-hero p {
+  margin: 0 auto;
+  max-width: 620px;
+  font-size: 18px;
+  color: var(--muted-foreground);
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.home-showcase {
+  max-width: 1080px;
+  margin: 0 auto 96px;
+  padding: 0 20px;
+}
+
+.home-showcase-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.docs-index-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-index-card {
+  display: block;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius));
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.docs-index-card:hover {
+  background: var(--accent);
+}
+
+.docs-index-card strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.docs-index-card span {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.docs-prose p {
+  color: var(--muted-foreground);
+}
+
+@media (min-width: 1024px) {
+  .site-nav {
+    display: flex;
+  }
+
+  .docs-sidebar {
+    display: block;
+  }
+
+  .docs-main {
+    padding: 40px 48px 120px;
+  }
+}
+
+/* Small layout helpers used by the examples. Components themselves never depend on these. */
 .demo-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
   align-items: center;
+  gap: 8px;
 }
 
 .demo-stack {
@@ -122,42 +428,55 @@ body {
 
 .demo-grid-2 {
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.demo-grid-3 {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.demo-muted {
-  color: var(--muted-foreground);
-  font-size: 14px;
-}
-
-.demo-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
-  background: var(--muted);
-  padding: 2px 6px;
-  border-radius: 6px;
-}
-
-.demo-label {
-  display: flex;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  align-items: center;
-  font-size: 14px;
 }
 
-.demo-narrow {
-  max-width: 320px;
+.demo-form {
+  display: grid;
+  gap: 8px;
 }
 
-.demo-avatars {
+.demo-form-row {
   display: flex;
-  gap: 12px;
   align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.demo-link {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.demo-item-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.demo-item-text {
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+.demo-user-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 340px;
+}
+/* The Code tab replaces the preview inside the same card, exactly like ui.shadcn.com. */
+.docs-code-card {
+  margin: 0;
+  min-height: 320px;
+  border: 0;
+  border-radius: 0;
+}
+/* FocusOnNavigate focuses the h1 with tabindex="-1"; the docs style keeps it invisible. */
+.docs-title:focus,
+.docs-title:focus-visible {
+  outline: none;
 }

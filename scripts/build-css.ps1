@@ -1,12 +1,13 @@
 #Requires -Version 7
 <#
 .SYNOPSIS
-    Rebuilds the shipped stylesheet (src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css).
+    Rebuilds both committed stylesheets: the library bundle and the docs demo bundle.
 
 .DESCRIPTION
-    Tailwind v4 scans the library's .razor/.cs files (the `@source` directives in
-    styles/dp-shadcn.css) and emits only the utilities the components actually use. The output is
-    committed so `dotnet build`, `dotnet pack` and every NuGet consumer work without Node.
+    Tailwind v4 scans the library's .razor/.cs files and the demo's pages (the `@source`
+    directives in `styles/dp-shadcn.css` and `samples/DP.ShadcnBlazor.Demo/styles/docs.css`).
+    Both outputs are committed so `dotnet build`, `dotnet pack` and every NuGet consumer work
+    without Node.
 
     `npm install` is only needed once (or after bumping the pinned Tailwind version).
 #>
@@ -25,6 +26,10 @@ if ($Install -or -not (Test-Path (Join-Path $root 'node_modules/.bin/tailwindcss
 if ($LASTEXITCODE -ne 0) { throw 'npm install failed' }
 
 npm run build
-if ($LASTEXITCODE -ne 0) { throw 'tailwind build failed' }
+if ($LASTEXITCODE -ne 0) { throw 'library tailwind build failed' }
+
+npm run build:demo
+if ($LASTEXITCODE -ne 0) { throw 'demo tailwind build failed' }
 
 Write-Host "Wrote $root/src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css"
+Write-Host "Wrote $root/samples/DP.ShadcnBlazor.Demo/wwwroot/docs.css"

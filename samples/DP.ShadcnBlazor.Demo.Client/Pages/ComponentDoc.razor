@@ -1,0 +1,27 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Pages
+@using DP.ShadcnBlazor.Demo.Client.Docs
+
+@page "/docs/components/{Slug}"
+
+<PageTitle>@(DocCatalog.Find(Slug)?.Name ?? "Not found") — shadcn/ui for Blazor</PageTitle>
+
+<PrimitiveDocs Slug="@Slug" />
+<FormDocs Slug="@Slug" />
+<DataDocs Slug="@Slug" />
+<OverlayDocs Slug="@Slug" />
+
+@if (DocCatalog.Find(Slug) is null)
+{
+    <article class="docs-article">
+        <h1 class="docs-title">Not found</h1>
+        <p class="docs-description">
+            The component <code>@Slug</code> is not ported yet. See the
+            <a href="/docs/components">components index</a> for what is available.
+        </p>
+    </article>
+}
+
+@code {
+    /// <summary>The component slug from the route.</summary>
+    [Parameter] public string Slug { get; set; } = string.Empty;
+}

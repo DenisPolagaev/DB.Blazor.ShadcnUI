@@ -1,0 +1,72 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Docs
+
+@* Documentation page shell, mirroring ui.shadcn.com/docs/components/*: title, description, a
+   "Preview" card with a code toggle, and the "Usage" code block. *@
+
+<article class="docs-article">
+    <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <a href="/docs/components">Components</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="m9 18 6-6-6-6" />
+        </svg>
+        <span>@Title</span>
+    </nav>
+
+    <h1 class="docs-title">@Title</h1>
+    <p class="docs-description">@Description</p>
+
+    <div class="docs-toolbar">
+        <div class="docs-tabs" role="tablist">
+            <button type="button" role="tab" aria-selected="@(!_showCode)" class="@TabClass(!_showCode)"
+                    @onclick="() => _showCode = false">Preview</button>
+            <button type="button" role="tab" aria-selected="@_showCode" class="@TabClass(_showCode)"
+                    @onclick="() => _showCode = true">Code</button>
+        </div>
+    </div>
+
+    <div class="docs-preview">
+        @if (_showCode)
+        {
+            <pre class="docs-code docs-code-card"><code>@Code</code></pre>
+        }
+        else
+        {
+            <div class="docs-preview-body">
+                @Preview
+            </div>
+        }
+    </div>
+
+    <h2 class="docs-h2" id="usage">Usage</h2>
+    <pre class="docs-code"><code>@Usage</code></pre>
+
+    @if (Examples is not null)
+    {
+        <h2 class="docs-h2" id="examples">Examples</h2>
+        @Examples
+    }
+</article>
+
+@code {
+    private bool _showCode;
+
+    /// <summary>Component name shown as the page title.</summary>
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+
+    /// <summary>The one-line description from the shadcn/ui docs.</summary>
+    [Parameter, EditorRequired] public string Description { get; set; } = string.Empty;
+
+    /// <summary>The rendered example.</summary>
+    [Parameter, EditorRequired] public RenderFragment Preview { get; set; } = default!;
+
+    /// <summary>The Razor source of the example, shown behind the Code tab.</summary>
+    [Parameter, EditorRequired] public string Code { get; set; } = string.Empty;
+
+    /// <summary>Import/usage snippet shown under "Usage".</summary>
+    [Parameter, EditorRequired] public string Usage { get; set; } = string.Empty;
+
+    /// <summary>Additional named examples ("Size", "With icon", …).</summary>
+    [Parameter] public RenderFragment? Examples { get; set; }
+
+    private static string TabClass(bool active) => active ? "docs-tab is-active" : "docs-tab";
+}

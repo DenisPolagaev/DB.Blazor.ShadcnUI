@@ -1,0 +1,273 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Docs
+
+@if (Slug == "input")
+{
+    <DocPage Title="Input" Description="Displays a form input field or a component that looks like an input field."
+             Code="@InputCode" Usage="@InputUsage">
+        <Preview>
+            <Input Type="email" Placeholder="Email" Class="max-w-sm" />
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">With label</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="align-items: stretch">
+                <div class="demo-form" style="max-width: 320px; margin: 0 auto; width: 100%">
+                    <Label For="input-email">Email</Label>
+                    <Input id="input-email" Type="email" Placeholder="Email" />
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Input Disabled="true" Placeholder="Email" Class="max-w-sm" />
+            </div></div>
+
+            <h3 class="docs-example-title">File</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Input Type="file" Class="max-w-sm" />
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "textarea")
+{
+    <DocPage Title="Textarea" Description="Displays a form textarea or a component that looks like a textarea."
+             Code="@TextareaCode" Usage="@TextareaUsage">
+        <Preview>
+            <Textarea Placeholder="Type your message here." Class="max-w-sm" />
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Textarea Disabled="true" Placeholder="Type your message here." Class="max-w-sm" />
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "label")
+{
+    <DocPage Title="Label" Description="Renders an accessible label associated with controls."
+             Code="@LabelCode" Usage="@LabelUsage">
+        <Preview>
+            <div class="demo-row">
+                <Checkbox id="label-terms" />
+                <Label For="label-terms">Accept terms and conditions</Label>
+            </div>
+        </Preview>
+    </DocPage>
+}
+else if (Slug == "checkbox")
+{
+    <DocPage Title="Checkbox" Description="A control that allows the user to toggle between checked and not checked."
+             Code="@CheckboxCode" Usage="@CheckboxUsage">
+        <Preview>
+            <div class="demo-row">
+                <Checkbox id="terms" />
+                <Label For="terms">Accept terms and conditions</Label>
+            </div>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">With text</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-row" style="align-items: flex-start; max-width: 380px">
+                    <Checkbox id="terms-2" Checked="true" />
+                    <div>
+                        <Label For="terms-2">Accept terms and conditions</Label>
+                        <p class="demo-item-text" style="margin: 4px 0 0">
+                            By clicking this checkbox, you agree to the terms and conditions.
+                        </p>
+                    </div>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-row">
+                    <Checkbox Disabled="true" id="disabled-checkbox" />
+                    <Label For="disabled-checkbox">Enable notifications</Label>
+                </div>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "switch")
+{
+    <DocPage Title="Switch" Description="A control that allows the user to toggle between checked and not checked."
+             Code="@SwitchCode" Usage="@SwitchUsage">
+        <Preview>
+            <div class="demo-row">
+                <Switch id="airplane-mode" />
+                <Label For="airplane-mode">Airplane Mode</Label>
+            </div>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Small</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-row">
+                    <Switch id="small-switch" Size="SwitchSize.Sm" />
+                    <Label For="small-switch">Compact mode</Label>
+                </div>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "radio-group")
+{
+    <DocPage Title="Radio Group"
+             Description="A set of checkable buttons — known as radio buttons — where no more than one can be checked at a time."
+             Code="@RadioGroupCode" Usage="@RadioGroupUsage">
+        <Preview>
+            <RadioGroup Value="comfortable">
+                <div class="demo-row">
+                    <RadioGroupItem Value="default" id="r1" />
+                    <Label For="r1">Default</Label>
+                </div>
+                <div class="demo-row">
+                    <RadioGroupItem Value="comfortable" id="r2" />
+                    <Label For="r2">Comfortable</Label>
+                </div>
+                <div class="demo-row">
+                    <RadioGroupItem Value="compact" id="r3" />
+                    <Label For="r3">Compact</Label>
+                </div>
+            </RadioGroup>
+        </Preview>
+    </DocPage>
+}
+else if (Slug == "native-select")
+{
+    <DocPage Title="Native Select"
+             Description="A native select element with a custom chevron and consistent styling."
+             Code="@NativeSelectCode" Usage="@NativeSelectUsage">
+        <Preview>
+            <NativeSelect Value="apple">
+                <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+                <NativeSelectOption Value="banana">Banana</NativeSelectOption>
+                <NativeSelectOption Value="blueberry">Blueberry</NativeSelectOption>
+                <NativeSelectOption Value="grapes">Grapes</NativeSelectOption>
+            </NativeSelect>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Small</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <NativeSelect Size="NativeSelectSize.Sm" Value="apple">
+                    <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+                    <NativeSelectOption Value="banana">Banana</NativeSelectOption>
+                </NativeSelect>
+            </div></div>
+
+            <h3 class="docs-example-title">Groups</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <NativeSelect Value="apple">
+                    <NativeSelectOptGroup Label="Fruits">
+                        <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+                        <NativeSelectOption Value="banana">Banana</NativeSelectOption>
+                    </NativeSelectOptGroup>
+                    <NativeSelectOptGroup Label="Vegetables">
+                        <NativeSelectOption Value="carrot">Carrot</NativeSelectOption>
+                        <NativeSelectOption Value="potato">Potato</NativeSelectOption>
+                    </NativeSelectOptGroup>
+                </NativeSelect>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+
+    private const string InputCode = """
+<Input Type="email" Placeholder="Email" />
+""";
+
+    private const string InputUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Input Type="email" Placeholder="Email" />
+""";
+
+    private const string TextareaCode = """
+<Textarea Placeholder="Type your message here." />
+""";
+
+    private const string TextareaUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Textarea Placeholder="Type your message here." />
+""";
+
+    private const string LabelCode = """
+<div class="flex items-center gap-2">
+    <Checkbox id="terms" />
+    <Label For="terms">Accept terms and conditions</Label>
+</div>
+""";
+
+    private const string LabelUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Label For="email">Your email address</Label>
+""";
+
+    private const string CheckboxCode = """
+<div class="flex items-center gap-2">
+    <Checkbox id="terms" />
+    <Label For="terms">Accept terms and conditions</Label>
+</div>
+""";
+
+    private const string CheckboxUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Checkbox />
+""";
+
+    private const string SwitchCode = """
+<div class="flex items-center gap-2">
+    <Switch id="airplane-mode" />
+    <Label For="airplane-mode">Airplane Mode</Label>
+</div>
+""";
+
+    private const string SwitchUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Switch />
+""";
+
+    private const string RadioGroupCode = """
+<RadioGroup Value="comfortable">
+    <div class="flex items-center gap-2">
+        <RadioGroupItem Value="default" id="r1" />
+        <Label For="r1">Default</Label>
+    </div>
+    <div class="flex items-center gap-2">
+        <RadioGroupItem Value="comfortable" id="r2" />
+        <Label For="r2">Comfortable</Label>
+    </div>
+</RadioGroup>
+""";
+
+    private const string RadioGroupUsage = """
+@using DP.ShadcnBlazor.Components
+
+<RadioGroup Value="option-one">
+    <RadioGroupItem Value="option-one" id="option-one" />
+    <Label For="option-one">Option One</Label>
+</RadioGroup>
+""";
+
+    private const string NativeSelectCode = """
+<NativeSelect Value="apple">
+    <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+    <NativeSelectOption Value="banana">Banana</NativeSelectOption>
+</NativeSelect>
+""";
+
+    private const string NativeSelectUsage = """
+@using DP.ShadcnBlazor.Components
+
+<NativeSelect>
+    <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+</NativeSelect>
+""";
+}

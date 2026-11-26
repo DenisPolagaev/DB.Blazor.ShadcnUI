@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Components;
 namespace DP.ShadcnBlazor.Components;
 
 /// <summary>
-/// shadcn/ui <c>Button</c>. Renders <c>&lt;button data-slot="button"&gt;</c>, or an
-/// <c>&lt;a&gt;</c> when <see cref="Href"/> is set — the Blazor equivalent of
-/// <c>asChild</c> + <c>&lt;Slot&gt;</c>.
+/// shadcn/ui <c>Button</c>. Renders <c>&lt;button data-slot="button"&gt;</c> with the shadcn
+/// variant/size class list.
 /// </summary>
 public partial class Button : ShadcnComponent
 {
@@ -24,14 +23,6 @@ public partial class Button : ShadcnComponent
     /// <summary>Disables the native button (<c>disabled</c> + the shadcn disabled classes).</summary>
     [Parameter]
     public bool Disabled { get; set; }
-
-    /// <summary>When set, the button renders as an anchor instead of a native button.</summary>
-    [Parameter]
-    public string? Href { get; set; }
-
-    /// <summary>Anchor target, only used with <see cref="Href"/>.</summary>
-    [Parameter]
-    public string? Target { get; set; }
 
     /// <summary>Button content (label and/or an icon).</summary>
     [Parameter]

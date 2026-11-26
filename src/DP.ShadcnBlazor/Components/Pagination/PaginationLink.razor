@@ -1,18 +1,17 @@
 @namespace DP.ShadcnBlazor.Components
-
 @inherits ShadcnComponent
 
-@if (Href is not null)
+@if (Href is not null || OnClick.HasDelegate)
 {
     <a href="@Href" aria-current="@(IsActive ? "page" : null)" data-slot="pagination-link"
        data-active="@(IsActive ? "true" : "false")" class="@Classes" style="@Style"
-       @attributes="AdditionalAttributes">@ChildContent</a>
+       @onclick="OnClick" @attributes="AdditionalAttributes">@ChildContent</a>
 }
 else
 {
-    <button type="button" aria-current="@(IsActive ? "page" : null)" data-slot="pagination-link"
-            data-active="@(IsActive ? "true" : "false")" class="@Classes" style="@Style"
-            @onclick="OnClick" @attributes="AdditionalAttributes">@ChildContent</button>
+    <a aria-current="@(IsActive ? "page" : null)" data-slot="pagination-link"
+       data-active="@(IsActive ? "true" : "false")" class="@Classes" style="@Style"
+       @attributes="AdditionalAttributes">@ChildContent</a>
 }
 
 @code {
@@ -22,10 +21,10 @@ else
     /// <summary>Button size, <c>icon</c> like shadcn's <c>PaginationLink</c>.</summary>
     [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Icon;
 
-    /// <summary>When set the link renders as an anchor.</summary>
+    /// <summary>Anchor target.</summary>
     [Parameter] public string? Href { get; set; }
 
-    /// <summary>Click handler for the button form.</summary>
+    /// <summary>Click handler.</summary>
     [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
 
     [Parameter] public RenderFragment? ChildContent { get; set; }

@@ -54,16 +54,17 @@ public class ComponentMarkupTests : BunitContext
     }
 
     [Fact]
-    public void Button_WithHrefRendersAnchor()
+    public void Button_AlwaysRendersTheNativeButton()
     {
         var cut = Render<Button>(parameters => parameters
-            .Add(p => p.Href, "/docs")
-            .AddChildContent("Docs"));
+            .AddUnmatched("id", "save")
+            .AddChildContent("Save"));
 
-        var anchor = cut.Find("a");
-        Assert.Equal("/docs", anchor.GetAttribute("href"));
-        Assert.Equal("button", anchor.GetAttribute("data-slot"));
-        Assert.Empty(cut.FindAll("button"));
+        var button = cut.Find("button[data-slot='button']");
+        // shadcn/ui spreads its props onto the native button: `id` is a plain HTML attribute,
+        // there is no `href` prop (links use buttonVariants on an <a>).
+        Assert.Equal("save", button.GetAttribute("id"));
+        Assert.Empty(cut.FindAll("a"));
     }
 
     [Fact]

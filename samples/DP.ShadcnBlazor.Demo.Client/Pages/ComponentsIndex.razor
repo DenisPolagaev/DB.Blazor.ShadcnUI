@@ -1,0 +1,27 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Pages
+@using DP.ShadcnBlazor.Demo.Client.Docs
+
+@page "/docs/components"
+@page "/docs"
+
+<PageTitle>Components — shadcn/ui for Blazor</PageTitle>
+
+<article class="docs-article">
+    <h1 class="docs-title">Components</h1>
+    <p class="docs-description">
+        Here you can find all the components available in the library. We are working on adding more
+        components and examples, feel free to open a discussion if you have any questions.
+    </p>
+
+    <ul class="docs-index-grid">
+        @foreach (var entry in DocCatalog.Components)
+        {
+            <li>
+                <a class="docs-index-card" href="@($"/docs/components/{entry.Slug}")">
+                    <strong>@entry.Name</strong>
+                    <span>@entry.Description</span>
+                </a>
+            </li>
+        }
+    </ul>
+</article>

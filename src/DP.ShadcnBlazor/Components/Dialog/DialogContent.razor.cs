@@ -6,7 +6,7 @@ namespace DP.ShadcnBlazor.Components;
 /// shadcn/ui <c>DialogContent</c>: overlay + panel. There is no DOM portal in Blazor, so the
 /// component renders a <c>data-slot="dialog-portal"</c> wrapper in place and positions the panel
 /// with <c>position: fixed</c>; the modal behaviour (focus trap, Escape, scroll lock) is attached
-/// after the first render.
+/// after the content renders.
 /// </summary>
 public partial class DialogContent : ShadcnOverlayBase
 {
@@ -20,10 +20,6 @@ public partial class DialogContent : ShadcnOverlayBase
     [Parameter]
     public bool ShowCloseButton { get; set; } = true;
 
-    /// <summary>Whether a click on the overlay closes the dialog.</summary>
-    [Parameter]
-    public bool CloseOnInteractOutside { get; set; } = true;
-
     /// <summary>Dialog body.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -35,6 +31,4 @@ public partial class DialogContent : ShadcnOverlayBase
     protected override Task RequestDismissAsync() => CloseAsync();
 
     private Task CloseAsync() => Root?.CloseAsync() ?? Task.CompletedTask;
-
-    private Task HandleOverlayClickAsync() => CloseOnInteractOutside ? CloseAsync() : Task.CompletedTask;
 }

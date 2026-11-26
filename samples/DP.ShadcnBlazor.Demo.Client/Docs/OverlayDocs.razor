@@ -1,0 +1,499 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Docs
+
+@if (Slug == "dialog")
+{
+    <DocPage Title="Dialog" Description="A window overlaid on either the primary window or another dialog window."
+             Code="@DialogCode" Usage="@DialogUsage">
+        <Preview>
+            <Dialog>
+                <DialogTrigger>
+                    <Button Variant="ButtonVariant.Outline">Edit Profile</Button>
+                </DialogTrigger>
+                <DialogContent Class="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogDescription>
+                            Make changes to your profile here. Click save when you're done.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div class="demo-form">
+                        <Label For="dialog-name">Name</Label>
+                        <Input id="dialog-name" Value="Pedro Duarte" />
+                        <Label For="dialog-username">Username</Label>
+                        <Input id="dialog-username" Value="@peduarte" />
+                    </div>
+                    <DialogFooter>
+                        <Button Type="submit">Save changes</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">No close button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Dialog>
+                    <DialogTrigger>
+                        <Button Variant="ButtonVariant.Outline">Share</Button>
+                    </DialogTrigger>
+                    <DialogContent ShowCloseButton="false">
+                        <DialogHeader>
+                            <DialogTitle>Share link</DialogTitle>
+                            <DialogDescription>Anyone who has this link will be able to view this.</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter ShowCloseButton="true">
+                            <Button Variant="ButtonVariant.Secondary">Copy link</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "alert-dialog")
+{
+    <DocPage Title="Alert Dialog"
+             Description="A modal dialog that interrupts the user with important content and expects a response."
+             Code="@AlertDialogCode" Usage="@AlertDialogUsage">
+        <Preview>
+            <AlertDialog>
+                <AlertDialogTrigger>
+                    <Button Variant="ButtonVariant.Outline">Show Dialog</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your account and remove
+                            your data from our servers.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">With media</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <AlertDialog>
+                    <AlertDialogTrigger>
+                        <Button Variant="ButtonVariant.Destructive">Delete chat</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent Size="AlertDialogContentSize.Small">
+                        <AlertDialogHeader>
+                            <AlertDialogMedia>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path d="M3 6h18" />
+                                    <path d="M8 6V4h8v2" />
+                                    <path d="M19 6v14H5V6" />
+                                </svg>
+                            </AlertDialogMedia>
+                            <AlertDialogTitle>Delete chat?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This will permanently delete this chat conversation.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction Variant="ButtonVariant.Destructive">Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "sheet")
+{
+    <DocPage Title="Sheet"
+             Description="Extends the Dialog component to display content that complements the main content of the screen."
+             Code="@SheetCode" Usage="@SheetUsage">
+        <Preview>
+            <Sheet>
+                <SheetTrigger>
+                    <Button Variant="ButtonVariant.Outline">Open</Button>
+                </SheetTrigger>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>Edit profile</SheetTitle>
+                        <SheetDescription>
+                            Make changes to your profile here. Click save when you're done.
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div class="demo-form" style="padding: 0 16px">
+                        <Label For="sheet-name">Name</Label>
+                        <Input id="sheet-name" Value="Pedro Duarte" />
+                        <Label For="sheet-username">Username</Label>
+                        <Input id="sheet-username" Value="@peduarte" />
+                    </div>
+                    <SheetFooter>
+                        <Button Type="submit">Save changes</Button>
+                    </SheetFooter>
+                </SheetContent>
+            </Sheet>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Side</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                @foreach (var side in new[] { SheetSide.Top, SheetSide.Right, SheetSide.Bottom, SheetSide.Left })
+                {
+                    <Sheet>
+                        <SheetTrigger>
+                            <Button Variant="ButtonVariant.Outline">@side</Button>
+                        </SheetTrigger>
+                        <SheetContent Side="@side">
+                            <SheetHeader>
+                                <SheetTitle>@side sheet</SheetTitle>
+                            </SheetHeader>
+                        </SheetContent>
+                    </Sheet>
+                }
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "dropdown-menu")
+{
+    <DocPage Title="Dropdown Menu"
+             Description="Displays a menu to the user — such as a set of actions or functions — triggered by a button."
+             Code="@DropdownMenuCode" Usage="@DropdownMenuUsage">
+        <Preview>
+            <DropdownMenu>
+                <DropdownMenuTrigger>
+                    <Button Variant="ButtonVariant.Outline">Open</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent Class="w-56" Align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                            Profile
+                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Billing
+                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Settings
+                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Keyboard shortcuts
+                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                        <DropdownMenuLabel>Team</DropdownMenuLabel>
+                        <DropdownMenuItem>Invite users</DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive">
+                        Log out
+                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Checkbox and radio items</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button Variant="ButtonVariant.Outline">Open</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-56">
+                        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuCheckboxItem Checked="true">Status Bar</DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem Checked="false">Activity Bar</DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem Checked="true">Panel</DropdownMenuCheckboxItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuRadioGroup Value="bottom">
+                            <DropdownMenuRadioItem Value="top">Top</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem Value="bottom">Bottom</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem Value="right">Right</DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
+
+            <h3 class="docs-example-title">Submenu</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button Variant="ButtonVariant.Outline">Open</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-56">
+                        <DropdownMenuItem>New Tab</DropdownMenuItem>
+                        <DropdownMenuItem>New Window</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
+                            <DropdownMenuSubContent>
+                                <DropdownMenuItem>Email link</DropdownMenuItem>
+                                <DropdownMenuItem>Messages</DropdownMenuItem>
+                                <DropdownMenuItem>Notes</DropdownMenuItem>
+                            </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                        <DropdownMenuItem>Print…</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "popover")
+{
+    <DocPage Title="Popover" Description="Displays rich content in a portal, triggered by a button."
+             Code="@PopoverCode" Usage="@PopoverUsage">
+        <Preview>
+            <Popover>
+                <PopoverTrigger>
+                    <Button Variant="ButtonVariant.Outline">Open popover</Button>
+                </PopoverTrigger>
+                <PopoverContent Class="w-80">
+                    <div class="demo-form">
+                        <h4 class="demo-item-title" style="margin: 0">Dimensions</h4>
+                        <p class="demo-item-text" style="margin: 0">Set the dimensions for the layer.</p>
+                        <div class="demo-grid-2" style="gap: 8px">
+                            <div class="demo-form">
+                                <Label For="popover-width">Width</Label>
+                                <Input id="popover-width" Value="100%" />
+                            </div>
+                            <div class="demo-form">
+                                <Label For="popover-height">Height</Label>
+                                <Input id="popover-height" Value="25px" />
+                            </div>
+                        </div>
+                    </div>
+                </PopoverContent>
+            </Popover>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Align</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Popover>
+                    <PopoverTrigger>
+                        <Button Variant="ButtonVariant.Outline">Align start</Button>
+                    </PopoverTrigger>
+                    <PopoverContent Align="start" Class="w-64">
+                        <p class="demo-item-text" style="margin: 0">Aligned to the start edge of the trigger.</p>
+                    </PopoverContent>
+                </Popover>
+                <Popover>
+                    <PopoverTrigger>
+                        <Button Variant="ButtonVariant.Outline">Align end</Button>
+                    </PopoverTrigger>
+                    <PopoverContent Align="end" Class="w-64">
+                        <p class="demo-item-text" style="margin: 0">Aligned to the end edge of the trigger.</p>
+                    </PopoverContent>
+                </Popover>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "tooltip")
+{
+    <DocPage Title="Tooltip"
+             Description="A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it."
+             Code="@TooltipCode" Usage="@TooltipUsage">
+        <Preview>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Button Variant="ButtonVariant.Outline">Hover</Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Add to library</TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Sides</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                @foreach (var side in new[] { "top", "right", "bottom", "left" })
+                {
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button Variant="ButtonVariant.Outline">@side</Button>
+                            </TooltipTrigger>
+                            <TooltipContent Side="@side">Tooltip on the @side</TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                }
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+
+    private const string peduarte = "@peduarte";
+
+    private const string DialogCode = """
+<Dialog>
+    <DialogTrigger><Button Variant="ButtonVariant.Outline">Edit Profile</Button></DialogTrigger>
+    <DialogContent Class="sm:max-w-[425px]">
+        <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>Make changes to your profile here.</DialogDescription>
+        </DialogHeader>
+        <div class="grid gap-4">
+            <Label For="name">Name</Label>
+            <Input id="name" Value="Pedro Duarte" />
+        </div>
+        <DialogFooter><Button Type="submit">Save changes</Button></DialogFooter>
+    </DialogContent>
+</Dialog>
+""";
+
+    private const string DialogUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Dialog>
+    <DialogTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DialogTrigger>
+    <DialogContent>
+        <DialogHeader>
+            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogDescription>This action cannot be undone.</DialogDescription>
+        </DialogHeader>
+    </DialogContent>
+</Dialog>
+""";
+
+    private const string AlertDialogCode = """
+<AlertDialog>
+    <AlertDialogTrigger><Button Variant="ButtonVariant.Outline">Show Dialog</Button></AlertDialogTrigger>
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your account.
+            </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>
+""";
+
+    private const string AlertDialogUsage = """
+@using DP.ShadcnBlazor.Components
+
+<AlertDialog>
+    <AlertDialogTrigger><Button>Show Dialog</Button></AlertDialogTrigger>
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>
+""";
+
+    private const string SheetCode = """
+<Sheet>
+    <SheetTrigger><Button Variant="ButtonVariant.Outline">Open</Button></SheetTrigger>
+    <SheetContent>
+        <SheetHeader>
+            <SheetTitle>Edit profile</SheetTitle>
+            <SheetDescription>Make changes to your profile here.</SheetDescription>
+        </SheetHeader>
+        <SheetFooter><Button Type="submit">Save changes</Button></SheetFooter>
+    </SheetContent>
+</Sheet>
+""";
+
+    private const string SheetUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Sheet>
+    <SheetTrigger><Button Variant="ButtonVariant.Outline">Open</Button></SheetTrigger>
+    <SheetContent>
+        <SheetHeader>
+            <SheetTitle>Are you absolutely sure?</SheetTitle>
+        </SheetHeader>
+    </SheetContent>
+</Sheet>
+""";
+
+    private const string DropdownMenuCode = """
+<DropdownMenu>
+    <DropdownMenuTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DropdownMenuTrigger>
+    <DropdownMenuContent Class="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Billing</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive">Log out</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>
+""";
+
+    private const string DropdownMenuUsage = """
+@using DP.ShadcnBlazor.Components
+
+<DropdownMenu>
+    <DropdownMenuTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DropdownMenuTrigger>
+    <DropdownMenuContent>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>
+""";
+
+    private const string PopoverCode = """
+<Popover>
+    <PopoverTrigger><Button Variant="ButtonVariant.Outline">Open popover</Button></PopoverTrigger>
+    <PopoverContent Class="w-80">
+        <div class="grid gap-2">
+            <h4>Dimensions</h4>
+            <p>Set the dimensions for the layer.</p>
+        </div>
+    </PopoverContent>
+</Popover>
+""";
+
+    private const string PopoverUsage = """
+@using DP.ShadcnBlazor.Components
+
+<Popover>
+    <PopoverTrigger><Button Variant="ButtonVariant.Outline">Open</Button></PopoverTrigger>
+    <PopoverContent>Place content for the popover here.</PopoverContent>
+</Popover>
+""";
+
+    private const string TooltipCode = """
+<TooltipProvider>
+    <Tooltip>
+        <TooltipTrigger><Button Variant="ButtonVariant.Outline">Hover</Button></TooltipTrigger>
+        <TooltipContent>Add to library</TooltipContent>
+    </Tooltip>
+</TooltipProvider>
+""";
+
+    private const string TooltipUsage = """
+@using DP.ShadcnBlazor.Components
+
+<TooltipProvider>
+    <Tooltip>
+        <TooltipTrigger><Button Variant="ButtonVariant.Outline">Hover</Button></TooltipTrigger>
+        <TooltipContent>Add to library</TooltipContent>
+    </Tooltip>
+</TooltipProvider>
+""";
+}

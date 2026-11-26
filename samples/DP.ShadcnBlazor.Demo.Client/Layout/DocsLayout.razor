@@ -1,0 +1,32 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Layout
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="site-shell">
+    <AppHeader />
+    <div class="site-body">
+        <DocsSidebar ActiveSlug="@Slug" />
+        <main class="docs-main">
+            @Body
+        </main>
+    </div>
+</div>
+
+@code {
+    /// <summary>The component slug of the current page, for the sidebar highlight.</summary>
+    private string? Slug { get; set; }
+
+    protected override void OnParametersSet() => Slug = ResolveSlug(Navigation.Uri);
+
+    private static string? ResolveSlug(string uri)
+    {
+        var path = new Uri(uri).AbsolutePath.Trim('/');
+        var segments = path.Split('/');
+        if (segments.Length >= 3 && segments[0] == "docs" && segments[1] == "components")
+        {
+            return segments[2];
+        }
+
+        return path == "docs/components" ? "components" : null;
+    }
+}
