@@ -1,0 +1,15 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<span id="@Root?.TriggerId" data-slot="dropdown-menu-trigger" style="display: contents"
+      aria-haspopup="menu" aria-expanded="@(Root?.IsOpen == true ? "true" : "false")"
+      aria-controls="@Root?.ContentId" @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private DropdownMenu? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private Task ToggleAsync() => Root?.ToggleAsync() ?? Task.CompletedTask;
+}

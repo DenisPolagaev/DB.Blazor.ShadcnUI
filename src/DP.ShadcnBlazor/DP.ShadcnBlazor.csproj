@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <!-- The library ships for the two supported runtimes only: net10.0 is the current LTS host,
+         net11.0 is what the Geoportal consumes. There is deliberately no netstandard target —
+         the components use `@bind` with `[Parameter]`/`[CascadingParameter]` and the modern
+         Blazor renderer, and are tested on both. -->
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <RootNamespace>DP.ShadcnBlazor</RootNamespace>
+    <AssemblyName>DP.ShadcnBlazor</AssemblyName>
+    <IsPackable>true</IsPackable>
+    <PackageId>DP.ShadcnBlazor</PackageId>
+    <Description>shadcn/ui ported to Blazor (Server and WebAssembly). Same component names, variants, data-slot markup and class list as shadcn/ui v4 — written the Radzen way: one component per folder, parameters in C#, cascading contexts instead of React context.</Description>
+    <PackageTags>blazor;blazor-server;blazor-wasm;shadcn;tailwind;components;ui</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- No <FrameworkReference Include="Microsoft.AspNetCore.App" /> on purpose: a component
+         library is consumed by Blazor WebAssembly, which builds project references with the
+         browser-wasm RID and has no ASP.NET Core runtime pack for it (NETSDK1082). The Components
+         packages are the portable way to get ComponentBase, CascadingValue and IJSRuntime. -->
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" Condition="Exists('..\..\README.md')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DP.ShadcnBlazor.Tests" />
+  </ItemGroup>
+
+</Project>

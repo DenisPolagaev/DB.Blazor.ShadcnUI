@@ -1,0 +1,15 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<span id="@Root?.TriggerId" data-slot="popover-trigger" style="display: contents"
+      aria-haspopup="dialog" aria-expanded="@(Root?.IsOpen == true ? "true" : "false")"
+      aria-controls="@Root?.ContentId" @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private Popover? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private Task ToggleAsync() => Root?.ToggleAsync() ?? Task.CompletedTask;
+}

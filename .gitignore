@@ -1,0 +1,15 @@
+# Build output
+bin/
+obj/
+artifacts/
+TestResults/
+*.binlog
+*.user
+*.suo
+.vs/
+
+# Node (only needed to rebuild the Tailwind bundle)
+node_modules/
+
+# The shipped stylesheet is generated, but it IS committed so `dotnet build`/NuGet consumers
+# never need Node. Do not ignore wwwroot/dp-shadcn.css.

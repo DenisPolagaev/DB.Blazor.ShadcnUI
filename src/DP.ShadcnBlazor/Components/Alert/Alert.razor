@@ -1,0 +1,13 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<div data-slot="alert" role="alert" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public AlertVariant Variant { get; set; } = AlertVariant.Default;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(AlertVariants.Get(Variant));
+}

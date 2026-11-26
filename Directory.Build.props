@@ -1,0 +1,29 @@
+<Project>
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Version>0.1.0</Version>
+    <Authors>Denis Polagaev</Authors>
+    <Company>DP</Company>
+    <Product>DP.ShadcnBlazor</Product>
+    <RepositoryUrl>https://github.com/DenisPolagaev/DP.ShadcnBlazor</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Deterministic>true</Deterministic>
+    <!-- Warnings fail the build: the component contract (data-slot markup, class merge) is pinned by tests. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Razor source generator emits nullable annotations outside #nullable context. -->
+    <NoWarn>$(NoWarn);CS8669;CS1591;BL0016</NoWarn>
+    <!--
+      BL0016 wants every JS interop call inside a try/catch. The library does exactly that at every
+      call site (ShadcnOverlayBase / ShadcnDismissableBase attach and detach, and both tolerate a
+      prerendered page and a disconnected circuit); the analyzer cannot see through the helper.
+    -->
+    <IsPackable>false</IsPackable>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+</Project>

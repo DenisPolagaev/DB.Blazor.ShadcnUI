@@ -1,0 +1,92 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Pages
+
+@page "/forms"
+
+<PageTitle>DP.ShadcnBlazor — forms</PageTitle>
+
+<h1 class="demo-title">Form controls</h1>
+<p class="demo-lead">Native elements with the shadcn class list; every control is two-way bound through Blazor parameters.</p>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Input, Label, Textarea</h2>
+    <div class="demo-grid-2">
+        <div class="demo-stack">
+            <Label For="name-input">Project name</Label>
+            <Input Id="name-input" @bind-Value="name" Placeholder="meridian-portal" />
+            <span class="demo-muted">Bound value: <span class="demo-code">@name</span></span>
+        </div>
+        <div class="demo-stack">
+            <Label For="bio-input">Description</Label>
+            <Textarea Id="bio-input" @bind-Value="bio" Placeholder="A short description of your project" />
+        </div>
+    </div>
+    <div class="demo-row" style="margin-top: 16px">
+        <Input Placeholder="Disabled" Disabled="true" />
+        <Input Placeholder="Invalid" aria-invalid="true" />
+        <Input Type="email" Placeholder="you@example.com" />
+    </div>
+</section>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Checkbox &amp; Switch</h2>
+    <div class="demo-row" style="gap: 32px">
+        <div class="demo-label">
+            <Checkbox @bind-Checked="accepted" Id="terms" />
+            <Label For="terms">Accept the terms</Label>
+            <Badge Variant="BadgeVariant.Outline">@(accepted ? "checked" : "unchecked")</Badge>
+        </div>
+        <div class="demo-label">
+            <Switch @bind-Checked="notifications" Id="notifications" />
+            <Label For="notifications">Email notifications</Label>
+        </div>
+        <div class="demo-label">
+            <Switch @bind-Checked="compact" Size="SwitchSize.Sm" Id="compact" />
+            <Label For="compact">Compact mode</Label>
+        </div>
+    </div>
+</section>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Radio group</h2>
+    <RadioGroup @bind-Value="plan">
+        <div class="demo-label">
+            <RadioGroupItem Value="free" Id="plan-free" />
+            <Label For="plan-free">Free — one project</Label>
+        </div>
+        <div class="demo-label">
+            <RadioGroupItem Value="pro" Id="plan-pro" />
+            <Label For="plan-pro">Pro — unlimited projects</Label>
+        </div>
+        <div class="demo-label">
+            <RadioGroupItem Value="enterprise" Id="plan-enterprise" Disabled="true" />
+            <Label For="plan-enterprise">Enterprise — contact us</Label>
+        </div>
+    </RadioGroup>
+    <p class="demo-muted">Selected: <span class="demo-code">@plan</span></p>
+</section>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Native select</h2>
+    <div class="demo-row">
+        <NativeSelect @bind-Value="country">
+            <NativeSelectOption Value="ru">Russia</NativeSelectOption>
+            <NativeSelectOption Value="by">Belarus</NativeSelectOption>
+            <NativeSelectOption Value="kz">Kazakhstan</NativeSelectOption>
+        </NativeSelect>
+        <NativeSelect Size="NativeSelectSize.Sm" @bind-Value="country">
+            <NativeSelectOption Value="ru">Small — Russia</NativeSelectOption>
+            <NativeSelectOption Value="by">Small — Belarus</NativeSelectOption>
+        </NativeSelect>
+        <span class="demo-muted">Country: <span class="demo-code">@country</span></span>
+    </div>
+</section>
+
+@code {
+    private string? name = "meridian-portal";
+    private string? bio;
+    private bool accepted = true;
+    private bool notifications;
+    private bool compact;
+    private string? plan = "pro";
+    private string? country = "ru";
+}

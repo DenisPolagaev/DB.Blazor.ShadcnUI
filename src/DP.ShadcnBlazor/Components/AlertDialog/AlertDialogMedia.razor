@@ -1,0 +1,13 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<div data-slot="alert-dialog-media" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "mb-2 inline-flex size-16 items-center justify-center rounded-md bg-muted " +
+        "sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8");
+}

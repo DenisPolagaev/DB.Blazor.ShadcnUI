@@ -1,0 +1,10 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<div role="group" data-slot="dropdown-menu-radio-group" class="@Class" style="@Style"
+     @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>

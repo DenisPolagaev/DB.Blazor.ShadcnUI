@@ -1,0 +1,14 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<span data-slot="avatar" data-size="@Size.ToDataValue()" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</span>
+
+@code {
+    private string? Classes => MergeClass(
+        "group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6");
+}

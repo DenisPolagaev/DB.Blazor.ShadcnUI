@@ -1,0 +1,12 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<nav role="navigation" aria-label="pagination" data-slot="pagination" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes">@ChildContent</nav>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("mx-auto flex w-full justify-center");
+}

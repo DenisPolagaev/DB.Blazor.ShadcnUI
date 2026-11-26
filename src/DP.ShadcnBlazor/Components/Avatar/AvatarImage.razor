@@ -1,0 +1,26 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<img data-slot="avatar-image" src="@Src" alt="@Alt" class="@Classes" style="@Style"
+     @onload="HandleLoad" @onerror="HandleError" @attributes="AdditionalAttributes" />
+
+@code {
+    [CascadingParameter] private Avatar? Owner { get; set; }
+
+    [Parameter] public string? Src { get; set; }
+
+    [Parameter] public string? Alt { get; set; }
+
+    private bool _failed;
+
+    private string? Classes => Cx("aspect-square size-full", _failed ? "hidden" : null, Class);
+
+    private void HandleLoad() => Owner?.NotifyImageLoaded();
+
+    private void HandleError()
+    {
+        _failed = true;
+        Owner?.NotifyImageFailed();
+    }
+}

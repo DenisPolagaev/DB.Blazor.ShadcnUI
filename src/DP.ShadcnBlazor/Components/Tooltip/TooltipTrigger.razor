@@ -1,0 +1,68 @@
+@namespace DP.ShadcnBlazor.Components
+
+@implements IDisposable
+@inherits ShadcnComponent
+
+<span id="@Root?.TriggerId" data-slot="tooltip-trigger" style="display: contents"
+      @onmouseenter="OpenDelayed" @onmouseleave="CloseNow" @onfocusin="OpenDelayed" @onfocusout="CloseNow"
+      @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private Tooltip? Root { get; set; }
+
+    [CascadingParameter] private TooltipSettings? Settings { get; set; }
+
+    /// <summary>The control the tooltip describes.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private CancellationTokenSource? _pending;
+
+    private void OpenDelayed()
+    {
+        if (Root is null)
+        {
+            return;
+        }
+
+        _pending?.Cancel();
+        _pending?.Dispose();
+        _pending = new CancellationTokenSource();
+        _ = OpenAsync(_pending.Token);
+    }
+
+    private async Task OpenAsync(CancellationToken token)
+    {
+        try
+        {
+            var delay = Settings?.DelayDuration ?? 0;
+            if (delay > 0)
+            {
+                await Task.Delay(delay, token);
+            }
+
+            if (!token.IsCancellationRequested && Root is not null)
+            {
+                await Root.ShowAsync();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private void CloseNow()
+    {
+        _pending?.Cancel();
+        if (Root is not null)
+        {
+            _ = Root.CloseAsync();
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _pending?.Cancel();
+        _pending?.Dispose();
+    }
+}

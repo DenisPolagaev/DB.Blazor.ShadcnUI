@@ -1,0 +1,9 @@
+@namespace DP.ShadcnBlazor.Components
+@implements IDisposable
+@inherits ShadcnComponent
+
+<span style="display: contents">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</span>

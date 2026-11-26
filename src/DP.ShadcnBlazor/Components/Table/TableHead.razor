@@ -1,0 +1,16 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<th data-slot="table-head" scope="@Scope" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</th>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Header cell scope; <c>col</c> by default (shadcn renders a plain <c>th</c>).</summary>
+    [Parameter] public string? Scope { get; set; } = "col";
+
+    private string? Classes => MergeClass(
+        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground " +
+        "[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]");
+}

@@ -1,0 +1,139 @@
+@namespace DP.ShadcnBlazor.Demo.Client.Pages
+
+@page "/data"
+
+<PageTitle>DP.ShadcnBlazor — data</PageTitle>
+
+<h1 class="demo-title">Data &amp; navigation</h1>
+<p class="demo-lead">Table, tabs, accordion, breadcrumb and pagination — the shadcn composites, with Blazor state.</p>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Tabs</h2>
+    <Tabs DefaultValue="account">
+        <TabsList>
+            <TabsTrigger Value="account">Account</TabsTrigger>
+            <TabsTrigger Value="password">Password</TabsTrigger>
+            <TabsTrigger Value="team" Disabled="true">Team</TabsTrigger>
+        </TabsList>
+        <TabsContent Value="account">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Account</CardTitle>
+                    <CardDescription>Update your account settings.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div class="demo-stack demo-narrow">
+                        <Label For="tabs-name">Name</Label>
+                        <Input Id="tabs-name" Value="Denis" />
+                    </div>
+                </CardContent>
+            </Card>
+        </TabsContent>
+        <TabsContent Value="password">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Password</CardTitle>
+                    <CardDescription>Change your password here.</CardDescription>
+                </CardHeader>
+                <CardContent><Input Type="password" Value="secret" /></CardContent>
+            </Card>
+        </TabsContent>
+    </Tabs>
+</section>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Accordion</h2>
+    <Accordion Type="AccordionType.Single" Collapsible="true" DefaultValue="item-1">
+        <AccordionItem Value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem Value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>Yes. It comes with default styles that match shadcn/ui v4.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem Value="item-3">
+            <AccordionTrigger>Is it animated?</AccordionTrigger>
+            <AccordionContent>Yes — the panel animates its height without a measuring pass.</AccordionContent>
+        </AccordionItem>
+    </Accordion>
+</section>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Table</h2>
+    <Table>
+        <TableCaption>A list of recent invoices.</TableCaption>
+        <TableHeader>
+            <TableRow>
+                <TableHead>Invoice</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead Class="text-right">Amount</TableHead>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach (var invoice in invoices)
+            {
+                <TableRow Selected="@invoice.Selected">
+                    <TableCell Class="font-medium">@invoice.Id</TableCell>
+                    <TableCell>
+                        <Badge Variant="@invoice.Badge">@invoice.Status</Badge>
+                    </TableCell>
+                    <TableCell>@invoice.Method</TableCell>
+                    <TableCell Class="text-right">@invoice.Amount</TableCell>
+                </TableRow>
+            }
+        </TableBody>
+        <TableFooter>
+            <TableRow>
+                <TableCell ColSpan="3">Total</TableCell>
+                <TableCell Class="text-right">$2 500.00</TableCell>
+            </TableRow>
+        </TableFooter>
+    </Table>
+</section>
+
+<section class="demo-section">
+    <h2 class="demo-section-title">Breadcrumb &amp; pagination</h2>
+    <div class="demo-stack">
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem><BreadcrumbLink Href="/">Home</BreadcrumbLink></BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem><BreadcrumbLink Href="/data">Components</BreadcrumbLink></BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+
+        <Pagination>
+            <PaginationContent>
+                <PaginationItem><PaginationPrevious Href="#" /></PaginationItem>
+                <PaginationItem><PaginationLink Href="#">1</PaginationLink></PaginationItem>
+                <PaginationItem><PaginationLink IsActive="true" Href="#">2</PaginationLink></PaginationItem>
+                <PaginationItem><PaginationLink Href="#">3</PaginationLink></PaginationItem>
+                <PaginationItem><PaginationEllipsis /></PaginationItem>
+                <PaginationItem><PaginationNext Href="#" /></PaginationItem>
+            </PaginationContent>
+        </Pagination>
+    </div>
+</section>
+
+@code {
+    private readonly List<Invoice> invoices =
+    [
+        new("INV-001", "Paid", "Credit card", "$1 250.00", BadgeVariant.Default, true),
+        new("INV-002", "Pending", "Bank transfer", "$890.00", BadgeVariant.Secondary, false),
+        new("INV-003", "Overdue", "PayPal", "$360.00", BadgeVariant.Destructive, false),
+    ];
+
+    private sealed record Invoice(
+        string Id,
+        string Status,
+        string Method,
+        string Amount,
+        BadgeVariant Badge,
+        bool Selected);
+}

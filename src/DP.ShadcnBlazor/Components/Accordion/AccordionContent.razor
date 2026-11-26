@@ -1,0 +1,16 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<div data-slot="accordion-content" data-state="@(Item?.Open == true ? "open" : "closed")" role="region"
+     aria-labelledby="@Item?.TriggerId" inert="@(Item?.Open != true)" class="overflow-hidden text-sm">
+    <div class="@Classes">@ChildContent</div>
+</div>
+
+@code {
+    [CascadingParameter] private AccordionItem? Item { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("pt-0 pb-4");
+}

@@ -1,0 +1,34 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+@if (Href is not null)
+{
+    <a href="@Href" aria-current="@(IsActive ? "page" : null)" data-slot="pagination-link"
+       data-active="@(IsActive ? "true" : "false")" class="@Classes" style="@Style"
+       @attributes="AdditionalAttributes">@ChildContent</a>
+}
+else
+{
+    <button type="button" aria-current="@(IsActive ? "page" : null)" data-slot="pagination-link"
+            data-active="@(IsActive ? "true" : "false")" class="@Classes" style="@Style"
+            @onclick="OnClick" @attributes="AdditionalAttributes">@ChildContent</button>
+}
+
+@code {
+    /// <summary>Marks the current page (<c>aria-current="page"</c> + the outline variant).</summary>
+    [Parameter] public bool IsActive { get; set; }
+
+    /// <summary>Button size, <c>icon</c> like shadcn's <c>PaginationLink</c>.</summary>
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Icon;
+
+    /// <summary>When set the link renders as an anchor.</summary>
+    [Parameter] public string? Href { get; set; }
+
+    /// <summary>Click handler for the button form.</summary>
+    [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(ButtonVariants.Get(IsActive ? ButtonVariant.Outline : ButtonVariant.Ghost, Size));
+}

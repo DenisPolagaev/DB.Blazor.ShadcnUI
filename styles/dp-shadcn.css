@@ -1,0 +1,339 @@
+/*
+ * DP.ShadcnBlazor — Tailwind v4 source for the stylesheet shipped with the library.
+ *
+ * Build:  npm run build   (or scripts/build-css.ps1)  ->  src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css
+ *
+ * Two deliberate differences from a shadcn/ui `globals.css`:
+ *
+ * 1. Preflight is NOT imported. The library is dropped into an existing Blazor site, and
+ *    Tailwind's preflight would reset that site's own typography, forms and MudBlazor/Radzen
+ *    widgets. `@layer base` below reproduces the parts of preflight that shadcn components
+ *    actually rely on (border-box, `border: 0 solid <border-color>`, form controls inheriting
+ *    the page font), scoped to component subtrees via `[data-slot]` — every component renders
+ *    a `data-slot` attribute exactly like the React original.
+ * 2. No `@layer` for component CSS that Tailwind utilities must win over. Component-specific
+ *    structural rules (accordion height transition, indicator transform) live in
+ *    `@layer components`, so utilities still override them.
+ */
+
+/* Utilities are imported WITHOUT a layer on purpose. Tailwind emits the layer blocks in the order
+   the layers are first created, and a `layer(utilities)` import creates `utilities` before our
+   `base` block, which would make the scoped preflight below win over every utility. Unlayered
+   utilities sit above every layer, so `bg-primary` in a component class list beats
+   `[data-slot] button { background-color: transparent }` — and a consumer can still override both
+   with their own unlayered rule. */
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+
+@source "../src/DP.ShadcnBlazor/**/*.razor";
+@source "../src/DP.ShadcnBlazor/**/*.cs";
+
+/* shadcn/ui v4 dark mode: `.dark` on <html>, or on any ancestor. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------------------------
+ * Design tokens — the shadcn/ui "neutral" preset, byte-for-byte the values from
+ * https://ui.shadcn.com/r/colors/neutral.json (cssVarsV4), so a ported theme looks identical.
+ * Override them from the host app (`:root { --primary: ... }`) to re-theme the library.
+ * ------------------------------------------------------------------------------------------- */
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Base layer — the slice of Tailwind preflight that shadcn components depend on.
+ * ------------------------------------------------------------------------------------------- */
+
+@layer base {
+  :where([data-slot], [data-slot] *),
+  :where([data-slot]) ::before,
+  :where([data-slot]) ::after {
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 0;
+    border-color: var(--color-border);
+  }
+
+  /* Form controls do not inherit the page font without preflight. Both the slot element itself
+     (`button[data-slot="button"]`, `button[data-slot="checkbox"]`, …) and everything it renders
+     need the reset, otherwise a top-level ghost/link button keeps the browser's `buttonface`. */
+  :where(button, input, select, textarea, optgroup)[data-slot],
+  :where([data-slot]) :where(button, input, select, textarea, optgroup),
+  :where([data-slot]) ::file-selector-button {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    background-color: transparent;
+  }
+
+  :where(button, [role="button"])[data-slot],
+  :where([data-slot]) :where(button, [role="button"]) {
+    cursor: pointer;
+  }
+
+  :where([data-slot]) :where(:disabled, [aria-disabled="true"]) {
+    cursor: default;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Animations — the `tw-animate-css` subset shadcn/ui v4 components name in their class lists
+ * (`animate-in`, `fade-in-0`, `zoom-in-95`, `slide-in-from-top-2`, `animate-out`, …).
+ * Declared with `@utility` so `data-[state=open]:animate-in` variants compile.
+ * ------------------------------------------------------------------------------------------- */
+
+@keyframes dp-enter {
+  from {
+    opacity: var(--dp-enter-opacity, 1);
+    transform: translate3d(var(--dp-enter-translate-x, 0), var(--dp-enter-translate-y, 0), 0)
+      scale3d(var(--dp-enter-scale, 1), var(--dp-enter-scale, 1), 1)
+      rotate(var(--dp-enter-rotate, 0));
+  }
+}
+
+@keyframes dp-exit {
+  to {
+    opacity: var(--dp-exit-opacity, 1);
+    transform: translate3d(var(--dp-exit-translate-x, 0), var(--dp-exit-translate-y, 0), 0)
+      scale3d(var(--dp-exit-scale, 1), var(--dp-exit-scale, 1), 1)
+      rotate(var(--dp-exit-rotate, 0));
+  }
+}
+
+@utility animate-in {
+  animation: dp-enter var(--dp-animation-duration, 150ms) var(--dp-animation-ease, ease) both;
+}
+
+@utility animate-out {
+  animation: dp-exit var(--dp-animation-duration, 150ms) var(--dp-animation-ease, ease) both;
+}
+
+@utility fade-in-0 {
+  --dp-enter-opacity: 0;
+}
+
+@utility fade-out-0 {
+  --dp-exit-opacity: 0;
+}
+
+@utility zoom-in-95 {
+  --dp-enter-scale: 0.95;
+}
+
+@utility zoom-out-95 {
+  --dp-exit-scale: 0.95;
+}
+
+@utility slide-in-from-top-2 {
+  --dp-enter-translate-y: -0.5rem;
+}
+
+@utility slide-in-from-right-2 {
+  --dp-enter-translate-x: 0.5rem;
+}
+
+@utility slide-in-from-bottom-2 {
+  --dp-enter-translate-y: 0.5rem;
+}
+
+@utility slide-in-from-left-2 {
+  --dp-enter-translate-x: -0.5rem;
+}
+
+@utility slide-in-from-top {
+  --dp-enter-translate-y: -100%;
+}
+
+@utility slide-in-from-right {
+  --dp-enter-translate-x: 100%;
+}
+
+@utility slide-in-from-bottom {
+  --dp-enter-translate-y: 100%;
+}
+
+@utility slide-in-from-left {
+  --dp-enter-translate-x: -100%;
+}
+
+@utility slide-out-to-top {
+  --dp-exit-translate-y: -100%;
+}
+
+@utility slide-out-to-right {
+  --dp-exit-translate-x: 100%;
+}
+
+@utility slide-out-to-bottom {
+  --dp-exit-translate-y: 100%;
+}
+
+@utility slide-out-to-left {
+  --dp-exit-translate-x: -100%;
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Component plumbing that cannot be expressed with a static utility class. These are the only
+ * non-Tailwind rules the port needs; everything visual still comes from the shadcn class list.
+ * ------------------------------------------------------------------------------------------- */
+
+@layer components {
+  /* Accordion: animate height without measuring it (Radix's --radix-accordion-content-height
+     needs a measurement pass that a Blazor component would have to repeat on every resize). */
+  [data-slot="accordion-content"] {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 200ms ease-out;
+  }
+
+  [data-slot="accordion-content"][data-state="open"] {
+    grid-template-rows: 1fr;
+  }
+
+  [data-slot="accordion-content"] > * {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Radix exposes --radix-*-content-available-height for the max-height utilities; the Blazor
+     overlay sets the same variable from JavaScript so the class list stays identical. */
+  [data-slot="dropdown-menu-content"],
+  [data-slot="dropdown-menu-sub-content"] {
+    max-height: var(--radix-dropdown-menu-content-available-height, none);
+  }
+
+  /* Tooltip arrow: Radix renders an SVG arrow and positions it itself. The Blazor port draws the
+     arrow as a rotated square inside the panel, so its edge follows `data-side`. */
+  [data-slot="tooltip-content"] [data-slot="tooltip-arrow"] {
+    position: absolute;
+  }
+
+  [data-slot="tooltip-content"][data-side="top"] [data-slot="tooltip-arrow"] {
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  [data-slot="tooltip-content"][data-side="bottom"] [data-slot="tooltip-arrow"] {
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  [data-slot="tooltip-content"][data-side="left"] [data-slot="tooltip-arrow"] {
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  [data-slot="tooltip-content"][data-side="right"] [data-slot="tooltip-arrow"] {
+    left: -3px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+}

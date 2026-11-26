@@ -1,0 +1,11 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<thead data-slot="table-header" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</thead>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("[&_tr]:border-b");
+}

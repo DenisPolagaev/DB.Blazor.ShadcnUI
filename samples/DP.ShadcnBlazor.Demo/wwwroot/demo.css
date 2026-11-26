@@ -1,0 +1,163 @@
+/* Demo-only page scaffolding. Everything that belongs to a component comes from the library's
+   own `dp-shadcn.css` — this file only lays the pages out and uses the same tokens. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 56px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--background) 95%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.demo-brand {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.demo-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.demo-nav a {
+  padding: 6px 10px;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 14px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+}
+
+.demo-nav a:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.demo-nav a.active {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.demo-theme {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.demo-main {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: 40px 24px 96px;
+}
+
+.demo-title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.demo-lead {
+  color: var(--muted-foreground);
+  margin: 0 0 32px;
+}
+
+.demo-section {
+  margin-bottom: 40px;
+}
+
+.demo-section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+  margin: 0 0 16px;
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.demo-grid-2 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.demo-grid-3 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.demo-muted {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.demo-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  background: var(--muted);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.demo-label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.demo-narrow {
+  max-width: 320px;
+}
+
+.demo-avatars {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}

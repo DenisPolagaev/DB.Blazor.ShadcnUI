@@ -1,3 +1,156 @@
 # DP.ShadcnBlazor
 
-Blazor port of [shadcn/ui](https://ui.shadcn.com). Work in progress.
+[shadcn/ui](https://ui.shadcn.com) ported to Blazor — Server and WebAssembly, `net10.0` and `net11.0`.
+
+The port keeps the **component contract of shadcn/ui v4**: the same component names (`Button`,
+`Card`, `CardHeader`, `Dialog`, `DropdownMenuItem`, …), the same variant values
+(`default`/`destructive`/`outline`/`secondary`/`ghost`/`link`, `sm`/`lg`/`icon`), the same
+`data-slot` / `data-state` / `data-variant` markup and the same Tailwind class list — only the
+React/Radix plumbing is replaced by Blazor parameters, cascading contexts and one small JS module.
+
+Authoring follows [Radzen.Blazor](https://github.com/radzenhq/radzen-blazor): one component per
+folder, a shared `ShadcnComponent` base (`Class`, `Style`, `Id`, `AdditionalAttributes`), C# variant
+tables instead of `cva`, and explicit two-way parameters instead of React state.
+
+```
+libs/DP.ShadcnBlazor
+├─ src/DP.ShadcnBlazor          the library (Razor class library, net10.0 + net11.0)
+├─ samples/DP.ShadcnBlazor.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
+├─ tests/DP.ShadcnBlazor.Tests  bUnit + xUnit v3 tests (44 tests)
+├─ styles/dp-shadcn.css         Tailwind v4 source of the shipped stylesheet
+└─ wwwroot                      dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
+```
+
+## Quick start
+
+```xml
+<ProjectReference Include="libs/DP.ShadcnBlazor/src/DP.ShadcnBlazor/DP.ShadcnBlazor.csproj" />
+```
+
+`_Imports.razor`:
+
+```razor
+@using DP.ShadcnBlazor.Components
+```
+
+`index.html` / `App.razor` — one stylesheet, no `npm` required:
+
+```html
+<link rel="stylesheet" href="_content/DP.ShadcnBlazor/dp-shadcn.css" />
+```
+
+```razor
+<Button OnClick="SaveAsync">Save</Button>
+<Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Cancel</Button>
+<Button Size="ButtonSize.Icon" aria-label="Settings"><SettingsIcon /></Button>
+```
+
+The stylesheet carries the shadcn **neutral** tokens (`--background`, `--primary`, … as
+`oklch()`), the utilities the components use, and a scoped slice of Tailwind preflight. Dark mode is
+the shadcn convention: add `class="dark"` to `<html>`.
+
+To re-theme, override the tokens — no rebuild of the library is needed:
+
+```css
+:root {
+  --primary: oklch(0.55 0.2 260);
+  --primary-foreground: oklch(0.985 0 0);
+  --radius: 0.75rem;
+}
+```
+
+## What is in the first iteration
+
+| Group | Components |
+| --- | --- |
+| Primitives | `Button`, `Badge`, `Card` + `CardHeader`/`CardTitle`/`CardDescription`/`CardAction`/`CardContent`/`CardFooter`, `Alert` + `AlertTitle`/`AlertDescription`, `Avatar` + `AvatarImage`/`AvatarFallback`/`AvatarBadge`/`AvatarGroup`/`AvatarGroupCount`, `Separator`, `Skeleton`, `Progress`, `Spinner`, `Kbd`/`KbdGroup` |
+| Forms | `Input`, `Textarea`, `Label`, `Checkbox`, `Switch`, `RadioGroup`/`RadioGroupItem`, `NativeSelect`/`NativeSelectOption`/`NativeSelectOptGroup` |
+| Data & navigation | `Table` + 8 slot components, `Tabs`/`TabsList`/`TabsTrigger`/`TabsContent`, `Accordion`/`AccordionItem`/`AccordionTrigger`/`AccordionContent`, `Breadcrumb` + 6 slots, `Pagination` + 5 slots |
+| Overlays | `Dialog` (+7), `AlertDialog` (+8), `Sheet` (+6), `DropdownMenu` (+13, including checkbox items, radio items and submenus), `Popover` (+6), `Tooltip`/`TooltipProvider`/`TooltipTrigger`/`TooltipContent` |
+
+Together that is every component a site needs to ship: layout, forms, data display, navigation,
+modals and menus.
+
+## How the React contract maps to Blazor
+
+| shadcn/ui (React) | DP.ShadcnBlazor |
+| --- | --- |
+| `className` | `Class` (Blazor binds `class="…"` to it), merged with `cn()` — a port of `clsx` + `tailwind-merge` |
+| `variant` / `size` props | `ButtonVariant` / `ButtonSize` enums, rendered as `data-variant` / `data-size` |
+| React context (`DialogContext`, `TabsContext`, …) | `CascadingValue` of the root component |
+| `asChild` + `<Slot>` | `Href` on `Button` (renders `<a>`); every trigger is *renderless* (see below) |
+| Portals (`DialogPortal`, `Popover` portal) | a `data-slot="…-portal"` wrapper rendered in place; panels are `position: fixed` |
+| Radix behaviour | `wwwroot/dp-shadcn.js`: focus trap, Escape, scroll lock, outside click, placement, menu keys |
+| `onValueChange` / `onCheckedChange` | `ValueChanged` / `CheckedChanged`, so `@bind-Value` / `@bind-Checked` work |
+| `uncontrolled` + `defaultValue` | `DefaultValue` / `DefaultOpen` (+ controlled `Value`/`Open`) |
+
+### Triggers are renderless
+
+React's `<DialogTrigger asChild>` clones the child and attaches the handler. Blazor cannot attach a
+handler to a child's root element, so a trigger renders a wrapper with `style="display: contents"`
+and forwards the event:
+
+```razor
+<Dialog>
+    <DialogTrigger><Button>Edit profile</Button></DialogTrigger>
+    <DialogContent>…</DialogContent>
+</Dialog>
+```
+
+There is no second `<button>` (which would be invalid HTML inside a button), the markup stays
+semantic, and clicks/keyboard activation of the inner control bubble to the wrapper. The trade-off:
+`aria-expanded`/`aria-haspopup` live on the wrapper, not on the consumer's button.
+
+### Deviations from shadcn/ui
+
+1. **No portal element in `<body>`.** Panels render where the component is placed (`position: fixed`
+   with a fixed z-index). A parent with `transform`, `filter` or `contain: paint` creates a
+   containing block and will offset a fixed panel — the same constraint Radzen has.
+2. **Exit animations are declared but not played.** Blazor removes the panel immediately when the
+   state closes; the `data-state="closed"` classes are still in the class list, so a consumer that
+   animates the node itself (a Blazor `Transition` wrapper) keeps working. Entry animations
+   (`animate-in`, `fade-in-0`, `zoom-in-95`, `slide-in-from-*`) run.
+3. **`asChild` has no general equivalent.** `Button`/`Badge` cover the common case with `Href`;
+   triggers cover the rest. There is no `Slot` component.
+4. **Accordion animates with `grid-template-rows`** instead of Radix's measured
+   `--radix-accordion-content-height`, so no JS measure pass and no resize handling.
+5. **Tooltip arrow** is a rotated square positioned by CSS on `data-side`, not an SVG arrow.
+6. `Select`, `Sonner`/toasts, `Slider`, `Combobox`, `Command`, `Calendar`, `DatePicker`, `Sidebar`,
+   `Resizable`, `Charts`, `DataTable`, `Carousel`, `Menubar`, `NavigationMenu`, `ContextMenu`,
+   `HoverCard`, `Toggle`/`ToggleGroup`, `InputOTP`, `Collapsible`, `Item`, `Field`, `Empty`,
+   `ButtonGroup`, `InputGroup`, `AspectRatio`, `ScrollArea` are **not ported yet** — they are the
+   next iterations. `Sonner`, `Select` and `Slider` come first.
+
+## Styling contract
+
+* Utilities are unprefixed: `Class="h-12 px-8"` on a component overrides its defaults
+  (`tailwind-merge` semantics: `h-12` removes `h-9`, `px-8` removes `px-4`, `bg-secondary` removes
+  `bg-primary`; `hover:`/`dark:`/`data-*:` variants never conflict with the base class).
+* The shipped `dp-shadcn.css` is Tailwind v4 output: tokens in `oklch`, only the utilities the
+  components use, **no preflight** (it would reset the host app). The slice of preflight the
+  components need (`border-box`, `border: 0 solid`, form controls inheriting the page font) is
+  scoped to `[data-slot]` subtrees.
+* Utilities are intentionally **unlayered** so they beat that scoped base layer. Override a library
+  class with your own CSS after the stylesheet, or with `Class`.
+* A host that already runs Tailwind can skip `dp-shadcn.css` and point its own build at the library:
+  `@source "…/libs/DP.ShadcnBlazor/src/DP.ShadcnBlazor/**/*.razor";` plus the tokens from
+  `styles/dp-shadcn.css`.
+
+## Build and test
+
+```powershell
+dotnet build DP.ShadcnBlazor.slnx        # library for net10.0 + net11.0, demo, tests
+dotnet test tests/DP.ShadcnBlazor.Tests  # 44 tests (bUnit + xUnit v3)
+dotnet run --project samples/DP.ShadcnBlazor.Demo   # http://localhost:5199
+
+# Only after changing a component's class list or styles/dp-shadcn.css:
+scripts/build-css.ps1 -Install           # npm install once, then Tailwind v4 build
+```
+
+The generated `wwwroot/dp-shadcn.css` is committed: `dotnet build`, `dotnet pack` and every NuGet
+consumer work without Node.
+
+## License
+
+MIT. shadcn/ui is MIT as well; the class strings and markup come from its `new-york-v4` registry
+(<https://ui.shadcn.com/r/styles/new-york-v4/…>).

@@ -1,0 +1,13 @@
+{
+  "name": "dp-shadcn-blazor-styles",
+  "private": true,
+  "description": "Tailwind v4 build for DP.ShadcnBlazor: styles/dp-shadcn.css -> src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css.",
+  "scripts": {
+    "build": "tailwindcss -i ./styles/dp-shadcn.css -o ./src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css --minify",
+    "watch": "tailwindcss -i ./styles/dp-shadcn.css -o ./src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "tailwindcss": "4.3.5"
+  }
+}

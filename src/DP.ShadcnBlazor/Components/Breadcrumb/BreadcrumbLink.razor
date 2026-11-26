@@ -1,0 +1,14 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<a href="@Href" data-slot="breadcrumb-link" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</a>
+
+@code {
+    /// <summary>Link target.</summary>
+    [Parameter] public string? Href { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("transition-colors hover:text-foreground");
+}

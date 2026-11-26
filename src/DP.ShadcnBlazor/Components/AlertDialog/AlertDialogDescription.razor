@@ -1,0 +1,14 @@
+@namespace DP.ShadcnBlazor.Components
+
+@inherits ShadcnComponent
+
+<p data-slot="alert-dialog-description" id="@Root?.DescriptionId" class="@Classes" style="@Style"
+   @attributes="AdditionalAttributes">@ChildContent</p>
+
+@code {
+    [CascadingParameter] private AlertDialog? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("text-sm text-muted-foreground");
+}
