@@ -414,4 +414,131 @@ public class ComponentMarkupTests : BunitContext
         }));
         builder.CloseComponent();
     };
+
+    [Fact]
+    public void Command_RendersThePaletteContract()
+    {
+        var cut = Render<Command>(parameters => parameters
+            .Add(p => p.Label, "Commands")
+            .AddChildContent(CommandTree()));
+
+        var root = cut.Find("[data-slot='command']");
+        Assert.Equal("true", root.GetAttribute("data-should-filter"));
+        Assert.Equal("false", root.GetAttribute("data-loop"));
+
+        var wrapper = cut.Find("[data-slot='command-input-wrapper']");
+        Assert.True(wrapper.HasAttribute("cmdk-input-wrapper"));
+
+        var input = cut.Find("[data-slot='command-input']");
+        Assert.True(input.HasAttribute("cmdk-input"));
+        Assert.Equal("combobox", input.GetAttribute("role"));
+        Assert.Equal("true", input.GetAttribute("aria-expanded"));
+
+        var list = cut.Find("[data-slot='command-list']");
+        Assert.Equal("listbox", list.GetAttribute("role"));
+        Assert.Equal("Commands", list.GetAttribute("aria-label"));
+        Assert.Equal(list.GetAttribute("id"), input.GetAttribute("aria-controls"));
+
+        var group = cut.Find("[data-slot='command-group']");
+        Assert.Equal("group", group.GetAttribute("role"));
+        Assert.True(group.HasAttribute("cmdk-group"));
+        var heading = group.QuerySelector("[cmdk-group-heading]");
+        Assert.NotNull(heading);
+        Assert.Equal("Suggestions", heading!.TextContent.Trim());
+        Assert.Equal(heading.GetAttribute("id"), group.GetAttribute("aria-labelledby"));
+
+        var items = cut.FindAll("[data-slot='command-item']");
+        Assert.Equal(2, items.Count);
+        Assert.Equal("option", items[0].GetAttribute("role"));
+        Assert.Equal("-1", items[0].GetAttribute("tabindex"));
+        Assert.Equal("calendar", items[0].GetAttribute("data-value"));
+        Assert.Equal("false", items[0].GetAttribute("data-selected"));
+        Assert.Equal("false", items[0].GetAttribute("data-disabled"));
+        Assert.Contains("display: none", cut.Find("[data-slot='command-empty']").GetAttribute("style"));
+        Assert.Equal("⌘C", cut.Find("[data-slot='command-shortcut']").TextContent.Trim());
+    }
+
+    [Fact]
+    public void CommandItem_InvokesOnSelectAndSkipsDisabled()
+    {
+        var selected = 0;
+        var cut = Render<Command>(parameters => parameters
+            .AddChildContent(CommandTree(disabledValue: "settings", onSelect: () => selected++)));
+
+        var items = cut.FindAll("[data-slot='command-item']");
+        items[1].Click();
+        Assert.Equal(0, selected);
+
+        items[0].Click();
+        Assert.Equal(1, selected);
+    }
+
+    [Fact]
+    public void CommandDialog_RendersThePaletteInsideTheDialog()
+    {
+        var cut = Render<CommandDialog>(parameters => parameters
+            .Add(p => p.DefaultOpen, true)
+            .AddChildContent(CommandTree()));
+
+        var content = cut.Find("[data-slot='dialog-content']");
+        Assert.Contains("p-0", content.ClassName);
+        Assert.DoesNotContain("p-6", content.ClassName);
+        Assert.NotNull(cut.Find("[data-slot='command']"));
+        Assert.NotNull(cut.Find("[data-slot='command-input']"));
+
+        var title = cut.Find("[data-slot='dialog-title']");
+        Assert.Equal("Command Palette", title.TextContent.Trim());
+        Assert.Equal(title.GetAttribute("id"), content.GetAttribute("aria-labelledby"));
+        Assert.Equal("Search for a command to run...",
+            cut.Find("[data-slot='dialog-description']").TextContent.Trim());
+        Assert.Contains("sr-only", cut.Find("[data-slot='dialog-header']").ClassName);
+    }
+
+    private RenderFragment CommandTree(string? disabledValue = null, Action? onSelect = null) => builder =>
+    {
+        builder.OpenComponent<CommandInput>(0);
+        builder.AddAttribute(1, "Placeholder", "Type a command or search...");
+        builder.CloseComponent();
+
+        builder.OpenComponent<CommandList>(2);
+        builder.AddAttribute(3, "ChildContent", (RenderFragment)(list =>
+        {
+            list.OpenComponent<CommandEmpty>(0);
+            list.AddAttribute(1, "ChildContent", (RenderFragment)(empty => empty.AddContent(0, "No results found.")));
+            list.CloseComponent();
+
+            list.OpenComponent<CommandGroup>(2);
+            list.AddAttribute(3, "Heading", "Suggestions");
+            list.AddAttribute(4, "ChildContent", (RenderFragment)(group =>
+            {
+                var index = 0;
+                foreach (var (value, label, shortcut) in new[]
+                {
+                    ("calendar", "Calendar", "⌘C"),
+                    ("settings", "Settings", "⌘S"),
+                })
+                {
+                    group.OpenComponent<CommandItem>(index * 5);
+                    group.AddAttribute((index * 5) + 1, "Value", value);
+                    group.AddAttribute((index * 5) + 2, "Disabled", value == disabledValue);
+                    group.AddAttribute((index * 5) + 3, "OnSelect",
+                        EventCallback.Factory.Create(this, () => onSelect?.Invoke()));
+                    group.AddAttribute((index * 5) + 4, "ChildContent", (RenderFragment)(item =>
+                    {
+                        item.AddContent(0, label);
+                        item.OpenComponent<CommandShortcut>(1);
+                        item.AddAttribute(2, "ChildContent", (RenderFragment)(s => s.AddContent(0, shortcut)));
+                        item.CloseComponent();
+                    }));
+                    group.CloseComponent();
+                    index++;
+                }
+            }));
+            list.CloseComponent();
+
+            list.OpenComponent<CommandSeparator>(5);
+            list.CloseComponent();
+        }));
+        builder.CloseComponent();
+    };
 }

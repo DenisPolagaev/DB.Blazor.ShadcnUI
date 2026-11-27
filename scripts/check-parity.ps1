@@ -28,6 +28,7 @@ $map = [ordered]@{
     'button'        = 'Button'
     'card'          = 'Card'
     'checkbox'      = 'Checkbox'
+    'command'       = 'Command'
     'context-menu'  = 'ContextMenu'
     'dialog'        = 'Dialog'
     'drawer'        = 'Drawer'
@@ -93,6 +94,7 @@ foreach ($name in $map.Keys) {
     $referenceTokens = Get-ClassTokens (Get-QuotedStrings $tsx)
     $missing = @($referenceTokens | Where-Object { -not $portTokens.Contains($_) } |
         Where-Object { $_ -notmatch '^(client|use|radix-ui|lucide-react|react|class-variance-authority|item-aligned)$' } |
+        Where-Object { $_ -notmatch '^@/' } |
         Sort-Object)
 
     if ($missing.Count -gt 0) {
@@ -114,7 +116,7 @@ foreach ($name in $map.Keys) {
     $extra = @($ownTokens | Where-Object { $allReference -notcontains $_ } |
         Where-Object { $_ -match '^[a-z]' } |
         Where-Object { $_ -notmatch '^(data-slot|aria-|role)' } |
-        Where-Object { $_ -notmatch ':$' } |
+        Where-Object { $_ -notmatch '[:=]$' } |
         Sort-Object)
 
     if ($extra.Count -gt 0) {
@@ -124,3 +126,4 @@ foreach ($name in $map.Keys) {
 }
 
 Write-Host "`n$totalMissing missing token(s) across $($map.Count) components."
+

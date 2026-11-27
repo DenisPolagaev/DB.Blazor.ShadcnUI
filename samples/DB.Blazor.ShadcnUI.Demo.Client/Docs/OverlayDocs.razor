@@ -1,6 +1,55 @@
 @namespace DB.Blazor.ShadcnUI.Demo.Client.Docs
 
-@if (Slug == "dialog")
+@if (Slug == "command")
+{
+    <DocPage Title="Command"
+             Description="Fast, composable, unstyled command menu for building command palettes."
+             Code="@CommandCode" Usage="@CommandUsage">
+        <Preview>
+            <DB.Blazor.ShadcnUI.Components.Command Class="max-w-sm rounded-lg border shadow-md">
+                <CommandInput Placeholder="Type a command or search..." />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup Heading="Suggestions">
+                        <CommandItem Value="calendar">Calendar<CommandShortcut>⌘C</CommandShortcut></CommandItem>
+                        <CommandItem Value="emoji">Search Emoji<CommandShortcut>⌘E</CommandShortcut></CommandItem>
+                        <CommandItem Value="calculator">Calculator<CommandShortcut>⌘K</CommandShortcut></CommandItem>
+                    </CommandGroup>
+                    <CommandSeparator />
+                    <CommandGroup Heading="Settings">
+                        <CommandItem Value="profile">Profile<CommandShortcut>⌘P</CommandShortcut></CommandItem>
+                        <CommandItem Value="billing" Disabled="true">Billing<CommandShortcut>⌘B</CommandShortcut></CommandItem>
+                        <CommandItem Value="settings">Settings<CommandShortcut>⌘S</CommandShortcut></CommandItem>
+                    </CommandGroup>
+                </CommandList>
+            </DB.Blazor.ShadcnUI.Components.Command>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Dialog</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Variant="ButtonVariant.Outline" @onclick="() => _commandOpen = true">Open Menu</Button>
+                <CommandDialog @bind-Open="_commandOpen">
+                    <CommandInput Placeholder="Type a command or search..." />
+                    <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup Heading="Suggestions">
+                            <CommandItem Value="calendar">Calendar</CommandItem>
+                            <CommandItem Value="emoji">Search Emoji</CommandItem>
+                            <CommandItem Value="calculator">Calculator</CommandItem>
+                        </CommandGroup>
+                        <CommandSeparator />
+                        <CommandGroup Heading="Settings">
+                            <CommandItem Value="profile">Profile</CommandItem>
+                            <CommandItem Value="billing">Billing</CommandItem>
+                            <CommandItem Value="settings">Settings</CommandItem>
+                        </CommandGroup>
+                    </CommandList>
+                </CommandDialog>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "dialog")
 {
     <DocPage Title="Dialog" Description="A window overlaid on either the primary window or another dialog window."
              Code="@DialogCode" Usage="@DialogUsage">
@@ -358,7 +407,46 @@ else if (Slug == "drawer")
 @code {
     [Parameter] public string? Slug { get; set; }
 
+    private bool _commandOpen;
+
     private const string peduarte = "@peduarte";
+
+    private const string CommandCode = """
+<DB.Blazor.ShadcnUI.Components.Command Class="max-w-sm rounded-lg border shadow-md">
+    <CommandInput Placeholder="Type a command or search..." />
+    <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup Heading="Suggestions">
+            <CommandItem Value="calendar">
+                Calendar
+                <CommandShortcut>⌘C</CommandShortcut>
+            </CommandItem>
+            <CommandItem Value="emoji">Search Emoji</CommandItem>
+            <CommandItem Value="calculator">Calculator</CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup Heading="Settings">
+            <CommandItem Value="profile">Profile</CommandItem>
+            <CommandItem Value="billing">Billing</CommandItem>
+            <CommandItem Value="settings">Settings</CommandItem>
+        </CommandGroup>
+    </CommandList>
+</DB.Blazor.ShadcnUI.Components.Command>
+""";
+
+    private const string CommandUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<DB.Blazor.ShadcnUI.Components.Command>
+    <CommandInput Placeholder="Type a command or search..." />
+    <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup Heading="Suggestions">
+            <CommandItem Value="calendar">Calendar</CommandItem>
+        </CommandGroup>
+    </CommandList>
+</DB.Blazor.ShadcnUI.Components.Command>
+""";
 
     private const string DrawerCode = """
 <Drawer>
@@ -548,3 +636,5 @@ else if (Slug == "drawer")
 </TooltipProvider>
 """;
 }
+
+

@@ -661,6 +661,189 @@ export function focusPanel(el) {
   el?.focus?.({ preventScroll: true });
 }
 
+const commandBindings = new WeakMap();
+
+/**
+ * Command palette behaviour (cmdk): client-side filtering, the highlighted item, arrow/Home/End
+ * navigation, Enter to choose, and the empty state. The components are static markup; everything
+ * that changes on every keystroke stays in the browser.
+ */
+export function bindCommand(el) {
+  if (!el || commandBindings.has(el)) {
+    return;
+  }
+
+  const state = { input: null, items: [], groups: [], empty: null };
+  commandBindings.set(el, state);
+
+  state.onInput = () => applyCommandFilter(el);
+  state.onKeyDown = (event) => handleCommandKeyDown(el, event);
+  state.onPointerMove = (event) => {
+    const item = event.target.closest?.("[cmdk-item]");
+    if (!item || !el.contains(item)) {
+      return;
+    }
+    selectCommandItem(el, item);
+  };
+
+  el.addEventListener("input", state.onInput);
+  el.addEventListener("keydown", state.onKeyDown);
+  el.addEventListener("pointermove", state.onPointerMove);
+
+  applyCommandFilter(el);
+}
+
+function commandParts(el) {
+  return {
+    input: el.querySelector("[cmdk-input]"),
+    items: Array.from(el.querySelectorAll("[cmdk-item]")),
+    groups: Array.from(el.querySelectorAll("[cmdk-group]")),
+    empty: el.querySelector("[cmdk-empty]"),
+  };
+}
+
+function setCommandVisible(element, visible) {
+  const display = visible ? "" : "none";
+  if (element.style.display !== display) {
+    element.style.display = display;
+  }
+  if (element.hidden === visible) {
+    element.hidden = !visible;
+  }
+}
+
+function commandItemValue(item) {
+  const value = item.getAttribute("data-value");
+  return (value ?? item.textContent ?? "").trim().toLowerCase();
+}
+
+function applyCommandFilter(el) {
+  const { input, items, groups, empty } = commandParts(el);
+  const search = (input?.value ?? "").trim().toLowerCase();
+  const filtering = el.dataset.shouldFilter !== "false" && search.length > 0;
+
+  for (const item of items) {
+    const value = commandItemValue(item);
+    const keywords = (item.getAttribute("data-keywords") ?? "").toLowerCase();
+    const matches = !filtering || value.includes(search) || (keywords.length > 0 && keywords.includes(search));
+    setCommandVisible(item, matches);
+    if (!matches) {
+      item.setAttribute("aria-selected", "false");
+      item.dataset.selected = "false";
+    }
+  }
+
+  for (const group of groups) {
+    const hasVisibleItem = Array.from(group.querySelectorAll("[cmdk-item]")).some(
+      (item) => item.style.display !== "none",
+    );
+    setCommandVisible(group, hasVisibleItem);
+  }
+
+  if (empty) {
+    setCommandVisible(empty, !items.some((item) => item.style.display !== "none"));
+  }
+
+  // cmdk always highlights the first enabled item after the filter changes.
+  const enabled = enabledCommandItems(el);
+  selectCommandItem(el, enabled[0] ?? null);
+}
+
+function enabledCommandItems(el) {
+  return Array.from(el.querySelectorAll("[cmdk-item]")).filter(
+    (item) =>
+      item.style.display !== "none" &&
+      item.getAttribute("data-disabled") !== "true" &&
+      item.getAttribute("aria-disabled") !== "true",
+  );
+}
+
+function selectedCommandItem(el) {
+  return el.querySelector('[cmdk-item][data-selected="true"]');
+}
+
+function selectCommandItem(el, item) {
+  if (
+    item &&
+    (item.getAttribute("data-disabled") === "true" || item.getAttribute("aria-disabled") === "true")
+  ) {
+    return;
+  }
+
+  const previous = selectedCommandItem(el);
+  if (previous && previous !== item) {
+    previous.dataset.selected = "false";
+    previous.setAttribute("aria-selected", "false");
+  }
+
+  const input = el.querySelector("[cmdk-input]");
+  if (!item) {
+    input?.removeAttribute("aria-activedescendant");
+    return;
+  }
+
+  item.dataset.selected = "true";
+  item.setAttribute("aria-selected", "true");
+  if (input && item.id) {
+    input.setAttribute("aria-activedescendant", item.id);
+  }
+  item.scrollIntoView({ block: "nearest" });
+}
+
+function handleCommandKeyDown(el, event) {
+  if (event.key === "Enter") {
+    const selected = selectedCommandItem(el);
+    const items = enabledCommandItems(el);
+    const target = selected ?? items[0];
+    if (target) {
+      event.preventDefault();
+      target.click();
+    }
+    return;
+  }
+
+  const items = enabledCommandItems(el);
+  if (items.length === 0) {
+    return;
+  }
+
+  const current = items.indexOf(selectedCommandItem(el));
+  const loop = el.dataset.loop === "true";
+  let next;
+
+  switch (event.key) {
+    case "ArrowDown":
+      next = current < 0 ? 0 : current + 1;
+      break;
+    case "ArrowUp":
+      next = current < 0 ? items.length - 1 : current - 1;
+      break;
+    case "Home":
+      next = 0;
+      break;
+    case "End":
+      next = items.length - 1;
+      break;
+    case "PageDown":
+      next = Math.min(items.length - 1, current + 8);
+      break;
+    case "PageUp":
+      next = Math.max(0, current - 8);
+      break;
+    default:
+      return;
+  }
+
+  event.preventDefault();
+  if (next < 0) {
+    next = loop ? items.length - 1 : 0;
+  } else if (next >= items.length) {
+    next = loop ? 0 : items.length - 1;
+  }
+
+  selectCommandItem(el, items[next]);
+}
+
 /**
  * Sizes an accordion panel. Radix measures the content and exposes the height as
  * `--radix-accordion-content-height`; doing the same keeps the CSS (and therefore the class

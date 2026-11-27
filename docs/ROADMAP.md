@@ -1,6 +1,6 @@
 # Roadmap: остаток реестра shadcn/ui v4
 
-Статус на момент последнего коммита: **46 семейств из 61** портировано и проверено.
+Статус на момент последнего коммита: **47 семейств из 61** портировано и проверено.
 Каждое семейство проходит один и тот же цикл, ничего не пропускается:
 
 1. исходник: `https://ui.shadcn.com/r/styles/new-york-v4/<name>.json` → `<name>.tsx`;
@@ -10,19 +10,18 @@
 5. `dotnet build DB.Blazor.ShadcnUI.slnx` (net10 + net11) и `dotnet test`;
 6. коммит в `main` + обновление сабмодуля в `DP.Geoportal`.
 
-## Готово (46)
+## Готово (47)
 
 accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, card,
-checkbox, collapsible, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input,
+checkbox, collapsible, command, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input,
 input-group, input-otp, item, kbd, label, menubar, native-select, pagination, popover, progress,
 radio-group, scroll-area, select, separator, sheet, skeleton, slider, sonner (toaster), spinner,
 switch, table, tabs, textarea, toggle, toggle-group, tooltip.
 
-## Осталось (15)
+## Осталось (14)
 
 | Семейство | Что нового относительно готового | Оценка |
 |---|---|---|
-| `command` | палитра: фильтрация по вводу, `CommandDialog`, хоткеи | 2 цикла |
 | `combobox` | композиция `Popover` + `Command` (примитивы уже есть) | 1 цикл |
 | `calendar` / `date-picker` | сетка месяцев и дат без внешних библиотек, локаль | 3–4 цикла |
 | `carousel` | scroll-snap + кнопки/точки вместо embla | 2 цикла |

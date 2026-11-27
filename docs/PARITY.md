@@ -24,7 +24,9 @@ up. Every class string below was copied from the `new-york-v4` registry of
   `sheet-overlay`, `sheet-content`, `sheet-close`, `sheet-header`, `sheet-footer`, `sheet-title`,
   `sheet-description`, `select`, `select-group`, `select-value`, `select-trigger`, `select-content`,
   `select-label`, `select-item`, `select-item-indicator`, `select-separator`,
-  `select-scroll-up-button`, `select-scroll-down-button`,
+  `select-scroll-up-button`, `select-scroll-down-button`, `command`, `command-input-wrapper`,
+  `command-input`, `command-list`, `command-empty`, `command-group`, `command-item`,
+  `command-separator`, `command-shortcut`,
   `dropdown-menu-content`, `dropdown-menu-item`, `dropdown-menu-checkbox-item`,
   `dropdown-menu-radio-group`, `dropdown-menu-radio-item`, `dropdown-menu-label`,
   `dropdown-menu-separator`, `dropdown-menu-shortcut`, `dropdown-menu-group`,
@@ -42,6 +44,11 @@ up. Every class string below was copied from the `new-york-v4` registry of
 * `SelectContent` stays mounted with the `hidden` attribute while the select is closed. Radix keeps
   the items in a detached document fragment for the same reason: `SelectValue` and the hidden
   native `<select>` need the item text and values before the list has ever been opened.
+* `Command` shares its name with the deprecated HTML void element `<command>`, so Razor requires the
+  fully qualified root tag `<DB.Blazor.ShadcnUI.Components.Command>`; the other `Command*` components
+  need no prefix.
+* Command filtering is case-insensitive substring matching; cmdk ranks with its `command-score` fuzzy
+  matcher, so ordering of partial matches can differ.
 
 ## Variants (C# → shadcn value)
 
@@ -72,6 +79,9 @@ up. Every class string below was copied from the `new-york-v4` registry of
 | Menu keyboard navigation | Arrow/Home/End, roving focus | yes (ArrowUp/Down/Home/End, Enter/Space activate) |
 | Select listbox | Arrow/Home/End, typeahead, selected item focused on open, Escape/Tab handling | yes (the same keys plus closed-trigger typeahead; Tab is kept inside the open list like Radix) |
 | Select placement | `item-aligned` (default) or `popper` | both; item-aligned overlays the list on the trigger so the checked item lines up with it |
+| Command filtering | cmdk filters items by value/keywords as you type, hides empty groups and shows `CommandEmpty` | same, client-side in `dp-shadcn.js` (`data-value`/`data-keywords`, falling back to the item text) |
+| Command keyboard | Arrow/Home/End/PageUp/PageDown, Enter chooses | same; `Loop` wraps the selection |
+| CommandDialog hotkey | not part of cmdk: the docs example binds a key itself | open it from your own key handler with `@bind-Open`; the component registers no global listener |
 | Tabs keyboard navigation | Arrow/Home/End, roving tabindex | yes, including skipping disabled tabs, wrap-around |
 | Accordion | single/multiple + `collapsible` | `AccordionType.Single`/`.Multiple` + `Collapsible` |
 | Accordion animation | measures the content, animates `height` | same: `syncAccordion` measures `scrollHeight` into `--radix-accordion-content-height`, the CSS transitions `height` |
@@ -83,10 +93,9 @@ up. Every class string below was copied from the `new-york-v4` registry of
 
 ## Known gaps (next iterations)
 
-* Not ported: `Sonner`, `Combobox`, `Command`, `Calendar`, `DatePicker`,
-  `Sidebar`, `Resizable`, `Charts`, `DataTable`, `Carousel`, `NavigationMenu`,
-  `ContextMenu`, `HoverCard`, `Toggle`, `ToggleGroup`, `InputOTP`, `Collapsible`, `Item`, `Field`,
-  `Empty`, `ButtonGroup`, `InputGroup`, `AspectRatio`, `ScrollArea`, `use-mobile`.
+* Not ported: `Combobox`, `Calendar`, `DatePicker`, `Carousel`, `Resizable`, `NavigationMenu`,
+  `Sidebar`, `DataTable`, `Charts`, `Typography` and the AI elements (`Attachment`, `Bubble`,
+  `Message`, `MessageScroller`, `Marker`, `Trace`, `Questionnaire`), plus `use-mobile`.
 * `DropdownMenuItem` is a `<div role="menuitem" tabindex="-1">` with Enter/Space handled in C#;
   Radix also implements typeahead (typing to jump to an item).
 * `RadioGroup` does not implement roving focus with arrow keys yet (all items are tabbable).
@@ -102,6 +111,6 @@ registry against the ported sources in both directions:
 * every utility a component uses must appear in at least one reference file (an unknown class is
   usually an invention).
 
-Last run: 45 components, 0 invented classes; the only "missing" tokens left are import paths,
+Last run: 46 components, 0 invented classes; the only "missing" tokens left are import paths,
 `data-slot` values and Radix's `item-aligned` literal, which the ports carry as attributes or
 parameters rather than as class tokens.

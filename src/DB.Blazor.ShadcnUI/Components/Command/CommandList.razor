@@ -1,0 +1,15 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="command-list" cmdk-list role="listbox" id="@Root?.ListId" aria-label="@Root?.Label"
+     class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter] private Command? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto");
+}

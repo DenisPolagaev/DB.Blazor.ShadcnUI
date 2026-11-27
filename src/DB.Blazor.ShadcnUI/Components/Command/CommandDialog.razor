@@ -1,0 +1,45 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<Dialog Open="Open" OpenChanged="OpenChanged" DefaultOpen="DefaultOpen">
+    <DialogContent Class="@ContentClasses" ShowCloseButton="ShowCloseButton">
+        <DialogHeader Class="sr-only">
+            <DialogTitle>@Title</DialogTitle>
+            <DialogDescription>@Description</DialogDescription>
+        </DialogHeader>
+        <DB.Blazor.ShadcnUI.Components.Command Class="@CommandClasses">@ChildContent</DB.Blazor.ShadcnUI.Components.Command>
+    </DialogContent>
+</Dialog>
+
+@code {
+    private const string CommandClasses =
+        "**:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 " +
+        "[&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground " +
+        "[&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 " +
+        "[&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 " +
+        "[&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5";
+
+    /// <summary>Controlled open state (<c>@bind-Open</c>), forwarded to the dialog.</summary>
+    [Parameter] public bool Open { get; set; }
+
+    /// <summary>Open change callback.</summary>
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>Initial state of an uncontrolled dialog.</summary>
+    [Parameter] public bool DefaultOpen { get; set; }
+
+    /// <summary>The screen-reader title of the palette.</summary>
+    [Parameter] public string Title { get; set; } = "Command Palette";
+
+    /// <summary>The screen-reader description of the palette.</summary>
+    [Parameter] public string Description { get; set; } = "Search for a command to run...";
+
+    /// <summary>Renders the dialog's close button.</summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    /// <summary>The palette's input, list and item groups.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? ContentClasses => Cn.Merge("overflow-hidden p-0", Class);
+}
+

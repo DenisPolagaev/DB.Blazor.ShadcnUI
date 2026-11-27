@@ -1,0 +1,36 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="command-input-wrapper" cmdk-input-wrapper class="flex h-9 items-center gap-2 border-b px-3">
+    <SearchIcon Class="size-4 shrink-0 opacity-50" />
+    <input data-slot="command-input" cmdk-input type="text" role="combobox" aria-expanded="true"
+           aria-controls="@Root?.ListId" aria-autocomplete="list" autocomplete="off" spellcheck="false"
+           value="@Value" placeholder="@Placeholder" disabled="@Disabled" class="@Classes" style="@Style"
+           @oninput="HandleInputAsync" @attributes="AdditionalAttributes" />
+</div>
+
+@code {
+    [CascadingParameter] private Command? Root { get; set; }
+
+    /// <summary>The search text (<c>@bind-Value</c>).</summary>
+    [Parameter] public string? Value { get; set; }
+
+    /// <summary>Search text change callback.</summary>
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    /// <summary>Placeholder shown while the field is empty.</summary>
+    [Parameter] public string? Placeholder { get; set; }
+
+    /// <summary>Disables the field.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    private async Task HandleInputAsync(ChangeEventArgs args)
+    {
+        Value = args.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private string? Classes => MergeClass(
+        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden " +
+        "placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50");
+}
