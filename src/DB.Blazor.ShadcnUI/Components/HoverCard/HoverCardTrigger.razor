@@ -1,0 +1,87 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+@implements IDisposable
+
+<span id="@Root?.TriggerId" data-slot="hover-card-trigger" style="display: contents"
+      aria-expanded="@(Root?.IsOpen == true ? "true" : "false")" aria-controls="@Root?.ContentId"
+      @onmouseenter="OpenDelayed" @onmouseleave="CloseDelayed" @onfocusin="OpenDelayed" @onfocusout="CloseDelayed"
+      @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private HoverCard? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private CancellationTokenSource? _open;
+    private CancellationTokenSource? _close;
+
+    private void OpenDelayed()
+    {
+        Cancel(ref _close);
+        Cancel(ref _open);
+        _open = new CancellationTokenSource();
+        _ = OpenAsync(_open.Token);
+    }
+
+    private async Task OpenAsync(CancellationToken token)
+    {
+        try
+        {
+            var delay = Root?.OpenDelay ?? 0;
+            if (delay > 0)
+            {
+                await Task.Delay(delay, token);
+            }
+
+            if (!token.IsCancellationRequested && Root is not null)
+            {
+                await Root.ShowAsync();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private void CloseDelayed()
+    {
+        Cancel(ref _open);
+        Cancel(ref _close);
+        _close = new CancellationTokenSource();
+        _ = CloseAsync(_close.Token);
+    }
+
+    private async Task CloseAsync(CancellationToken token)
+    {
+        try
+        {
+            var delay = Root?.CloseDelay ?? 0;
+            if (delay > 0)
+            {
+                await Task.Delay(delay, token);
+            }
+
+            if (!token.IsCancellationRequested && Root is not null)
+            {
+                await Root.CloseAsync();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private static void Cancel(ref CancellationTokenSource? source)
+    {
+        source?.Cancel();
+        source?.Dispose();
+        source = null;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Cancel(ref _open);
+        Cancel(ref _close);
+    }
+}

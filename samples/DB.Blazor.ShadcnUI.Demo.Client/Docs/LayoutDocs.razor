@@ -235,6 +235,25 @@ else if (Slug == "item")
         </Examples>
     </DocPage>
 }
+else if (Slug == "hover-card")
+{
+    <DocPage Title="Hover Card" Description="For sighted users to preview content available behind a link."
+             Code="@HoverCardCode" Usage="@HoverCardUsage">
+        <Preview>
+            <HoverCard>
+                <HoverCardTrigger>
+                    <a href="#hover-card" class="demo-link">hover me</a>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                    <div class="demo-stack" style="gap: 8px">
+                        <div class="demo-item-title">Design system</div>
+                        <div class="demo-item-text">Tokens, primitives and docs in one place.</div>
+                    </div>
+                </HoverCardContent>
+            </HoverCard>
+        </Preview>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
@@ -353,6 +372,23 @@ else if (Slug == "item")
         <ItemDescription>Item description</ItemDescription>
     </ItemContent>
 </Item>
+""";
+    private const string HoverCardCode = """
+<HoverCard>
+    <HoverCardTrigger><a href="/u/shadcn">shadcn</a></HoverCardTrigger>
+    <HoverCardContent>
+        <div class="flex flex-col gap-2">Preview content</div>
+    </HoverCardContent>
+</HoverCard>
+""";
+
+    private const string HoverCardUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<HoverCard>
+    <HoverCardTrigger><Button Variant="ButtonVariant.Link">Hover</Button></HoverCardTrigger>
+    <HoverCardContent>Place content for the hover card here.</HoverCardContent>
+</HoverCard>
 """;
     private const string EmptyCode = """
 <Empty>
