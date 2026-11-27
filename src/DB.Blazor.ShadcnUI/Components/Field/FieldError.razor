@@ -1,0 +1,54 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+@if (Messages.Count > 0)
+{
+    <div role="alert" data-slot="field-error" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+        @if (Messages.Count == 1)
+        {
+            @Messages[0]
+        }
+        else
+        {
+            <ul class="ml-4 flex list-disc flex-col gap-1">
+                @foreach (var message in Messages)
+                {
+                    <li>@message</li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@code {
+    /// <summary>Explicit content; when set it wins over <see cref="Errors"/> (shadcn's <c>children</c>).</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Error messages, de-duplicated like the React <c>errors</c> prop.</summary>
+    [Parameter] public IReadOnlyList<string?>? Errors { get; set; }
+
+    private IReadOnlyList<string> Messages
+    {
+        get
+        {
+            if (ChildContent is not null || Errors is null)
+            {
+                return Array.Empty<string>();
+            }
+
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+            var result = new List<string>();
+            foreach (var error in Errors)
+            {
+                if (!string.IsNullOrWhiteSpace(error) && seen.Add(error))
+                {
+                    result.Add(error);
+                }
+            }
+
+            return result;
+        }
+    }
+
+    private string? Classes => MergeClass("text-sm font-normal text-destructive");
+}

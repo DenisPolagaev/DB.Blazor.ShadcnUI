@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="field-group" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "group/field-group @container/field-group flex w-full flex-col gap-7 " +
+        "data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4");
+}

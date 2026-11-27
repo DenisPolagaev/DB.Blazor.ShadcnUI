@@ -1,0 +1,16 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<p data-slot="field-description" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</p>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "text-sm leading-normal font-normal text-muted-foreground " +
+        "group-has-[[data-orientation=horizontal]]/field:text-balance " +
+        "last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5 " +
+        "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary");
+}

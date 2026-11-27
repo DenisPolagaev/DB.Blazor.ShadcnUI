@@ -1,0 +1,19 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<label for="@For" data-slot="field-label" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</label>
+
+@code {
+    /// <summary>Id of the labelled control (<c>for</c>).</summary>
+    [Parameter] public string? For { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "group/field-label peer/field-label flex w-fit gap-2 leading-snug " +
+        "group-data-[disabled=true]/field:opacity-50 " +
+        "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col " +
+        "has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 " +
+        "has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5 " +
+        "dark:has-data-[state=checked]:bg-primary/10");
+}

@@ -289,6 +289,38 @@ else if (Slug == "input-group")
         </Examples>
     </DocPage>
 }
+else if (Slug == "field")
+{
+    <DocPage Title="Field" Description="Combine labels, controls, and help text to compose accessible form fields."
+             Code="@FieldCode" Usage="@FieldUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 420px">
+                <FieldSet>
+                    <FieldGroup>
+                        <Field>
+                            <FieldLabel For="field-name">Username</FieldLabel>
+                            <Input id="field-name" Placeholder="shadcn" />
+                            <FieldDescription>This is your public display name.</FieldDescription>
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <Checkbox id="field-news" />
+                            <FieldContent>
+                                <FieldTitle>Newsletter</FieldTitle>
+                                <FieldDescription>Send me product updates.</FieldDescription>
+                            </FieldContent>
+                        </Field>
+                        <FieldSeparator>Or</FieldSeparator>
+                        <Field DataInvalid="true">
+                            <FieldLabel For="field-email">Email</FieldLabel>
+                            <Input id="field-email" aria-invalid="true" />
+                            <FieldError Errors="@(new[] { "Enter a valid email address." })" />
+                        </Field>
+                    </FieldGroup>
+                </FieldSet>
+            </div>
+        </Preview>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
@@ -439,6 +471,27 @@ else if (Slug == "input-group")
 <InputGroup>
     <InputGroupInput Placeholder="Search…" />
 </InputGroup>
+""";
+    private const string FieldCode = """
+<FieldSet>
+    <FieldGroup>
+        <Field>
+            <FieldLabel For="username">Username</FieldLabel>
+            <Input id="username" Placeholder="shadcn" />
+            <FieldDescription>This is your public display name.</FieldDescription>
+        </Field>
+    </FieldGroup>
+</FieldSet>
+""";
+
+    private const string FieldUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Field>
+    <FieldLabel For="email">Email</FieldLabel>
+    <Input id="email" Type="email" />
+    <FieldDescription>We'll never share your email.</FieldDescription>
+</Field>
 """;
     private const string EmptyCode = """
 <Empty>

@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<legend data-slot="field-legend" data-variant="@(Variant == FieldLegendVariant.Label ? "label" : "legend")"
+        class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</legend>
+
+@code {
+    /// <summary><c>legend</c> (default) or <c>label</c>.</summary>
+    [Parameter] public FieldLegendVariant Variant { get; set; } = FieldLegendVariant.Legend;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("mb-3 font-medium data-[variant=legend]:text-base data-[variant=label]:text-sm");
+}

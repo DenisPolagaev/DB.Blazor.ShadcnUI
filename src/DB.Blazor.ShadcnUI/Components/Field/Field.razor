@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="group" data-slot="field" data-orientation="@FieldVariants.OrientationValue(Orientation)" class="@Classes"
+     style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    /// <summary>Layout direction, <c>vertical</c> by default.</summary>
+    [Parameter] public FieldOrientation Orientation { get; set; } = FieldOrientation.Vertical;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(FieldVariants.Get(Orientation));
+}
