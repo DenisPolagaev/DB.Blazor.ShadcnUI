@@ -34,6 +34,7 @@ $map = [ordered]@{
     'hover-card'    = 'HoverCard'
     'input'         = 'Input'
     'input-group'   = 'InputGroup'
+    'input-otp'     = 'InputOTP'
     'kbd'           = 'Kbd'
     'label'         = 'Label'
     'native-select' = 'NativeSelect'

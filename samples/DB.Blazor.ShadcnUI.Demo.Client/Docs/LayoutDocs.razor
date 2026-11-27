@@ -321,6 +321,23 @@ else if (Slug == "field")
         </Preview>
     </DocPage>
 }
+else if (Slug == "input-otp")
+{
+    <DocPage Title="Input OTP" Description="Accessible one-time password component with copy paste functionality."
+             Code="@OtpCode" Usage="@OtpUsage">
+        <Preview>
+            <InputOTP Length="6">
+                <InputOTPGroup>
+                    <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+                </InputOTPGroup>
+                <InputOTPSeparator />
+                <InputOTPGroup>
+                    <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+                </InputOTPGroup>
+            </InputOTP>
+        </Preview>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
@@ -492,6 +509,27 @@ else if (Slug == "field")
     <Input id="email" Type="email" />
     <FieldDescription>We'll never share your email.</FieldDescription>
 </Field>
+""";
+    private const string OtpCode = """
+<InputOTP Length="6">
+    <InputOTPGroup>
+        <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+    </InputOTPGroup>
+    <InputOTPSeparator />
+    <InputOTPGroup>
+        <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+    </InputOTPGroup>
+</InputOTP>
+""";
+
+    private const string OtpUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<InputOTP Length="6">
+    <InputOTPGroup>
+        <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+    </InputOTPGroup>
+</InputOTP>
 """;
     private const string EmptyCode = """
 <Empty>
