@@ -380,16 +380,32 @@
   animation: dp-exit var(--dp-animation-duration, 150ms) var(--dp-animation-ease, ease) both;
 }
 
+@utility fade-in {
+  --dp-enter-opacity: 0;
+}
+
 @utility fade-in-0 {
   --dp-enter-opacity: 0;
+}
+
+@utility fade-out {
+  --dp-exit-opacity: 0;
 }
 
 @utility fade-out-0 {
   --dp-exit-opacity: 0;
 }
 
+@utility zoom-in-90 {
+  --dp-enter-scale: 0.9;
+}
+
 @utility zoom-in-95 {
   --dp-enter-scale: 0.95;
+}
+
+@utility zoom-out-90 {
+  --dp-exit-scale: 0.9;
 }
 
 @utility zoom-out-95 {
@@ -398,6 +414,22 @@
 
 @utility slide-in-from-top-2 {
   --dp-enter-translate-y: -0.5rem;
+}
+
+@utility slide-in-from-left-52 {
+  --dp-enter-translate-x: -13rem;
+}
+
+@utility slide-in-from-right-52 {
+  --dp-enter-translate-x: 13rem;
+}
+
+@utility slide-out-to-left-52 {
+  --dp-exit-translate-x: -13rem;
+}
+
+@utility slide-out-to-right-52 {
+  --dp-exit-translate-x: 13rem;
 }
 
 @utility slide-in-from-right-2 {
@@ -484,34 +516,37 @@
     max-height: var(--radix-dropdown-menu-content-available-height, none);
   }
 
-  /* Tooltip arrow: Radix renders an SVG arrow and positions it itself. The Blazor port draws the
-     arrow as a rotated square inside the panel, so its edge follows `data-side`. */
+  /* Tooltip arrow: Radix renders an SVG arrow and positions it from the popper. The Blazor port
+     draws the arrow as a rotated square inside the panel, so its edge follows `data-side`; the
+     preset's translate utility is neutralized here and each side places the tip half outside. */
   [data-slot="tooltip-content"] [data-slot="tooltip-arrow"] {
     position: absolute;
+    translate: 0 0;
+    rotate: 45deg;
   }
 
   [data-slot="tooltip-content"][data-side="top"] [data-slot="tooltip-arrow"] {
-    bottom: -3px;
+    bottom: -5px;
     left: 50%;
-    transform: translateX(-50%) rotate(45deg);
+    translate: -50% 0;
   }
 
   [data-slot="tooltip-content"][data-side="bottom"] [data-slot="tooltip-arrow"] {
-    top: -3px;
+    top: -5px;
     left: 50%;
-    transform: translateX(-50%) rotate(45deg);
+    translate: -50% 0;
   }
 
   [data-slot="tooltip-content"][data-side="left"] [data-slot="tooltip-arrow"] {
-    right: -3px;
+    right: -5px;
     top: 50%;
-    transform: translateY(-50%) rotate(45deg);
+    translate: 0 -50%;
   }
 
   [data-slot="tooltip-content"][data-side="right"] [data-slot="tooltip-arrow"] {
-    left: -3px;
+    left: -5px;
     top: 50%;
-    transform: translateY(-50%) rotate(45deg);
+    translate: 0 -50%;
   }
 }
 
@@ -524,3 +559,5 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+

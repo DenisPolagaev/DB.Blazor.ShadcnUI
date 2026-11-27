@@ -11,6 +11,7 @@ markup and semantic `cn-*` class names are copied from the preset's Registry sou
   preset class (`cn-button`, `cn-card-header`, `cn-dialog-content`, ...) plus the layout
   utilities the preset source names; sizes, colors, spacing and states live in
   `styles/style-nova.css`, scoped under `.style-nova`.
+* `styles/style-nova.css` is the complete upstream preset (all component families and the Base UI `-aria` variants included), not a trimmed slice.
 * The stylesheet is only active when the host marks the root element: `<html class="style-nova">`
   (the demo does this in `Components/App.razor`). Tokens are still overridable as before.
 * The same `cn-*` contract is shared by every shadcn/ui style (`nova`, `luma`, `lyra`, `maia`,

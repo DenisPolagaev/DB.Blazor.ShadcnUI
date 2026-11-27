@@ -185,20 +185,39 @@ export function positionFloating(triggerId, panel, options = {}) {
   let resolved = side;
   const spaceTop = rect.top;
   const spaceBottom = window.innerHeight - rect.bottom;
+  const spaceLeft = rect.left;
+  const spaceRight = window.innerWidth - rect.right;
   if (side === "bottom" && spaceBottom < size.height + sideOffset + padding && spaceTop > spaceBottom) {
     resolved = "top";
   } else if (side === "top" && spaceTop < size.height + sideOffset + padding && spaceBottom > spaceTop) {
     resolved = "bottom";
+  } else if (side === "right" && spaceRight < size.width + sideOffset + padding && spaceLeft > spaceRight) {
+    resolved = "left";
+  } else if (side === "left" && spaceLeft < size.width + sideOffset + padding && spaceRight > spaceLeft) {
+    resolved = "right";
   }
 
-  let top = resolved === "bottom" ? rect.bottom + sideOffset : rect.top - size.height - sideOffset;
+  let top;
   let left;
-  if (align === "start") {
-    left = rect.left + alignOffset;
-  } else if (align === "end") {
-    left = rect.right - size.width - alignOffset;
+  if (resolved === "right" || resolved === "left") {
+    // A side placement keeps the panel beside the trigger and aligns it vertically.
+    left = resolved === "right" ? rect.right + sideOffset : rect.left - size.width - sideOffset;
+    if (align === "start") {
+      top = rect.top + alignOffset;
+    } else if (align === "end") {
+      top = rect.bottom - size.height - alignOffset;
+    } else {
+      top = rect.top + (rect.height - size.height) / 2 + alignOffset;
+    }
   } else {
-    left = rect.left + (rect.width - size.width) / 2 + alignOffset;
+    top = resolved === "bottom" ? rect.bottom + sideOffset : rect.top - size.height - sideOffset;
+    if (align === "start") {
+      left = rect.left + alignOffset;
+    } else if (align === "end") {
+      left = rect.right - size.width - alignOffset;
+    } else {
+      left = rect.left + (rect.width - size.width) / 2 + alignOffset;
+    }
   }
 
   left = Math.min(Math.max(padding, left), window.innerWidth - size.width - padding);
@@ -210,8 +229,26 @@ export function positionFloating(triggerId, panel, options = {}) {
   panel.dataset.side = resolved;
 
   if (options.originVar) {
-    const originX = align === "start" ? 0 : align === "end" ? 100 : 50;
-    const originY = resolved === "top" ? 100 : 0;
+    const originX =
+      resolved === "left"
+        ? 100
+        : resolved === "right"
+          ? 0
+          : align === "start"
+            ? 0
+            : align === "end"
+              ? 100
+              : 50;
+    const originY =
+      resolved === "top"
+        ? 100
+        : resolved === "bottom"
+          ? 0
+          : align === "start"
+            ? 0
+            : align === "end"
+              ? 100
+              : 50;
     panel.style.setProperty(options.originVar, `${originX}% ${originY}%`);
   }
 
@@ -652,6 +689,28 @@ export function openDismissable(el, dotnet, options = {}) {
   window.addEventListener("resize", entry.reposition);
   window.addEventListener("scroll", entry.reposition, true);
 
+  // The enter animation scales the panel, so the first measurement is taken mid-animation and
+  // is a few pixels small. Re-place once the animation finished (and whenever its size changes
+  // later: web fonts, images, a longer label), like Radix re-measuring its popper.
+  entry.onAnimationEnd = () => entry.reposition();
+  el.addEventListener("animationend", entry.onAnimationEnd, true);
+
+  if (typeof ResizeObserver !== "undefined") {
+    let scheduled = false;
+    entry.onResize = () => {
+      if (scheduled) {
+        return;
+      }
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        entry.reposition();
+      });
+    };
+    entry.resizeObserver = new ResizeObserver(entry.onResize);
+    entry.resizeObserver.observe(el);
+  }
+
   requestAnimationFrame(() => {
     entry.reposition();
     if (options.focus === false) {
@@ -709,6 +768,8 @@ export function closeDismissable(id) {
     entry.el.dataset.state = "closed";
     window.removeEventListener("resize", entry.reposition);
     window.removeEventListener("scroll", entry.reposition, true);
+    entry.resizeObserver?.disconnect();
+    el.removeEventListener("animationend", entry.onAnimationEnd, true);
     if (entry.onScroll) {
       entry.el.removeEventListener("scroll", entry.onScroll, true);
     }
@@ -960,5 +1021,7 @@ export function syncAccordion(el, open) {
   el.style.setProperty("--radix-accordion-content-height", `${height}px`);
   el.style.height = open ? `${height}px` : "0px";
 }
+
+
 
 
