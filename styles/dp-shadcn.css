@@ -500,6 +500,18 @@
     display: none;
   }
 
+  /* Select viewport: Radix hides the native scrollbar with an injected style tag; the port keeps
+     the same scroll container (the popper viewport has a trigger-height class Radix overrides
+     with `flex: 1`), so the bar is hidden here instead. */
+  .cn-select-viewport {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .cn-select-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
   /* ToggleGroup spacing: Radix writes `--gap` inline and the class list uses
      `gap-[--spacing(var(--gap))]`; this keeps the fallback arithmetic explicit. */
   [data-slot="toggle-group"] {
@@ -559,5 +571,6 @@
     transition-duration: 0.01ms !important;
   }
 }
+
 
 

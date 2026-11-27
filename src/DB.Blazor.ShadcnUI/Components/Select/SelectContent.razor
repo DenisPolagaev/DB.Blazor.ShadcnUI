@@ -6,7 +6,8 @@
      aria-labelledby="@Root?.TriggerId" hidden="@(Root?.IsVisible != true)" class="@Classes"
      style="@Styles" @oncontextmenu:preventDefault="true" @attributes="AdditionalAttributes">
     <SelectScrollUpButton />
-    <div data-position="@(Position == SelectPosition.Popper ? "popper" : "item-aligned")" class="@ViewportClasses">
+    <div data-position="@(Position == SelectPosition.Popper ? "popper" : "item-aligned")" class="@ViewportClasses"
+         style="position: relative; flex: 1; min-height: 0; overflow: hidden auto;">
         @ChildContent
     </div>
     <SelectScrollDownButton />
@@ -30,4 +31,5 @@
         "cn-select-viewport data-[position=popper]:h-(--radix-select-trigger-height) " +
         "data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)");
 }
+
 

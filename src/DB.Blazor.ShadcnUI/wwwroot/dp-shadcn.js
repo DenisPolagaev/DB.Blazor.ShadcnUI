@@ -302,6 +302,14 @@ export function positionSelect(triggerId, panel, options = {}) {
   const triggerRect = anchor.getBoundingClientRect();
   // Measure the natural height: the previous open may have left the available-height limit set.
   panel.style.removeProperty("--radix-select-content-available-height");
+  // Items are `w-full`; with an auto-width fixed panel that is circular and Chromium resolves it
+  // to the viewport width (the panel then clamps itself to the left edge). Size it to its content
+  // instead, exactly like Radix measures the listbox.
+  panel.style.width = "max-content";
+  panel.style.maxWidth = "calc(100vw - 16px)";
+  if (!options.itemAligned) {
+    panel.style.minWidth = `${Math.ceil(triggerRect.width)}px`;
+  }
 
   if (options.itemAligned) {
     const panelRect = panel.getBoundingClientRect();
@@ -1027,6 +1035,9 @@ export function syncAccordion(el, open) {
   el.style.setProperty("--radix-accordion-content-height", `${height}px`);
   el.style.height = open ? `${height}px` : "0px";
 }
+
+
+
 
 
 
