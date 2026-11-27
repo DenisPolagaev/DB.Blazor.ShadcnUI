@@ -45,6 +45,7 @@ $map = [ordered]@{
     'popover'       = 'Popover'
     'progress'      = 'Progress'
     'radio-group'   = 'RadioGroup'
+    'select'        = 'Select'
     'separator'     = 'Separator'
     'sheet'         = 'Sheet'
     'skeleton'      = 'Skeleton'
@@ -91,7 +92,7 @@ foreach ($name in $map.Keys) {
 
     $referenceTokens = Get-ClassTokens (Get-QuotedStrings $tsx)
     $missing = @($referenceTokens | Where-Object { -not $portTokens.Contains($_) } |
-        Where-Object { $_ -notmatch '^(client|use|radix-ui|lucide-react|react|class-variance-authority)$' } |
+        Where-Object { $_ -notmatch '^(client|use|radix-ui|lucide-react|react|class-variance-authority|item-aligned)$' } |
         Sort-Object)
 
     if ($missing.Count -gt 0) {
@@ -113,6 +114,7 @@ foreach ($name in $map.Keys) {
     $extra = @($ownTokens | Where-Object { $allReference -notcontains $_ } |
         Where-Object { $_ -match '^[a-z]' } |
         Where-Object { $_ -notmatch '^(data-slot|aria-|role)' } |
+        Where-Object { $_ -notmatch ':$' } |
         Sort-Object)
 
     if ($extra.Count -gt 0) {

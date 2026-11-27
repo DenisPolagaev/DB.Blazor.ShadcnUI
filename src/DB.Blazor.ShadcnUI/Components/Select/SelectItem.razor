@@ -1,0 +1,76 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+@implements IDisposable
+
+<div role="option" data-slot="select-item" data-state="@(Selected ? "checked" : "unchecked")"
+     aria-selected="@(Selected ? "true" : "false")" aria-disabled="@(IsDisabled ? "true" : null)"
+     data-disabled="@(IsDisabled ? "" : null)" tabindex="-1" class="@Classes" style="@Style"
+     @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
+    <span data-slot="select-item-indicator"
+          class="absolute right-2 flex size-3.5 items-center justify-center">
+        @if (Selected)
+        {
+            <CheckIcon Class="size-4" />
+        }
+    </span>
+    <span>@ChildContent</span>
+</div>
+
+@code {
+    private Select? _root;
+
+    [CascadingParameter] private Select? Root { get; set; }
+
+    /// <summary>The value this option represents.</summary>
+    [Parameter, EditorRequired] public string Value { get; set; } = string.Empty;
+
+    /// <summary>The text for the native option and assistive tech when the children are not plain text.</summary>
+    [Parameter] public string? TextValue { get; set; }
+
+    /// <summary>Disables the option.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>The option label.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private bool Selected => Root?.IsSelected(Value) ?? false;
+
+    private bool IsDisabled => Disabled || (Root?.Disabled ?? false);
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        _root = Root;
+        if (_root is not null)
+        {
+            _root.Changed += OnRootChanged;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet() => Root?.Register(this);
+
+    private void OnRootChanged() => _ = InvokeAsync(StateHasChanged);
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (_root is not null)
+        {
+            _root.Changed -= OnRootChanged;
+        }
+
+        Root?.Unregister(this);
+        GC.SuppressFinalize(this);
+    }
+
+    private Task HandleClickAsync() => IsDisabled ? Task.CompletedTask : Root?.SelectAsync(Value) ?? Task.CompletedTask;
+
+    private string? Classes => MergeClass(
+        "relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm " +
+        "outline-hidden select-none focus:bg-accent focus:text-accent-foreground " +
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none " +
+        "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " +
+        "[&_svg:not([class*='text-'])]:text-muted-foreground " +
+        "*:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2");
+}

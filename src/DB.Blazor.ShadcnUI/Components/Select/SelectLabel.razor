@@ -1,0 +1,13 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="select-label" id="@Group?.LabelId" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [CascadingParameter] private SelectGroup? Group { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("px-2 py-1.5 text-xs text-muted-foreground");
+}

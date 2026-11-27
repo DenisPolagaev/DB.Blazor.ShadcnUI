@@ -299,4 +299,119 @@ public class ComponentMarkupTests : BunitContext
         Assert.Contains("translateX(-75%)", indicator.GetAttribute("style"));
         Assert.Equal("25", cut.Find("[data-slot='progress']").GetAttribute("aria-valuenow"));
     }
+
+    [Fact]
+    public void Select_RendersTheShadcnListboxContract()
+    {
+        var cut = Render<Select>(parameters => parameters
+            .Add(p => p.DefaultValue, "banana")
+            .AddChildContent(SelectTree()));
+
+        var trigger = cut.Find("[data-slot='select-trigger']");
+        Assert.Equal("combobox", trigger.GetAttribute("role"));
+        Assert.Equal("closed", trigger.GetAttribute("data-state"));
+        Assert.Equal("false", trigger.GetAttribute("aria-expanded"));
+        Assert.Equal("default", trigger.GetAttribute("data-size"));
+        Assert.Null(trigger.GetAttribute("data-placeholder"));
+        Assert.Equal("select-value", trigger.QuerySelector("[data-slot='select-value']")?.GetAttribute("data-slot"));
+
+        var value = cut.Find("[data-slot='select-value']");
+        Assert.Equal("Banana", value.TextContent.Trim());
+
+        var content = cut.Find("[data-slot='select-content']");
+        Assert.Equal("listbox", content.GetAttribute("role"));
+        Assert.True(content.HasAttribute("hidden"));
+
+        var items = cut.FindAll("[data-slot='select-item']");
+        Assert.Equal(2, items.Count);
+        Assert.Equal("unchecked", items[0].GetAttribute("data-state"));
+        Assert.Equal("checked", items[1].GetAttribute("data-state"));
+        Assert.Equal("Banana", items[1].QuerySelector("span:last-child")?.TextContent.Trim());
+    }
+
+    [Fact]
+    public void Select_ShowsThePlaceholderAndSmallSize()
+    {
+        var cut = Render<Select>(parameters => parameters.AddChildContent(SelectTree(size: SelectSize.Sm)));
+
+        var trigger = cut.Find("[data-slot='select-trigger']");
+        Assert.Equal("sm", trigger.GetAttribute("data-size"));
+        Assert.Contains("data-placeholder", trigger.OuterHtml);
+        Assert.Equal("Select a fruit", cut.Find("[data-slot='select-value']").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Select_ChoosesAnItemAndCloses()
+    {
+        var cut = Render<Select>(parameters => parameters
+            .Add(p => p.DefaultValue, "apple")
+            .AddChildContent(SelectTree()));
+
+        cut.FindAll("[data-slot='select-item']")[1].Click();
+
+        var trigger = cut.Find("[data-slot='select-trigger']");
+        Assert.Equal("closed", trigger.GetAttribute("data-state"));
+        Assert.Equal("false", trigger.GetAttribute("aria-expanded"));
+        Assert.Equal("Banana", cut.Find("[data-slot='select-value']").TextContent.Trim());
+        Assert.Equal("checked", cut.FindAll("[data-slot='select-item']")[1].GetAttribute("data-state"));
+    }
+
+    [Fact]
+    public void Select_DisabledDoesNotOpenOrSelect()
+    {
+        var cut = Render<Select>(parameters => parameters
+            .Add(p => p.Disabled, true)
+            .Add(p => p.DefaultValue, "apple")
+            .AddChildContent(SelectTree()));
+
+        var trigger = cut.Find("[data-slot='select-trigger']");
+        Assert.True(trigger.HasAttribute("disabled"));
+        Assert.Equal("", trigger.GetAttribute("data-disabled"));
+
+        trigger.Click();
+        Assert.Equal("closed", trigger.GetAttribute("data-state"));
+
+        cut.FindAll("[data-slot='select-item']")[1].Click();
+        Assert.Equal("Apple", cut.Find("[data-slot='select-value']").TextContent.Trim());
+    }
+
+    [Fact]
+    public void SelectItem_DisabledStaysUnselectable()
+    {
+        var cut = Render<Select>(parameters => parameters
+            .Add(p => p.DefaultValue, "apple")
+            .AddChildContent(SelectTree(disabledValue: "banana")));
+
+        cut.FindAll("[data-slot='select-item']")[1].Click();
+
+        Assert.Equal("Apple", cut.Find("[data-slot='select-value']").TextContent.Trim());
+        Assert.Equal("", cut.FindAll("[data-slot='select-item']")[1].GetAttribute("data-disabled"));
+    }
+
+    private static RenderFragment SelectTree(SelectSize size = SelectSize.Default, string? disabledValue = null) => builder =>
+    {
+        builder.OpenComponent<SelectTrigger>(0);
+        builder.AddAttribute(1, "Size", size);
+        builder.AddAttribute(2, "ChildContent", (RenderFragment)(trigger =>
+        {
+            trigger.OpenComponent<SelectValue>(0);
+            trigger.AddAttribute(1, "Placeholder", "Select a fruit");
+            trigger.CloseComponent();
+        }));
+        builder.CloseComponent();
+
+        builder.OpenComponent<SelectContent>(3);
+        builder.AddAttribute(4, "ChildContent", (RenderFragment)(content =>
+        {
+            foreach (var (value, label, index) in new[] { ("apple", "Apple", 0), ("banana", "Banana", 1) })
+            {
+                content.OpenComponent<SelectItem>(index * 4);
+                content.AddAttribute((index * 4) + 1, "Value", value);
+                content.AddAttribute((index * 4) + 2, "Disabled", value == disabledValue);
+                content.AddAttribute((index * 4) + 3, "ChildContent", (RenderFragment)(item => item.AddContent(0, label)));
+                content.CloseComponent();
+            }
+        }));
+        builder.CloseComponent();
+    };
 }

@@ -1,0 +1,48 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+@implements IDisposable
+
+@* Radix ignores className/style on SelectValue: the span is sized by the trigger's
+   `*:data-[slot=select-value]:...` utilities, not by its own class list. *@
+<span data-slot="select-value" style="pointer-events: none" @attributes="AdditionalAttributes">
+    @if (Root?.SelectedContent is { } content)
+    {
+        @content
+    }
+    else
+    {
+        @Placeholder
+    }
+</span>
+
+@code {
+    private Select? _root;
+
+    [CascadingParameter] private Select? Root { get; set; }
+
+    /// <summary>Text shown while nothing is selected.</summary>
+    [Parameter] public string? Placeholder { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        _root = Root;
+        if (_root is not null)
+        {
+            _root.Changed += OnRootChanged;
+        }
+    }
+
+    private void OnRootChanged() => _ = InvokeAsync(StateHasChanged);
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (_root is not null)
+        {
+            _root.Changed -= OnRootChanged;
+        }
+
+        GC.SuppressFinalize(this);
+    }
+}

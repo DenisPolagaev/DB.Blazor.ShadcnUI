@@ -43,6 +43,7 @@ public static class DocCatalog
         new("progress", "Progress", "Displays an indicator showing the completion progress of a task."),
         new("radio-group", "Radio Group", "A set of checkable buttons — known as radio buttons — where no more than one can be checked at a time."),
         new("scroll-area", "Scroll Area", "Augments native scroll functionality for custom, cross-browser styling."),
+        new("select", "Select", "Displays a list of options for the user to pick from, triggered by a button."),
         new("separator", "Separator", "Visually or semantically separates content."),
         new("sheet", "Sheet", "Extends the Dialog component to display content that complements the main content of the screen."),
         new("skeleton", "Skeleton", "Use to show a placeholder while content is loading."),

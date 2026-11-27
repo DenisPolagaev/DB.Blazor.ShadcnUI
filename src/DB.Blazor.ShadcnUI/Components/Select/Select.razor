@@ -1,0 +1,23 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnFloatingRoot
+
+<CascadingValue Value="this" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@if (!string.IsNullOrEmpty(Name))
+{
+    <select name="@Name" aria-hidden="true" tabindex="-1" required="@Required" autocomplete="@AutoComplete"
+            disabled="@Disabled"
+            style="position: fixed; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden"
+            @onchange="HandleNativeChangeAsync">
+        @if (!HasValue)
+        {
+            <option value="" selected></option>
+        }
+        @foreach (var item in _items.Values)
+        {
+            <option value="@item.Value" selected="@IsSelected(item.Value)" disabled="@item.Disabled">@(item.TextValue ?? item.Value)</option>
+        }
+    </select>
+}

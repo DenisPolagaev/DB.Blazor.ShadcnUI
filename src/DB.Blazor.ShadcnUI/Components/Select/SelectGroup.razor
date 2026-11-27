@@ -1,0 +1,18 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="group" data-slot="select-group" aria-labelledby="@LabelId" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>The id shared by the group's <c>aria-labelledby</c> and its <see cref="SelectLabel"/>.</summary>
+    internal string LabelId => $"{ElementId}-label";
+
+    private string? Classes => MergeClass(null);
+}

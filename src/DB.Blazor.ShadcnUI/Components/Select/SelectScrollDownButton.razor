@@ -1,0 +1,17 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="select-scroll-down-button" aria-hidden="true" style="@Styles"
+     class="@Classes" @attributes="AdditionalAttributes">
+    <ChevronDownIcon Class="size-4" />
+</div>
+
+@code {
+    private string? Classes => MergeClass("flex cursor-default items-center justify-center py-1");
+
+    private string? Styles => StyleWith("display: none");
+}
+
+
+
+

@@ -93,6 +93,24 @@ public enum NativeSelectSize
     Sm,
 }
 
+/// <summary>shadcn/ui <c>select.size</c>.</summary>
+public enum SelectSize
+{
+    /// <summary><c>default</c></summary>
+    Default,
+    /// <summary><c>sm</c></summary>
+    Sm,
+}
+
+/// <summary>Radix <c>SelectContent.position</c>.</summary>
+public enum SelectPosition
+{
+    /// <summary><c>item-aligned</c> (the shadcn default): the list covers the trigger.</summary>
+    ItemAligned,
+    /// <summary><c>popper</c>: the list floats next to the trigger.</summary>
+    Popper,
+}
+
 /// <summary>shadcn/ui sheet edge.</summary>
 public enum SheetSide
 {
@@ -190,6 +208,13 @@ public static class ShadcnNames
     public static string ToDataValue(this NativeSelectSize value) => value switch
     {
         NativeSelectSize.Sm => "sm",
+        _ => "default",
+    };
+
+    /// <summary><c>SelectSize</c> → <c>data-size</c>.</summary>
+    public static string ToDataValue(this SelectSize value) => value switch
+    {
+        SelectSize.Sm => "sm",
         _ => "default",
     };
 

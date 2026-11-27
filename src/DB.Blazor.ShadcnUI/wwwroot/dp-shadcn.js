@@ -149,9 +149,12 @@ function triggerElement(triggerId) {
   if (!trigger) {
     return null;
   }
-  // Triggers are renderless wrappers (`display: contents`); the measurable box belongs to the
-  // control the consumer passed as ChildContent.
-  return trigger.firstElementChild ?? trigger;
+  // Menu triggers are renderless wrappers (`display: contents`); the measurable box belongs to the
+  // control the consumer passed as ChildContent. A select trigger is the real <button>.
+  if (trigger.style.display === "contents" || getComputedStyle(trigger).display === "contents") {
+    return trigger.firstElementChild ?? trigger;
+  }
+  return trigger;
 }
 
 /**
@@ -217,6 +220,160 @@ export function positionFloating(triggerId, panel, options = {}) {
   }
 }
 
+/**
+ * Places a select listbox. Radix has two modes: `popper` behaves like any floating panel, and
+ * `item-aligned` (the shadcn default) overlays the list on the trigger so the checked item sits
+ * where the trigger is. Both expose the `--radix-select-*` variables the shadcn class list reads.
+ */
+export function positionSelect(triggerId, panel, options = {}) {
+  const anchor = triggerElement(triggerId);
+  if (!anchor || !panel) {
+    return;
+  }
+
+  const padding = 8;
+
+  // Take the panel out of flow before measuring: it renders in place (no portal), and its
+  // `relative` class would otherwise shift the trigger for one layout pass.
+  panel.style.position = "fixed";
+  panel.style.visibility = "hidden";
+  panel.style.left = "0px";
+  panel.style.top = "0px";
+
+  const triggerRect = anchor.getBoundingClientRect();
+  // Measure the natural height: the previous open may have left the available-height limit set.
+  panel.style.removeProperty("--radix-select-content-available-height");
+
+  if (options.itemAligned) {
+    const panelRect = panel.getBoundingClientRect();
+    const checked = panel.querySelector('[role="option"][data-state="checked"]');
+    const textNode = checked?.lastElementChild;
+    const itemTextRect = textNode?.getBoundingClientRect();
+    const triggerPaddingLeft = Number.parseFloat(getComputedStyle(anchor).paddingLeft) || 0;
+
+    // Radix lines the selected item's text up with the trigger's value text, not just the edges.
+    const itemTextOffset = itemTextRect ? itemTextRect.left - panelRect.left : 0;
+    const left = triggerRect.left + triggerPaddingLeft - itemTextOffset;
+    const leftDelta = triggerRect.left - left;
+    panel.style.minWidth = `${Math.ceil(triggerRect.width + leftDelta)}px`;
+
+    const size = panel.getBoundingClientRect();
+    const itemRect = checked ? checked.getBoundingClientRect() : null;
+    const itemOffset = itemRect ? itemRect.top - size.top : 0;
+    const top = Math.min(
+      Math.max(padding, triggerRect.top - itemOffset),
+      Math.max(padding, window.innerHeight - size.height - padding),
+    );
+    const clampedLeft = Math.min(
+      Math.max(padding, left),
+      Math.max(padding, window.innerWidth - size.width - padding),
+    );
+
+    panel.style.left = `${Math.round(clampedLeft)}px`;
+    panel.style.top = `${Math.round(top)}px`;
+    panel.style.setProperty(
+      "--radix-select-content-available-height",
+      `${Math.max(0, window.innerHeight - top - padding)}px`,
+    );
+    panel.style.setProperty("--radix-select-content-transform-origin", "center top");
+    panel.dataset.side = "bottom";
+  } else {
+    positionFloating(triggerId, panel, {
+      side: "bottom",
+      align: options.align ?? "center",
+      sideOffset: options.sideOffset ?? 4,
+      originVar: "--radix-select-content-transform-origin",
+      availableHeightVar: "--radix-select-content-available-height",
+    });
+  }
+
+  panel.style.setProperty("--radix-select-trigger-width", `${Math.ceil(triggerRect.width)}px`);
+  panel.style.setProperty("--radix-select-trigger-height", `${Math.ceil(triggerRect.height)}px`);
+  panel.style.visibility = "";
+
+  // A scroll button appearing shifts the viewport, which breaks the item alignment: position once
+  // more with the final button visibility.
+  if (syncSelectScrollButtons(panel) && options.itemAligned) {
+    positionSelect(triggerId, panel, options);
+  }
+}
+
+/** Radix mounts a scroll button only while the list can scroll in that direction. */
+function syncSelectScrollButtons(panel) {
+  const up = panel.querySelector('[data-slot="select-scroll-up-button"]');
+  const down = panel.querySelector('[data-slot="select-scroll-down-button"]');
+  let changed = false;
+  if (up) {
+    const visible = panel.scrollTop > 0;
+    changed ||= (up.style.display !== "none") !== visible;
+    // The class list carries `flex`, which wins over the `hidden` attribute: set display.
+    up.style.display = visible ? "" : "none";
+  }
+  if (down) {
+    const visible = panel.scrollTop + panel.clientHeight < panel.scrollHeight - 1;
+    changed ||= (down.style.display !== "none") !== visible;
+    down.style.display = visible ? "" : "none";
+  }
+  return changed;
+}
+
+const triggerTypeahead = new WeakMap();
+
+/**
+ * Closed-select keyboard behaviour: Arrow keys open the list, typing picks an item without
+ * opening it (Radix's typeahead), both without scrolling the page.
+ */
+function onSelectTriggerKeyDown(event) {
+  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    event.preventDefault();
+    if (event.currentTarget.getAttribute("aria-expanded") !== "true") {
+      event.currentTarget.click();
+    }
+    return;
+  }
+
+  if (event.key.length !== 1 || event.ctrlKey || event.metaKey || event.altKey) {
+    return;
+  }
+
+  const trigger = event.currentTarget;
+  const content = document.getElementById(trigger.getAttribute("aria-controls"));
+  if (!content) {
+    return;
+  }
+
+  const items = Array.from(content.querySelectorAll('[role="option"]')).filter(
+    (item) => !item.hasAttribute("data-disabled") && item.getAttribute("aria-disabled") !== "true",
+  );
+  if (items.length === 0) {
+    return;
+  }
+
+  const state = triggerTypeahead.get(trigger) ?? { text: "", at: 0 };
+  const now = Date.now();
+  // A repeated character cycles through the values that start with it.
+  state.text =
+    now - state.at > 500 || state.text === event.key ? event.key : state.text + event.key;
+  state.at = now;
+  triggerTypeahead.set(trigger, state);
+
+  const search = state.text.toLowerCase();
+  const checked = items.find((item) => item.getAttribute("data-state") === "checked");
+  const start = items.indexOf(checked);
+  const ordered = [...items.slice(start + 1), ...items.slice(0, start + 1)];
+  const match = ordered.find((item) => (item.textContent ?? "").trim().toLowerCase().startsWith(search));
+  match?.click();
+}
+
+/** Attaches the closed-select keyboard behaviour to a trigger button. */
+export function bindSelectTrigger(el) {
+  if (!el || el.dataset.selectTriggerBound === "true") {
+    return;
+  }
+  el.dataset.selectTriggerBound = "true";
+  el.addEventListener("keydown", onSelectTriggerKeyDown);
+}
+
 function closestDismissable(target) {
   for (const entry of dismissables) {
     if (entry.el.contains(target)) {
@@ -237,8 +394,76 @@ function onDismissablePointerDown(event) {
       continue;
     }
 
+    entry.dismissedByPointer = true;
     entry.dotnet?.invokeMethodAsync("DismissAsync");
   }
+}
+
+/** Arrow/Home/End, Enter/Space and typeahead over a select listbox. */
+function handleListboxKeyDown(entry, event) {
+  const panel = entry.el;
+  const items = Array.from(panel.querySelectorAll('[role="option"]')).filter(
+    (item) => !item.hasAttribute("data-disabled") && item.getAttribute("aria-disabled") !== "true",
+  );
+  if (items.length === 0) {
+    return;
+  }
+
+  const active = document.activeElement;
+  const index = items.indexOf(active);
+  let next = -1;
+
+  switch (event.key) {
+    case "ArrowDown":
+      next = index + 1;
+      break;
+    case "ArrowUp":
+      next = index <= 0 ? items.length - 1 : index - 1;
+      break;
+    case "Home":
+      next = 0;
+      break;
+    case "End":
+      next = items.length - 1;
+      break;
+    case "Enter":
+    case " ":
+      event.preventDefault();
+      (index >= 0 ? items[index] : items[0]).click();
+      return;
+    case "Tab":
+      // Radix keeps focus inside an open select listbox; Escape is the way out.
+      event.preventDefault();
+      return;
+    default:
+      if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault();
+        typeaheadSelect(entry, items, event.key);
+      }
+      return;
+  }
+
+  event.preventDefault();
+  const item = items[(next + items.length) % items.length];
+  item?.focus({ preventScroll: true });
+  item?.scrollIntoView({ block: "nearest" });
+}
+
+function typeaheadSelect(entry, items, key) {
+  const now = Date.now();
+  if (!entry.typeahead || now - entry.typeahead.at > 500) {
+    entry.typeahead = { text: "", at: now };
+  }
+  // Repeated characters cycle through the items that start with that character.
+  entry.typeahead.text = entry.typeahead.text === key ? key : entry.typeahead.text + key;
+  entry.typeahead.at = now;
+
+  const search = entry.typeahead.text.toLowerCase();
+  const start = items.indexOf(document.activeElement);
+  const ordered = [...items.slice(start + 1), ...items.slice(0, start + 1)];
+  const match = ordered.find((item) => (item.textContent ?? "").trim().toLowerCase().startsWith(search));
+  match?.focus({ preventScroll: true });
+  match?.scrollIntoView({ block: "nearest" });
 }
 
 function onDismissableKeyDown(event) {
@@ -257,6 +482,11 @@ function onDismissableKeyDown(event) {
   }
 
   if (!panel.contains(document.activeElement) && !panel.contains(event.target)) {
+    return;
+  }
+
+  if (panel.getAttribute("role") === "listbox") {
+    handleListboxKeyDown(entry, event);
     return;
   }
 
@@ -305,20 +535,44 @@ export function openDismissable(el, dotnet, options = {}) {
     return;
   }
 
+  const listbox = options.listbox === true;
   const entry = {
     el,
     dotnet,
     triggerId: options.triggerId,
     reposition: () =>
-      positionFloating(options.triggerId, el, {
-        side: options.side,
-        align: options.align,
-        sideOffset: options.sideOffset,
-        alignOffset: options.alignOffset,
-        originVar: options.originVar,
-        availableHeightVar: options.availableHeightVar,
-      }),
+      listbox
+        ? positionSelect(options.triggerId, el, {
+            itemAligned: options.itemAligned,
+            align: options.align,
+            sideOffset: options.sideOffset,
+          })
+        : positionFloating(options.triggerId, el, {
+            side: options.side,
+            align: options.align,
+            sideOffset: options.sideOffset,
+            alignOffset: options.alignOffset,
+            originVar: options.originVar,
+            availableHeightVar: options.availableHeightVar,
+          }),
   };
+
+  if (listbox) {
+    entry.onScroll = () => syncSelectScrollButtons(el);
+    entry.onClick = (event) => {
+      const button = event.target.closest?.(
+        '[data-slot="select-scroll-up-button"],[data-slot="select-scroll-down-button"]',
+      );
+      if (!button) {
+        return;
+      }
+      event.preventDefault();
+      const direction = button.dataset.slot === "select-scroll-up-button" ? -1 : 1;
+      el.scrollBy({ top: direction * el.clientHeight * 0.8 });
+    };
+    el.addEventListener("scroll", entry.onScroll, true);
+    el.addEventListener("click", entry.onClick);
+  }
 
   dismissables.add(entry);
   el.dataset.state = "open";
@@ -336,6 +590,20 @@ export function openDismissable(el, dotnet, options = {}) {
     if (options.focus === "panel") {
       el.focus?.({ preventScroll: true });
       return;
+    }
+
+    // Radix focuses the checked option of a select, or the first valid one.
+    if (listbox) {
+      const items = Array.from(el.querySelectorAll('[role="option"]')).filter(
+        (item) => !item.hasAttribute("data-disabled") && item.getAttribute("aria-disabled") !== "true",
+      );
+      const item =
+        items.find((candidate) => candidate.getAttribute("data-state") === "checked") ?? items[0];
+      if (item) {
+        item.focus({ preventScroll: true });
+        item.scrollIntoView({ block: "nearest" });
+        return;
+      }
     }
 
     // Radix focuses the first menu item, not the menu container: the container has no outline
@@ -370,6 +638,17 @@ export function closeDismissable(id) {
     entry.el.dataset.state = "closed";
     window.removeEventListener("resize", entry.reposition);
     window.removeEventListener("scroll", entry.reposition, true);
+    if (entry.onScroll) {
+      entry.el.removeEventListener("scroll", entry.onScroll, true);
+    }
+    if (entry.onClick) {
+      entry.el.removeEventListener("click", entry.onClick);
+    }
+    // Radix returns focus to the trigger after Escape or a selection; after an outside pointer
+    // press the user's click decides where focus goes.
+    if (!entry.dismissedByPointer) {
+      triggerElement(entry.triggerId)?.focus?.({ preventScroll: true });
+    }
     if (dismissables.size === 0) {
       document.removeEventListener("pointerdown", onDismissablePointerDown, true);
       document.removeEventListener("keydown", onDismissableKeyDown, true);
@@ -396,3 +675,5 @@ export function syncAccordion(el, open) {
   el.style.setProperty("--radix-accordion-content-height", `${height}px`);
   el.style.height = open ? `${height}px` : "0px";
 }
+
+

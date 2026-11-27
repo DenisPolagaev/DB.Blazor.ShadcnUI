@@ -22,7 +22,10 @@ up. Every class string below was copied from the `new-york-v4` registry of
   `dialog-overlay`, `dialog-content`, `dialog-close`, `dialog-header`, `dialog-footer`,
   `dialog-title`, `dialog-description`, `alert-dialog-*` (the same set), `sheet-portal`,
   `sheet-overlay`, `sheet-content`, `sheet-close`, `sheet-header`, `sheet-footer`, `sheet-title`,
-  `sheet-description`, `dropdown-menu-content`, `dropdown-menu-item`, `dropdown-menu-checkbox-item`,
+  `sheet-description`, `select`, `select-group`, `select-value`, `select-trigger`, `select-content`,
+  `select-label`, `select-item`, `select-item-indicator`, `select-separator`,
+  `select-scroll-up-button`, `select-scroll-down-button`,
+  `dropdown-menu-content`, `dropdown-menu-item`, `dropdown-menu-checkbox-item`,
   `dropdown-menu-radio-group`, `dropdown-menu-radio-item`, `dropdown-menu-label`,
   `dropdown-menu-separator`, `dropdown-menu-shortcut`, `dropdown-menu-group`,
   `dropdown-menu-sub-trigger`, `dropdown-menu-sub-content`, `popover-content`, `popover-header`,
@@ -36,6 +39,9 @@ up. Every class string below was copied from the `new-york-v4` registry of
   `value`/`onValueChange`, `checked`/`onCheckedChange`, `open`/`onOpenChange` onto `@bind-`.
 * `data-variant` / `data-size` / `data-orientation` / `data-inset` / `data-side` carry the same
   values as the React original.
+* `SelectContent` stays mounted with the `hidden` attribute while the select is closed. Radix keeps
+  the items in a detached document fragment for the same reason: `SelectValue` and the hidden
+  native `<select>` need the item text and values before the list has ever been opened.
 
 ## Variants (C# → shadcn value)
 
@@ -64,6 +70,8 @@ up. Every class string below was copied from the `new-york-v4` registry of
 | Overlay click closes dialog | yes | yes (`CloseOnInteractOutside`, on by default; alert dialogs never) |
 | Popover/dropdown outside click | yes | yes (pointerdown, trigger excluded so the toggle works) |
 | Menu keyboard navigation | Arrow/Home/End, roving focus | yes (ArrowUp/Down/Home/End, Enter/Space activate) |
+| Select listbox | Arrow/Home/End, typeahead, selected item focused on open, Escape/Tab handling | yes (the same keys plus closed-trigger typeahead; Tab is kept inside the open list like Radix) |
+| Select placement | `item-aligned` (default) or `popper` | both; item-aligned overlays the list on the trigger so the checked item lines up with it |
 | Tabs keyboard navigation | Arrow/Home/End, roving tabindex | yes, including skipping disabled tabs, wrap-around |
 | Accordion | single/multiple + `collapsible` | `AccordionType.Single`/`.Multiple` + `Collapsible` |
 | Accordion animation | measures the content, animates `height` | same: `syncAccordion` measures `scrollHeight` into `--radix-accordion-content-height`, the CSS transitions `height` |
@@ -75,8 +83,8 @@ up. Every class string below was copied from the `new-york-v4` registry of
 
 ## Known gaps (next iterations)
 
-* Not ported: `Select`, `Sonner`, `Slider`, `Combobox`, `Command`, `Calendar`, `DatePicker`,
-  `Sidebar`, `Resizable`, `Charts`, `DataTable`, `Carousel`, `Menubar`, `NavigationMenu`,
+* Not ported: `Sonner`, `Combobox`, `Command`, `Calendar`, `DatePicker`,
+  `Sidebar`, `Resizable`, `Charts`, `DataTable`, `Carousel`, `NavigationMenu`,
   `ContextMenu`, `HoverCard`, `Toggle`, `ToggleGroup`, `InputOTP`, `Collapsible`, `Item`, `Field`,
   `Empty`, `ButtonGroup`, `InputGroup`, `AspectRatio`, `ScrollArea`, `use-mobile`.
 * `DropdownMenuItem` is a `<div role="menuitem" tabindex="-1">` with Enter/Space handled in C#;
@@ -94,5 +102,6 @@ registry against the ported sources in both directions:
 * every utility a component uses must appear in at least one reference file (an unknown class is
   usually an invention).
 
-Last run: 28 components, 0 invented classes; the only "missing" tokens left are import paths and
-`data-slot` values, which the ports carry as attributes rather than as class tokens.
+Last run: 45 components, 0 invented classes; the only "missing" tokens left are import paths,
+`data-slot` values and Radix's `item-aligned` literal, which the ports carry as attributes or
+parameters rather than as class tokens.

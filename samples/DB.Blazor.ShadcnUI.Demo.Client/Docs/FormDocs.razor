@@ -171,6 +171,103 @@ else if (Slug == "native-select")
         </Examples>
     </DocPage>
 }
+else if (Slug == "select")
+{
+    <DocPage Title="Select"
+             Description="Displays a list of options for the user to pick from, triggered by a button."
+             Code="@SelectCode" Usage="@SelectUsage">
+        <Preview>
+            <Select DefaultValue="apple">
+                <SelectTrigger Class="w-[180px]">
+                    <SelectValue Placeholder="Select a fruit" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectLabel>Fruits</SelectLabel>
+                        <SelectItem Value="apple">Apple</SelectItem>
+                        <SelectItem Value="banana">Banana</SelectItem>
+                        <SelectItem Value="blueberry">Blueberry</SelectItem>
+                        <SelectItem Value="grapes">Grapes</SelectItem>
+                        <SelectItem Value="pineapple">Pineapple</SelectItem>
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Small</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Select DefaultValue="apple">
+                    <SelectTrigger Size="SelectSize.Sm" Class="w-[180px]">
+                        <SelectValue Placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem Value="apple">Apple</SelectItem>
+                        <SelectItem Value="banana">Banana</SelectItem>
+                        <SelectItem Value="blueberry">Blueberry</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div></div>
+
+            <h3 class="docs-example-title">With groups and separator</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Select DefaultValue="apple">
+                    <SelectTrigger Class="w-[180px]">
+                        <SelectValue Placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            <SelectItem Value="apple">Apple</SelectItem>
+                            <SelectItem Value="banana">Banana</SelectItem>
+                            <SelectItem Value="blueberry">Blueberry</SelectItem>
+                        </SelectGroup>
+                        <SelectSeparator />
+                        <SelectGroup>
+                            <SelectLabel>Vegetables</SelectLabel>
+                            <SelectItem Value="carrot">Carrot</SelectItem>
+                            <SelectItem Value="potato">Potato</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Select Disabled="true">
+                    <SelectTrigger Class="w-[180px]">
+                        <SelectValue Placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem Value="apple">Apple</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div></div>
+
+            <h3 class="docs-example-title">Scrollable</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Select>
+                    <SelectTrigger Class="w-[180px]">
+                        <SelectValue Placeholder="Select a timezone" />
+                    </SelectTrigger>
+                    <SelectContent Class="max-h-64">
+                        <SelectItem Value="est">Eastern Standard Time (EST)</SelectItem>
+                        <SelectItem Value="cst">Central Standard Time (CST)</SelectItem>
+                        <SelectItem Value="mst">Mountain Standard Time (MST)</SelectItem>
+                        <SelectItem Value="pst">Pacific Standard Time (PST)</SelectItem>
+                        <SelectItem Value="akst">Alaska Standard Time (AKST)</SelectItem>
+                        <SelectItem Value="hst">Hawaii Standard Time (HST)</SelectItem>
+                        <SelectItem Value="gmt">Greenwich Mean Time (GMT)</SelectItem>
+                        <SelectItem Value="cet">Central European Time (CET)</SelectItem>
+                        <SelectItem Value="eet">Eastern European Time (EET)</SelectItem>
+                        <SelectItem Value="ist">India Standard Time (IST)</SelectItem>
+                        <SelectItem Value="jst">Japan Standard Time (JST)</SelectItem>
+                        <SelectItem Value="aest">Australian Eastern Standard Time (AEST)</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
 
 @code {
     [Parameter] public string? Slug { get; set; }
@@ -269,5 +366,39 @@ else if (Slug == "native-select")
 <NativeSelect>
     <NativeSelectOption Value="apple">Apple</NativeSelectOption>
 </NativeSelect>
+""";
+
+    private const string SelectCode = """
+<Select DefaultValue="apple">
+    <SelectTrigger Class="w-[180px]">
+        <SelectValue Placeholder="Select a fruit" />
+    </SelectTrigger>
+    <SelectContent>
+        <SelectGroup>
+            <SelectLabel>Fruits</SelectLabel>
+            <SelectItem Value="apple">Apple</SelectItem>
+            <SelectItem Value="banana">Banana</SelectItem>
+            <SelectItem Value="blueberry">Blueberry</SelectItem>
+        </SelectGroup>
+    </SelectContent>
+</Select>
+""";
+
+    private const string SelectUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Select @bind-Value="fruit">
+    <SelectTrigger Class="w-[180px]">
+        <SelectValue Placeholder="Select a fruit" />
+    </SelectTrigger>
+    <SelectContent>
+        <SelectItem Value="apple">Apple</SelectItem>
+        <SelectItem Value="banana">Banana</SelectItem>
+    </SelectContent>
+</Select>
+
+@code {
+    private string? fruit;
+}
 """;
 }

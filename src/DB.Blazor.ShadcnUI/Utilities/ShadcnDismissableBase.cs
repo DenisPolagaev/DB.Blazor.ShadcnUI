@@ -29,6 +29,8 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
     private string? _originVar;
     private string? _availableHeightVar;
     private string _focus = "first";
+    private bool _listbox;
+    private bool _itemAligned;
 
     /// <summary>Injected JS runtime.</summary>
     [Inject]
@@ -50,7 +52,9 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
         string? originVar = null,
         string? availableHeightVar = null,
         string focus = "first",
-        string? contentId = null)
+        string? contentId = null,
+        bool listbox = false,
+        bool itemAligned = false)
     {
         _triggerId = triggerId;
         _side = side;
@@ -60,6 +64,8 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
         _availableHeightVar = availableHeightVar;
         _focus = focus;
         _contentId = contentId;
+        _listbox = listbox;
+        _itemAligned = itemAligned;
     }
 
     /// <summary>Attaches the panel while <paramref name="open"/> is true, detaches it otherwise.</summary>
@@ -88,6 +94,8 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
                 originVar = _originVar,
                 availableHeightVar = _availableHeightVar,
                 focus = _focus,
+                listbox = _listbox,
+                itemAligned = _itemAligned,
             });
         }
         catch (Exception exception) when (exception is JSException or InvalidOperationException or JSDisconnectedException or ObjectDisposedException)
