@@ -6,11 +6,11 @@
    (bottom-right stack, title + description, dismiss button) on the shadcn tokens, with the same
    slide/fade utilities and an auto-dismiss timer. *@
 <section data-slot="toaster" aria-label="Notifications" aria-live="polite"
-         class="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex flex-col items-center gap-2 p-4 sm:items-end">
+         class="toaster group pointer-events-none fixed inset-x-0 bottom-0 z-50 flex flex-col items-center gap-2 p-4 sm:items-end">
     @foreach (var toast in Toasts.Toasts)
     {
         <div @key="toast.Id" data-slot="sonner-toast" data-state="open"
-             class="pointer-events-auto grid w-full max-w-sm gap-1 rounded-lg border bg-background p-4 text-sm text-foreground shadow-lg animate-in fade-in-0 slide-in-from-bottom-2">
+             class="cn-toast pointer-events-auto grid w-full max-w-sm gap-1 border bg-popover p-4 text-sm text-popover-foreground shadow-lg animate-in fade-in-0 slide-in-from-bottom-2">
             <div class="flex items-start justify-between gap-3">
                 <div class="grid gap-1">
                     <div class="font-medium">@toast.Title</div>
@@ -82,3 +82,4 @@
         _timer?.Dispose();
     }
 }
+

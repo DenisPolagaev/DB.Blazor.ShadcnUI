@@ -20,5 +20,6 @@
 
     private Task CloseAsync() => Root?.CloseAsync() ?? Task.CompletedTask;
 
-    private string? Classes => MergeClass("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end");
+    private string? Classes => MergeClass("cn-dialog-footer flex flex-col-reverse gap-2 sm:flex-row sm:justify-end");
 }
+

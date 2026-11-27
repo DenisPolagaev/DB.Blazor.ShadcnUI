@@ -6,7 +6,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "flex w-fit items-center gap-2 text-sm leading-snug font-medium " +
-        "group-data-[disabled=true]/field:opacity-50");
+    private string? Classes => MergeClass("cn-field-title flex w-fit items-center");
 }
+

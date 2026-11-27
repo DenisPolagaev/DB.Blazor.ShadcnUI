@@ -2,8 +2,10 @@
 
 @inherits ShadcnComponent
 
-<div data-slot="accordion" data-orientation="vertical" class="@Class" style="@Style" @attributes="AdditionalAttributes">
+<div data-slot="accordion" data-orientation="vertical" class="@RootClasses" style="@Style" @attributes="AdditionalAttributes">
     <CascadingValue Value="this" IsFixed="true">
         @ChildContent
     </CascadingValue>
 </div>
+
+

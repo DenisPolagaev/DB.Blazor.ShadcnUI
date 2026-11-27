@@ -1,14 +1,31 @@
 # Parity with shadcn/ui v4
 
 This page is the checklist used while porting and the place to look when a visual difference shows
-up. Every class string below was copied from the `new-york-v4` registry of
-<https://github.com/shadcn-ui/ui> (`registry/new-york-v4/ui/*.tsx`).
+up. The port targets the **`nova` style preset** of <https://github.com/shadcn-ui/ui>: component
+markup and semantic `cn-*` class names are copied from the preset's Registry sources
+(`apps/v4/registry/bases/radix/ui/*.tsx`, `apps/v4/registry/styles/style-nova.css`).
+
+## Styling
+
+* Components no longer carry the `new-york-v4` utility list in C#. Each part renders its semantic
+  preset class (`cn-button`, `cn-card-header`, `cn-dialog-content`, ...) plus the layout
+  utilities the preset source names; sizes, colors, spacing and states live in
+  `styles/style-nova.css`, scoped under `.style-nova`.
+* The stylesheet is only active when the host marks the root element: `<html class="style-nova">`
+  (the demo does this in `Components/App.razor`). Tokens are still overridable as before.
+* The same `cn-*` contract is shared by every shadcn/ui style (`nova`, `luma`, `lyra`, `maia`,
+  `mira`, `rhea`, `sera`, `vega`), so adding another preset means adding its stylesheet - no
+  component change. `new-york-v4` remains available in the upstream registry for legacy projects,
+  but this port ships `nova` only.
+* Behaviour, parameters and `data-slot`/`data-state`/`data-variant` markup are unchanged from the
+  earlier `new-york-v4` port; the migration is a class-name and stylesheet change.
+
 
 ## Markup
 
 * Every component renders the same `data-slot` names as the React original: `button`, `badge`,
   `card`, `card-header`, `card-title`, `card-description`, `card-action`, `card-content`,
-  `card-footer`, `alert`, `alert-title`, `alert-description`, `avatar`, `avatar-image`,
+  `card-footer`, `alert`, `alert-title`, `alert-description`, `alert-action`, `avatar`, `avatar-image`,
   `avatar-fallback`, `avatar-badge`, `avatar-group`, `avatar-group-count`, `separator`, `skeleton`,
   `progress`, `progress-indicator`, `kbd`, `kbd-group`, `input`, `textarea`, `label`, `checkbox`,
   `checkbox-indicator`, `switch`, `switch-thumb`, `radio-group`, `radio-group-item`,
@@ -25,7 +42,8 @@ up. Every class string below was copied from the `new-york-v4` registry of
   `sheet-description`, `select`, `select-group`, `select-value`, `select-trigger`, `select-content`,
   `select-label`, `select-item`, `select-item-indicator`, `select-separator`,
   `select-scroll-up-button`, `select-scroll-down-button`, `command`, `command-input-wrapper`,
-  `command-input`, `command-list`, `command-empty`, `command-group`, `command-item`,
+  `command-input-group`, `command-input-icon`, `command-input`, `command-list`, `command-empty`,
+  `command-group`, `command-item`, `command-item-indicator`,
   `command-separator`, `command-shortcut`,
   `dropdown-menu-content`, `dropdown-menu-item`, `dropdown-menu-checkbox-item`,
   `dropdown-menu-radio-group`, `dropdown-menu-radio-item`, `dropdown-menu-label`,
@@ -66,6 +84,25 @@ up. Every class string below was copied from the `new-york-v4` registry of
 | `TabsList` | `TabsListVariant.Default` / `.Line` | `default` / `line` |
 | `DropdownMenuItem` | `DropdownMenuItemVariant.Default` / `.Destructive` | `default` / `destructive` |
 | `AlertDialogContent` | `AlertDialogContentSize.Default` / `.Small` | `default` / `sm` |
+| `Card` | `CardSize.Default` / `.Sm` (`data-size` on `cn-card`) | `default` / `sm` |
+| `Item` | `ItemVariant` (`Default`/`Outline`/`Muted`), `ItemSize` (`Default`/`Sm`/`Xs`) | `variant`, `size` |
+| `ItemMedia` | `ItemMediaVariant.Default` / `.Icon` / `.Image` | same names |
+| `EmptyMedia` | `EmptyMediaVariant.Default` / `.Icon` | same names |
+| `Toggle` | `ToggleVariant.Default`/`.Outline`, `ToggleSize.Default`/`.Sm`/`.Lg` | same names |
+| `Field` | `FieldOrientation.Vertical`/`.Horizontal`/`.Responsive` | `orientation` |
+| `FieldLegend` | `FieldLegendVariant.Legend` / `.Label` | `variant` |
+| `InputGroupAddon` | `InputGroupAlign` (`InlineStart`/`InlineEnd`/`BlockStart`/`BlockEnd`) | `align` |
+| `InputGroupButton` | `InputGroupButtonSize` (`Xs`/`Sm`/`IconXs`/`IconSm`) | `size` |
+| `ToggleGroup` | `Orientation`, `Spacing`, `Variant`, `Size` | `orientation`, `spacing`, `variant`, `size` |
+| `ButtonGroup` | `ShadcnOrientation.Horizontal` / `.Vertical` | `orientation` |
+
+## Right-to-left
+
+The preset has no `direction` prop: RTL is the platform behaviour of the `dir` attribute, exactly
+as in shadcn/ui. Put `dir="rtl"` on `<html>` (or any ancestor) and pass `dir` as a DOM attribute
+through `AdditionalAttributes` for a local subtree. The stylesheet keys its RTL rules off
+`[dir="rtl"]`, and `cn-rtl-flip` mirrors the directional glyphs (breadcrumb separator, submenu
+chevrons, pagination arrows).
 
 ## Behaviour
 
@@ -110,14 +147,16 @@ up. Every class string below was copied from the `new-york-v4` registry of
 
 ## Automated parity check
 
-`scripts/check-parity.ps1 -ReferenceDir <new-york-v4>` compares the class tokens of the shadcn/ui
-registry against the ported sources in both directions:
+`scripts/check-parity.ps1 -ReferenceDir <dir with the preset *.tsx>` compares the preset's semantic
+`cn-*` tokens against the ported sources in both directions:
 
-* every utility that appears in the registry must appear somewhere in the port (a missing
-  `data-[state=open]:animate-accordion-down` is a real omission, not a style choice);
-* every utility a component uses must appear in at least one reference file (an unknown class is
-  usually an invention).
+* every `cn-*` token the preset names must appear somewhere in the port (a missing
+  `cn-alert-dialog-action` is a real omission, not a layout choice);
+* every `cn-*` token a component uses must be named by its own preset source (an unknown `cn-*`
+  class is usually a typo), with an allowlist for the tokens the preset stylesheet provides for a
+  component whose source writes utilities directly (`cn-separator` and its orientation classes).
 
-Last run: 46 components, 0 invented classes; the only "missing" tokens left are import paths,
-`data-slot` values and Radix's `item-aligned` literal, which the ports carry as attributes or
-parameters rather than as class tokens.
+The utility classes themselves are no longer compared: they moved into `styles/style-nova.css`, so
+the port's C# only carries the semantic class and the layout utilities the preset source names.
+
+Last run: 46 components, 0 missing tokens, 0 unknown tokens.

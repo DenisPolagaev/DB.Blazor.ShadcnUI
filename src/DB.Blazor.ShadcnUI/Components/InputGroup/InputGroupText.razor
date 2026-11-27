@@ -6,7 +6,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "flex items-center gap-2 text-sm text-muted-foreground [&_svg]:pointer-events-none " +
-        "[&_svg:not([class*='size-'])]:size-4");
+    private string? Classes => MergeClass("cn-input-group-text flex items-center [&_svg]:pointer-events-none");
 }
+

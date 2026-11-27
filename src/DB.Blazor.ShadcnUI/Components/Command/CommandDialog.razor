@@ -7,18 +7,12 @@
             <DialogTitle>@Title</DialogTitle>
             <DialogDescription>@Description</DialogDescription>
         </DialogHeader>
-        <DB.Blazor.ShadcnUI.Components.Command Class="@CommandClasses">@ChildContent</DB.Blazor.ShadcnUI.Components.Command>
+        <DB.Blazor.ShadcnUI.Components.Command>@ChildContent</DB.Blazor.ShadcnUI.Components.Command>
     </DialogContent>
 </Dialog>
 
 @code {
-    private const string CommandClasses =
-        "**:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 " +
-        "[&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground " +
-        "[&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 " +
-        "[&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 " +
-        "[&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5";
-
+    
     /// <summary>Controlled open state (<c>@bind-Open</c>), forwarded to the dialog.</summary>
     [Parameter] public bool Open { get; set; }
 
@@ -35,11 +29,13 @@
     [Parameter] public string Description { get; set; } = "Search for a command to run...";
 
     /// <summary>Renders the dialog's close button.</summary>
-    [Parameter] public bool ShowCloseButton { get; set; } = true;
+    [Parameter] public bool ShowCloseButton { get; set; } = false;
 
     /// <summary>The palette's input, list and item groups.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? ContentClasses => Cn.Merge("overflow-hidden p-0", Class);
+    private string? ContentClasses => Cn.Merge("cn-command-dialog top-1/3 translate-y-0 overflow-hidden p-0", Class);
 }
+
+
 

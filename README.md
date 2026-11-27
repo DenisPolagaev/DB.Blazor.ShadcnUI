@@ -1,22 +1,16 @@
-# DB.Blazor.ShadcnUI
-[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
-6. **`Command` collides with a deprecated HTML element.** `<command>` is a void element in Razor's
-   parser, so the root must be written fully qualified:
-   `<DB.Blazor.ShadcnUI.Components.Command>` (the other `Command*` components need no prefix).
-7. The remaining registry families (`Combobox`, `Calendar`/`DatePicker`, `Carousel`, `Resizable`,
-   `NavigationMenu`, `Sidebar`, `DataTable`, `Chart`, `Typography` and the AI elements) are the
-   next iterations.
-# DB.Blazor.ShadcnUI
+﻿# DB.Blazor.ShadcnUI
 
-> Repository and NuGet package **DB.Blazor.ShadcnUI** · MIT license
+> Repository and NuGet package **DB.Blazor.ShadcnUI** — MIT license
 
 [shadcn/ui](https://ui.shadcn.com) ported to Blazor — Server and WebAssembly, `net10.0` and `net11.0`.
 
 The port keeps the **component contract of shadcn/ui v4**: the same component names (`Button`,
 `Card`, `CardHeader`, `Dialog`, `DropdownMenuItem`, …), the same variant values
 (`default`/`destructive`/`outline`/`secondary`/`ghost`/`link`, `sm`/`lg`/`icon`), the same
-`data-slot` / `data-state` / `data-variant` markup and the same Tailwind class list — only the
-React/Radix plumbing is replaced by Blazor parameters, cascading contexts and one small JS module.
+`data-slot` / `data-state` / `data-variant` markup and the same semantic `cn-*` class names of the
+**`nova` style preset** — only the React/Radix plumbing is replaced by Blazor parameters, cascading
+contexts and one small JS module. The visual half of those class names lives in
+`styles/style-nova.css` (a trimmed copy of the preset), scoped under `.style-nova`.
 
 Authoring is one component per folder on a shared `ShadcnComponent` base (`Class`, `Style`, `Id`,
 `AdditionalAttributes`), C# variant tables instead of `cva`, cascading contexts instead of React
@@ -27,8 +21,9 @@ libs/DB.Blazor.ShadcnUI
 ├─ src/DB.Blazor.ShadcnUI          the library (Razor class library, net10.0 + net11.0)
 ├─ samples/DB.Blazor.ShadcnUI.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
 ├─ tests/DB.Blazor.ShadcnUI.Tests  bUnit + xUnit v3 tests (55 tests)
-├─ styles/dp-shadcn.css         Tailwind v4 source of the shipped stylesheet
-└─ wwwroot                      dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
+├─ styles/dp-shadcn.css            Tailwind v4 source of the shipped stylesheet
+├─ styles/style-nova.css           the `nova` preset (semantic `cn-*` classes), scoped to `.style-nova`
+└─ wwwroot                         dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
 ```
 
 ## Quick start
@@ -47,7 +42,11 @@ libs/DB.Blazor.ShadcnUI
 
 ```html
 <link rel="stylesheet" href="_content/DB.Blazor.ShadcnUI/dp-shadcn.css" />
+<html class="style-nova">
 ```
+
+The `style-nova` class on the root element is **required**: it activates the preset stylesheet
+(`.style-nova .cn-*`). Without it the components render unstyled markup.
 
 ```razor
 <Button OnClick="SaveAsync">Save</Button>
@@ -55,9 +54,11 @@ libs/DB.Blazor.ShadcnUI
 <Button Size="ButtonSize.Icon" aria-label="Settings"><SettingsIcon /></Button>
 ```
 
-The stylesheet carries the shadcn **neutral** tokens (`--background`, `--primary`, … as
-`oklch()`), the utilities the components use, and a scoped slice of Tailwind preflight. Dark mode is
-the shadcn convention: add `class="dark"` to `<html>`.
+The stylesheet carries the shadcn **neutral** tokens (`--background`, `--primary`, … as `oklch()`),
+the `nova` preset (sizes, colors, spacing and states of every `cn-*` class), the utilities the
+components use, and a scoped slice of Tailwind preflight. Dark mode is the shadcn convention: add
+`class="dark"` to `<html>`. RTL follows the platform `dir` attribute (`dir="rtl"` on `<html>` or any
+ancestor), exactly like shadcn/ui; `cn-rtl-flip` mirrors directional glyphs.
 
 To re-theme, override the tokens — no rebuild of the library is needed:
 
@@ -73,10 +74,11 @@ To re-theme, override the tokens — no rebuild of the library is needed:
 
 | Group | Components |
 | --- | --- |
-| Primitives | `Button`, `Badge`, `Card` + `CardHeader`/`CardTitle`/`CardDescription`/`CardAction`/`CardContent`/`CardFooter`, `Alert` + `AlertTitle`/`AlertDescription`, `Avatar` + `AvatarImage`/`AvatarFallback`/`AvatarBadge`/`AvatarGroup`/`AvatarGroupCount`, `Separator`, `Skeleton`, `Progress`, `Spinner`, `Kbd`/`KbdGroup` |
+| Primitives | `Button`, `Badge`, `Card` (+ `CardHeader`/`CardTitle`/`CardDescription`/`CardAction`/`CardContent`/`CardFooter`, `Size`), `Alert` (+ `AlertTitle`/`AlertDescription`/`AlertAction`), `Avatar` (+ `AvatarImage`/`AvatarFallback`/`AvatarBadge`/`AvatarGroup`/`AvatarGroupCount`), `Separator`, `Skeleton`, `Progress`, `Spinner`, `Kbd`/`KbdGroup` |
 | Forms | `Input`, `Textarea`, `Label`, `Checkbox`, `Switch`, `RadioGroup`/`RadioGroupItem`, `NativeSelect`/`NativeSelectOption`/`NativeSelectOptGroup`, `Select` (+8, including groups, labels and scroll buttons) |
 | Data & navigation | `Table` + 8 slot components, `Tabs`/`TabsList`/`TabsTrigger`/`TabsContent`, `Accordion`/`AccordionItem`/`AccordionTrigger`/`AccordionContent`, `Breadcrumb` + 6 slots, `Pagination` + 5 slots, `Menubar` (+15, including checkbox/radio items and submenus) |
-| Overlays | `Dialog` (+7), `AlertDialog` (+8), `Sheet` (+6), `DropdownMenu` (+13, including checkbox items, radio items and submenus), `Popover` (+6), `Tooltip`/`TooltipProvider`/`TooltipTrigger`/`TooltipContent`, `Command` (+8, including `CommandDialog`), `ContextMenu` (+14, including checkbox/radio items and submenus) |
+| Overlays | `Dialog` (+7), `AlertDialog` (+8), `Sheet` (+6), `Drawer` (+7), `DropdownMenu` (+13, including checkbox items, radio items and submenus), `Popover` (+6), `Tooltip`/`TooltipProvider`/`TooltipTrigger`/`TooltipContent`, `Command` (+8, including `CommandDialog`), `ContextMenu` (+14, including checkbox/radio items and submenus) |
+| Composition | `Item` (+9), `Field` (+9), `InputGroup` (+5), `Empty` (+5), `ButtonGroup` (+2), `Toggle`/`ToggleGroup`, `Collapsible`, `ScrollArea`, `InputOTP` (+3), `AspectRatio`, `Sonner` toaster |
 
 Together that is every component a site needs to ship: layout, forms, data display, navigation,
 modals and menus.
@@ -148,18 +150,21 @@ dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 
 ## Styling contract
 
-* Utilities are unprefixed: `Class="h-12 px-8"` on a component overrides its defaults
-  (`tailwind-merge` semantics: `h-12` removes `h-9`, `px-8` removes `px-4`, `bg-secondary` removes
-  `bg-primary`; `hover:`/`dark:`/`data-*:` variants never conflict with the base class).
-* The shipped `dp-shadcn.css` is Tailwind v4 output: tokens in `oklch`, only the utilities the
-  components use, **no preflight** (it would reset the host app). The slice of preflight the
-  components need (`border-box`, `border: 0 solid`, form controls inheriting the page font) is
-  scoped to `[data-slot]` subtrees.
-* Utilities are intentionally **unlayered** so they beat that scoped base layer. Override a library
-  class with your own CSS after the stylesheet, or with `Class`.
+* Every component part renders its preset class (`cn-button`, `cn-card-header`, `cn-dialog-content`,
+  …). Sizes, colors, spacing and state styling come from `.style-nova .cn-*` in
+  `styles/style-nova.css`; the C# class list only adds the layout utilities the preset source names.
+* `Class` is merged with `tailwind-merge`, so `Class="px-8"` removes a `px-…` in the component's own
+  class list. Consumer utilities also win over the preset's `cn-*` CSS, because utilities are
+  emitted **unlayered** while the preset is imported into `layer(base)`.
+* The shipped `dp-shadcn.css` is Tailwind v4 output: tokens in `oklch`, the `nova` preset, only the
+  utilities the components use, **no preflight** (it would reset the host app). The slice of
+  preflight the components need (`border-box`, `border: 0 solid`, form controls inheriting the page
+  font) is scoped to `[data-slot]` subtrees.
+* The `nova` markup contract is shared by every shadcn/ui style (`nova`, `luma`, `lyra`, `maia`,
+  `mira`, `rhea`, `sera`, `vega`), so another preset is a stylesheet swap — no component change.
 * A host that already runs Tailwind can skip `dp-shadcn.css` and point its own build at the library:
-  `@source "…/libs/DB.Blazor.ShadcnUI/src/DB.Blazor.ShadcnUI/**/*.razor";` plus the tokens from
-  `styles/dp-shadcn.css`.
+  `@source "…/libs/DB.Blazor.ShadcnUI/src/DB.Blazor.ShadcnUI/**/*.razor";` plus `styles/style-nova.css`
+  and the tokens from `styles/dp-shadcn.css`.
 
 ## Build and test
 
@@ -168,7 +173,7 @@ dotnet build DB.Blazor.ShadcnUI.slnx        # library for net10.0 + net11.0, dem
 dotnet test tests/DB.Blazor.ShadcnUI.Tests  # 55 tests (bUnit + xUnit v3)
 dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 
-# Only after changing a component's class list, styles/dp-shadcn.css or a demo page:
+# Only after changing a component's class list, styles/dp-shadcn.css, styles/style-nova.css or a demo page:
 scripts/build-css.ps1 -Install           # npm install once, then both Tailwind v4 builds
 ```
 

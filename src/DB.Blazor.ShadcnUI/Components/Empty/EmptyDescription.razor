@@ -8,6 +8,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "text-sm/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary");
+    private string? Classes => MergeClass("cn-empty-description text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary");
 }
+

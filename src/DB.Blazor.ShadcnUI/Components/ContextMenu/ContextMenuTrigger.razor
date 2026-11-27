@@ -1,7 +1,7 @@
 @namespace DB.Blazor.ShadcnUI.Components
 @inherits ShadcnComponent
 
-<span id="@Root?.TriggerId" data-slot="context-menu-trigger" style="display: contents"
+<span id="@Root?.TriggerId" data-slot="context-menu-trigger" class="cn-context-menu-trigger select-none" style="display: contents"
       aria-haspopup="menu" aria-expanded="@(Root?.IsOpen == true ? "true" : "false")"
       aria-controls="@Root?.ContentId"
       @oncontextmenu="HandleContextMenuAsync" @oncontextmenu:preventDefault="true"
@@ -15,3 +15,4 @@
     private Task HandleContextMenuAsync(Microsoft.AspNetCore.Components.Web.MouseEventArgs args) =>
         Root?.OpenAtAsync(args.ClientX, args.ClientY) ?? Task.CompletedTask;
 }
+

@@ -8,7 +8,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "group/field-group @container/field-group flex w-full flex-col gap-7 " +
-        "data-[slot=checkbox-group]:gap-3 [&>[data-slot=field-group]]:gap-4");
+    private string? Classes => MergeClass("cn-field-group group/field-group @container/field-group flex w-full flex-col");
 }
+

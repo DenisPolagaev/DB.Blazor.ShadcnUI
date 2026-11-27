@@ -2,10 +2,13 @@
 
 @inherits ShadcnComponent
 
-<div data-slot="card" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+<div data-slot="card" data-size="@Size.ToDataValue()" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
+    /// <summary>Card padding density (<c>default</c> or <c>sm</c>).</summary>
+    [Parameter] public CardSize Size { get; set; } = CardSize.Default;
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass("flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm");
+    private string? Classes => MergeClass("cn-card group/card flex flex-col");
 }

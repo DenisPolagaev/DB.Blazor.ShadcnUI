@@ -14,5 +14,6 @@
     /// <summary>The id shared by the group's <c>aria-labelledby</c> and its <see cref="SelectLabel"/>.</summary>
     internal string LabelId => $"{ElementId}-label";
 
-    private string? Classes => MergeClass(null);
+    private string? Classes => MergeClass("cn-select-group");
 }
+

@@ -20,26 +20,29 @@ public enum FieldLegendVariant
     Label,
 }
 
-/// <summary>The C# port of <c>fieldVariants</c> from <c>registry/new-york-v4/ui/field.tsx</c>.</summary>
+/// <summary>The C# port of <c>fieldVariants</c> from the <c>nova</c> style's <c>field.tsx</c>.</summary>
 public static class FieldVariants
 {
     /// <summary>The variant-independent class list.</summary>
-    public const string Base = "group/field flex w-full gap-3 data-[invalid=true]:text-destructive";
+    public const string Base = "cn-field group/field flex w-full";
 
     /// <summary>Classes for <paramref name="orientation"/>.</summary>
     public static string Orientation(FieldOrientation orientation) => orientation switch
     {
         FieldOrientation.Horizontal =>
-            "flex-row items-center [&>[data-slot=field-label]]:flex-auto " +
+            "cn-field-orientation-horizontal flex-row items-center " +
             "has-[>[data-slot=field-content]]:items-start " +
+            "*:data-[slot=field-label]:flex-auto " +
             "has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
         FieldOrientation.Responsive =>
-            "flex-col @md/field-group:flex-row @md/field-group:items-center [&>*]:w-full " +
-            "@md/field-group:[&>*]:w-auto [&>.sr-only]:w-auto " +
-            "@md/field-group:[&>[data-slot=field-label]]:flex-auto " +
+            "cn-field-orientation-responsive flex-col *:w-full " +
+            "@md/field-group:flex-row @md/field-group:items-center " +
+            "@md/field-group:*:w-auto " +
             "@md/field-group:has-[>[data-slot=field-content]]:items-start " +
+            "@md/field-group:*:data-[slot=field-label]:flex-auto " +
+            "[&>.sr-only]:w-auto " +
             "@md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
-        _ => "flex-col [&>*]:w-full [&>.sr-only]:w-auto",
+        _ => "cn-field-orientation-vertical flex-col *:w-full [&>.sr-only]:w-auto",
     };
 
     /// <summary><c>fieldVariants({ orientation })</c>.</summary>
@@ -54,3 +57,5 @@ public static class FieldVariants
         _ => "vertical",
     };
 }
+
+

@@ -8,6 +8,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "flex flex-col gap-6 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3");
+    private string? Classes => MergeClass("cn-field-set flex flex-col");
 }
+

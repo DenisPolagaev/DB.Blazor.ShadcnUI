@@ -2,9 +2,10 @@
 
 ## shadcn/ui
 
-The component class strings, the markup structure (`data-slot`/`data-state` attributes) and the
-design-token values are ported from [shadcn/ui](https://ui.shadcn.com), specifically the
-`new-york-v4` registry (<https://ui.shadcn.com/r/styles/new-york-v4/…>).
+The component class strings, the markup structure (`data-slot`/`data-state` attributes), the
+`nova` style preset (`styles/style-nova.css`, semantic `cn-*` classes) and the design-token values
+are ported from [shadcn/ui](https://ui.shadcn.com), specifically the `nova` style of the v4 registry
+(`apps/v4/registry/bases/radix/ui/*.tsx` and `apps/v4/registry/styles/style-nova.css`).
 
 shadcn/ui is distributed under the MIT license:
 

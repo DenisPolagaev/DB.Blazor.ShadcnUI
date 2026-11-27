@@ -1,10 +1,12 @@
 @namespace DB.Blazor.ShadcnUI.Components
 @inherits ShadcnComponent
 
-<div data-slot="input-otp-separator" role="separator" class="@Class" style="@Style"
+<div data-slot="input-otp-separator" role="separator" class="@Cn.Merge("cn-input-otp-separator flex items-center", Class)" style="@Style"
      @attributes="AdditionalAttributes">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
          class="size-4">
         <path d="M5 12h14" />
     </svg>
 </div>
+
+

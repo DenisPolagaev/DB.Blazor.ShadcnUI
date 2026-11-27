@@ -2,11 +2,11 @@
 @inherits ShadcnDismissableBase
 
 <div @ref="_panel" role="listbox" tabindex="-1" id="@Root?.ContentId"
-     data-slot="select-content" data-state="@(Root?.IsOpen == true ? "open" : "closed")"
+     data-slot="select-content" data-position="@(Position == SelectPosition.Popper ? "popper" : "item-aligned")" data-state="@(Root?.IsOpen == true ? "open" : "closed")"
      aria-labelledby="@Root?.TriggerId" hidden="@(Root?.IsVisible != true)" class="@Classes"
      style="@Styles" @oncontextmenu:preventDefault="true" @attributes="AdditionalAttributes">
     <SelectScrollUpButton />
-    <div class="@ViewportClasses">
+    <div data-position="@(Position == SelectPosition.Popper ? "popper" : "item-aligned")" class="@ViewportClasses">
         @ChildContent
     </div>
     <SelectScrollDownButton />
@@ -21,24 +21,13 @@
             : "display: none; flex-direction: column; outline: none;");
 
     private string? Classes => MergeClass(
-        Cx(
-            "relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] " +
-            "origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto " +
-            "rounded-md border bg-popover text-popover-foreground shadow-md " +
-            "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 " +
-            "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 " +
-            "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 " +
-            "data-[state=closed]:zoom-out-95 data-[state=open]:animate-in " +
-            "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
-            Position == SelectPosition.Popper
-                ? "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 " +
-                  "data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1"
-                : null));
+        "cn-select-content cn-menu-target cn-menu-translucent relative z-50 " +
+        "max-h-(--radix-select-content-available-height) " +
+        "origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto " +
+        "data-[align-trigger=true]:animate-none");
 
     private string? ViewportClasses => Cx(
-        "p-1",
-        Position == SelectPosition.Popper
-            ? "h-[var(--radix-select-trigger-height)] w-full " +
-              "min-w-[var(--radix-select-trigger-width)] scroll-my-1"
-            : null);
+        "cn-select-viewport data-[position=popper]:h-(--radix-select-trigger-height) " +
+        "data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)");
 }
+

@@ -12,7 +12,7 @@
     /// <summary>Radix's <c>decorative</c>: a decorative separator is hidden from assistive technology.</summary>
     [Parameter] public bool Decorative { get; set; } = true;
 
-    private string? Classes => MergeClass(
-        "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full " +
-        "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px");
+    private string? Classes => MergeClass(Cx("cn-separator", Orientation == ShadcnOrientation.Vertical ? "cn-separator-vertical" : "cn-separator-horizontal"));
 }
+
+

@@ -2,7 +2,7 @@
 
 @inherits ShadcnComponent
 
-<Button Variant="Variant" Size="Size" Class="@Class" OnClick="InvokeAsync" data-slot="alert-dialog-action" @attributes="AdditionalAttributes">
+<Button Variant="Variant" Size="Size" Class="@Cn.Merge("cn-alert-dialog-action", Class)" OnClick="InvokeAsync" data-slot="alert-dialog-action" @attributes="AdditionalAttributes">
     @ChildContent
 </Button>
 
@@ -30,3 +30,5 @@
         await OnClick.InvokeAsync();
     }
 }
+
+

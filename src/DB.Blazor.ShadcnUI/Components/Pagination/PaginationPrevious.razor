@@ -4,8 +4,8 @@
 
 <PaginationLink Href="@Href" OnClick="OnClick" Size="ButtonSize.Default" aria-label="Go to previous page"
                 Class="@Classes">
-    <ChevronLeftIcon />
-    <span class="hidden sm:block">Previous</span>
+    <ChevronLeftIcon Class="cn-rtl-flip" />
+    <span class="cn-pagination-previous-text hidden sm:block">Previous</span>
 </PaginationLink>
 
 @code {
@@ -13,5 +13,7 @@
 
     [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
 
-    private string? Classes => Cx("gap-1 px-2.5 sm:pl-2.5", Class);
+    private string? Classes => Cx("cn-pagination-previous", "gap-1 px-2.5 sm:pl-2.5", Class);
 }
+
+

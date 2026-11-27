@@ -31,5 +31,6 @@
 
     internal Task ToggleAsync() => Disabled || Owner is null ? Task.CompletedTask : Owner.ToggleAsync(Value);
 
-    private string? Classes => MergeClass("border-b last:border-b-0");
+    private string? Classes => MergeClass("cn-accordion-item");
 }
+

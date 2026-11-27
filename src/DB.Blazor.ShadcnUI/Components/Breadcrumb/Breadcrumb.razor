@@ -2,10 +2,12 @@
 
 @inherits ShadcnComponent
 
-<nav aria-label="breadcrumb" data-slot="breadcrumb" class="@Class" style="@Style" @attributes="AdditionalAttributes">
+<nav aria-label="breadcrumb" data-slot="breadcrumb" class="@Cn.Merge("cn-breadcrumb", Class)" style="@Style" @attributes="AdditionalAttributes">
     @ChildContent
 </nav>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 }
+
+

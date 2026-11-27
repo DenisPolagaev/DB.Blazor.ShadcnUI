@@ -6,7 +6,7 @@
 {
     <div data-slot="alert-dialog-portal">
         <div data-slot="alert-dialog-overlay" data-state="@(Root.IsOpen ? "open" : "closed")"
-             class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"></div>
+             class="cn-alert-dialog-overlay fixed inset-0 z-50"></div>
         <div @ref="_panel" role="alertdialog" aria-modal="true" tabindex="-1" data-slot="alert-dialog-content"
              data-state="@(Root.IsOpen ? "open" : "closed")" data-size="@SizeValue" id="@Root.ContentId" aria-labelledby="@Root.TitleId"
              aria-describedby="@Root.DescriptionId" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
@@ -21,10 +21,6 @@
 
     private string SizeValue => Size == AlertDialogContentSize.Small ? "sm" : "default";
 
-    private string? Classes => MergeClass(
-        "group/alert-dialog-content fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] " +
-        "translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg " +
-        "duration-200 data-[size=sm]:max-w-xs data-[state=closed]:animate-out data-[state=closed]:fade-out-0 " +
-        "data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 " +
-        "data-[state=open]:zoom-in-95 data-[size=default]:sm:max-w-lg");
+    private string? Classes => MergeClass("cn-alert-dialog-content group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 outline-none");
 }
+

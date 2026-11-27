@@ -1,12 +1,16 @@
 @namespace DB.Blazor.ShadcnUI.Components
 @inherits ShadcnComponent
 
-<div data-slot="command-input-wrapper" cmdk-input-wrapper class="flex h-9 items-center gap-2 border-b px-3">
-    <SearchIcon Class="size-4 shrink-0 opacity-50" />
-    <input data-slot="command-input" cmdk-input type="text" role="combobox" aria-expanded="true"
-           aria-controls="@Root?.ListId" aria-autocomplete="list" autocomplete="off" spellcheck="false"
-           value="@Value" placeholder="@Placeholder" disabled="@Disabled" class="@Classes" style="@Style"
-           @oninput="HandleInputAsync" @attributes="AdditionalAttributes" />
+<div data-slot="command-input-wrapper" cmdk-input-wrapper class="cn-command-input-wrapper">
+    <InputGroup Class="cn-command-input-group">
+        <input data-slot="command-input" cmdk-input type="text" role="combobox" aria-expanded="true"
+               aria-controls="@Root?.ListId" aria-autocomplete="list" autocomplete="off" spellcheck="false"
+               value="@Value" placeholder="@Placeholder" disabled="@Disabled" class="@Classes" style="@Style"
+               @oninput="HandleInputAsync" @attributes="AdditionalAttributes" />
+        <InputGroupAddon>
+            <SearchIcon Class="cn-command-input-icon" />
+        </InputGroupAddon>
+    </InputGroup>
 </div>
 
 @code {
@@ -31,6 +35,8 @@
     }
 
     private string? Classes => MergeClass(
-        "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden " +
+        "cn-command-input outline-hidden " +
         "placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50");
 }
+
+

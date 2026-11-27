@@ -8,7 +8,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "line-clamp-2 text-sm leading-normal font-normal text-balance text-muted-foreground " +
-        "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary");
+    private string? Classes => MergeClass("cn-item-description line-clamp-2 font-normal [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary");
 }
+

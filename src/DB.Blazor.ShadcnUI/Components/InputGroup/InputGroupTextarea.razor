@@ -26,9 +26,6 @@
         await ValueChanged.InvokeAsync(Value);
     }
 
-    private string? Classes => MergeClass(
-        "flex-1 resize-none rounded-none border-0 bg-transparent py-3 shadow-none focus-visible:ring-0 " +
-        "dark:bg-transparent field-sizing-content min-h-16 w-full px-3 text-base " +
-        "transition-[color,box-shadow] outline-none placeholder:text-muted-foreground " +
-        "disabled:cursor-not-allowed disabled:opacity-50 md:text-sm");
+    private string? Classes => MergeClass("cn-input-group-textarea flex-1 resize-none");
 }
+

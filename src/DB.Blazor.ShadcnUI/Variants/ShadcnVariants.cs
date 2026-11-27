@@ -102,6 +102,15 @@ public enum SelectSize
     Sm,
 }
 
+/// <summary>The <c>nova</c> style's <c>Card.size</c>.</summary>
+public enum CardSize
+{
+    /// <summary><c>default</c></summary>
+    Default,
+    /// <summary><c>sm</c></summary>
+    Sm,
+}
+
 /// <summary>Radix <c>SelectContent.position</c>.</summary>
 public enum SelectPosition
 {
@@ -215,6 +224,13 @@ public static class ShadcnNames
     public static string ToDataValue(this SelectSize value) => value switch
     {
         SelectSize.Sm => "sm",
+        _ => "default",
+    };
+
+    /// <summary><c>CardSize</c> → <c>data-size</c>.</summary>
+    public static string ToDataValue(this CardSize value) => value switch
+    {
+        CardSize.Sm => "sm",
         _ => "default",
     };
 

@@ -3,9 +3,10 @@
 
 <div data-slot="command-item" cmdk-item role="option" id="@ElementId" tabindex="-1"
      data-value="@Value" data-keywords="@Keywords" data-selected="false" aria-selected="false"
-     data-disabled="@(Disabled ? "true" : "false")" aria-disabled="@(Disabled ? "true" : null)"
+     data-disabled="@(Disabled ? "true" : "false")" aria-disabled="@(Disabled ? "true" : null)" data-checked="@(Checked ? "true" : null)"
      class="@Classes" style="@Style" @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
     @ChildContent
+    <CheckIcon Class="cn-command-item-indicator ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100" />
 </div>
 
 @code {
@@ -18,6 +19,9 @@
     /// <summary>Disables the item.</summary>
     [Parameter] public bool Disabled { get; set; }
 
+    /// <summary>Marks the item as the chosen one (the trailing check indicator).</summary>
+    [Parameter] public bool Checked { get; set; }
+
     /// <summary>Runs when the item is chosen.</summary>
     [Parameter] public EventCallback OnSelect { get; set; }
 
@@ -25,10 +29,7 @@
 
     private Task HandleClickAsync() => Disabled ? Task.CompletedTask : OnSelect.InvokeAsync();
 
-    private string? Classes => MergeClass(
-        "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden " +
-        "select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 " +
-        "data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground " +
-        "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " +
-        "[&_svg:not([class*='text-'])]:text-muted-foreground");
+    private string? Classes => MergeClass("cn-command-item group/command-item data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0");
 }
+
+

@@ -14,7 +14,7 @@
 
     private bool _failed;
 
-    private string? Classes => Cx("aspect-square size-full", _failed ? "hidden" : null, Class);
+    private string? Classes => Cx("cn-avatar-image aspect-square size-full object-cover", _failed ? "hidden" : null, Class);
 
     private void HandleLoad() => Owner?.NotifyImageLoaded();
 
@@ -24,3 +24,5 @@
         Owner?.NotifyImageFailed();
     }
 }
+
+

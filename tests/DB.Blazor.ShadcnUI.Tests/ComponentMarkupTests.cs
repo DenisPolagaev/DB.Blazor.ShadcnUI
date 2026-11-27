@@ -34,8 +34,8 @@ public class ComponentMarkupTests : BunitContext
         Assert.Equal("secondary", button.GetAttribute("data-variant"));
         Assert.Equal("sm", button.GetAttribute("data-size"));
         Assert.Equal("button", button.GetAttribute("type"));
-        Assert.Contains("bg-secondary", button.ClassName);
-        Assert.Contains("h-8", button.ClassName);
+        Assert.Contains("cn-button-variant-secondary", button.ClassName);
+        Assert.Contains("cn-button-size-sm", button.ClassName);
         Assert.Equal("Save", button.TextContent.Trim());
     }
 
@@ -76,7 +76,7 @@ public class ComponentMarkupTests : BunitContext
 
         var badge = cut.Find("span[data-slot='badge']");
         Assert.Equal("destructive", badge.GetAttribute("data-variant"));
-        Assert.Contains("text-white", badge.ClassName);
+        Assert.Contains("cn-badge-variant-destructive", badge.ClassName);
     }
 
     [Fact]
@@ -116,6 +116,51 @@ public class ComponentMarkupTests : BunitContext
         Assert.NotNull(cut.Find("[data-slot='card-action']"));
         Assert.Equal("Body", cut.Find("[data-slot='card-content']").TextContent.Trim());
         Assert.Equal("Footer", cut.Find("[data-slot='card-footer']").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Card_RendersNovaSizeAttribute()
+    {
+        var cut = Render<Card>(parameters => parameters
+            .Add(p => p.Size, CardSize.Sm)
+            .AddChildContent("Body"));
+
+        var card = cut.Find("[data-slot='card']");
+        Assert.Equal("sm", card.GetAttribute("data-size"));
+        Assert.Contains("cn-card", card.ClassName);
+    }
+
+    [Fact]
+    public void AlertAction_RendersTheActionSlot()
+    {
+        var cut = Render<Alert>(parameters => parameters
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<AlertTitle>(0);
+                builder.AddAttribute(1, "ChildContent", (RenderFragment)(title => title.AddContent(0, "Heads up")));
+                builder.CloseComponent();
+                builder.OpenComponent<AlertAction>(2);
+                builder.AddAttribute(3, "ChildContent", (RenderFragment)(action => action.AddContent(0, "Enable")));
+                builder.CloseComponent();
+            }));
+
+        var action = cut.Find("[data-slot='alert-action']");
+        Assert.Contains("cn-alert-action", action.ClassName);
+        Assert.Equal("Enable", action.TextContent.Trim());
+    }
+
+    [Fact]
+    public void PaginationLink_AppliesTheButtonVariant()
+    {
+        var cut = Render<PaginationLink>(parameters => parameters
+            .Add(p => p.IsActive, true)
+            .AddChildContent("2"));
+
+        var link = cut.Find("a[data-slot='pagination-link']");
+        Assert.Equal("true", link.GetAttribute("data-active"));
+        Assert.Contains("cn-button", link.ClassName);
+        Assert.Contains("cn-button-variant-outline", link.ClassName);
+        Assert.Contains("cn-pagination-link", link.ClassName);
     }
 
     [Fact]
@@ -613,3 +658,4 @@ public class ComponentMarkupTests : BunitContext
         builder.CloseComponent();
     };
 }
+

@@ -4,7 +4,7 @@
 <div data-slot="input-otp" class="@ContainerClasses" style="@Style" @attributes="AdditionalAttributes">
     <input type="@Type" inputmode="@InputMode" pattern="@Pattern" autocomplete="one-time-code" maxlength="@Length"
            value="@Current" disabled="@Disabled"
-           class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
+           class="cn-input-otp-input absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
            @oninput="HandleInputAsync" @onfocus="HandleFocus" @onblur="HandleBlur" />
     <CascadingValue Value="this" IsFixed="true">
         @ChildContent
@@ -23,7 +23,7 @@
 
     private string InputMode => string.Equals(Type, "text", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
 
-    private string? ContainerClasses => MergeClass("relative flex items-center gap-2 has-disabled:opacity-50");
+    private string? ContainerClasses => MergeClass("cn-input-otp relative flex items-center has-disabled:opacity-50");
 
     private async Task HandleInputAsync(ChangeEventArgs args)
     {
@@ -34,3 +34,4 @@
 
     private void HandleBlur() => SetFocused(false);
 }
+

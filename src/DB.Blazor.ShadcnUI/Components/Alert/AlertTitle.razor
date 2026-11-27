@@ -7,5 +7,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass("col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight");
+    private string? Classes => MergeClass("cn-alert-title [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground");
 }
+

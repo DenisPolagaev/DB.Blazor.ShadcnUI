@@ -23,12 +23,96 @@
    with their own unlayered rule. */
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "./style-nova.css" layer(base);
 
 @source "../src/DB.Blazor.ShadcnUI/**/*.razor";
 @source "../src/DB.Blazor.ShadcnUI/**/*.cs";
 
 /* shadcn/ui v4 dark mode: `.dark` on <html>, or on any ancestor. */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Radix/Base UI state variants the style presets use (`data-open:`, `data-closed:`, ...). */
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-checked {
+  &:where([data-state="checked"]),
+  &:where([data-checked]:not([data-checked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]),
+  &:where([data-unchecked]:not([data-unchecked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-selected {
+  &:where([data-selected="true"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-disabled {
+  &:where([data-disabled="true"]),
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-active {
+  &:where([data-state="active"]),
+  &:where([data-active]:not([data-active="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-vertical {
+  &:where([data-orientation="vertical"]) {
+    @slot;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* The preset's directional-icon hook: chevrons, arrows and back/forward glyphs mirror in RTL. */
+@utility cn-rtl-flip {
+  &:where([dir="rtl"], [dir="rtl"] *) {
+    transform: scaleX(-1);
+  }
+}
+
+/* The preset marks headings with `cn-font-heading`; upstream the app supplies the family via
+   next/font. Here the variable is optional and falls back to the inherited family. */
+.cn-font-heading {
+  font-family: var(--font-heading, inherit);
+}
 
 /* ---------------------------------------------------------------------------------------------
  * Design tokens — the shadcn/ui "neutral" preset, byte-for-byte the values from
@@ -207,6 +291,56 @@
   :where(button, [role="button"])[data-slot],
   :where([data-slot]) :where(button, [role="button"]) {
     cursor: pointer;
+  }
+
+  /* Anchors keep the inherited colour and no UA underline, like preflight: pagination and
+     breadcrumb links are anchors rendered by the component (or a Button applied to an <a>). */
+  :where(a)[data-slot],
+  :where([data-slot]) :where(a) {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  /* Lists carry no UA markers, margin or padding inside components (pagination content, field
+     error lists), like preflight. */
+  :where(ul, ol)[data-slot],
+  :where([data-slot]) :where(ul, ol) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Tables collapse their borders (`cn-table` does not re-state it) and fieldsets lose the UA
+     padding/margin, as preflight does; `cn-field-set` only sets the flex layout. */
+  :where(table)[data-slot],
+  :where([data-slot]) :where(table) {
+    border-collapse: collapse;
+    border-color: inherit;
+    text-indent: 0;
+  }
+
+  :where(fieldset)[data-slot],
+  :where([data-slot]) :where(fieldset) {
+    margin: 0;
+    padding: 0;
+  }
+
+  :where(legend)[data-slot],
+  :where([data-slot]) :where(legend) {
+    padding: 0;
+  }
+
+  /* Media is block-level and never wider than its slot, like preflight. */
+  :where(img, svg, video, canvas, audio, iframe, embed, object)[data-slot],
+  :where([data-slot]) :where(img, svg, video, canvas, audio, iframe, embed, object) {
+    display: block;
+    vertical-align: middle;
+  }
+
+  :where(img, video)[data-slot],
+  :where([data-slot]) :where(img, video) {
+    max-width: 100%;
+    height: auto;
   }
 
   :where([data-slot]) :where(:disabled, [aria-disabled="true"]) {

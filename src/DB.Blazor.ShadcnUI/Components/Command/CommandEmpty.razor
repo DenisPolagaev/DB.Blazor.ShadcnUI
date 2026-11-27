@@ -8,8 +8,9 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass("py-6 text-center text-sm");
+    private string? Classes => MergeClass("cn-command-empty");
 
     // Shown by dp-shadcn.js only while no item matches the filter.
     private string? Styles => StyleWith("display: none");
 }
+

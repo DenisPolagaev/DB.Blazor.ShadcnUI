@@ -3,12 +3,23 @@
 Статус на момент последнего коммита: **47 семейств из 61** портировано и проверено.
 Каждое семейство проходит один и тот же цикл, ничего не пропускается:
 
-1. исходник: `https://ui.shadcn.com/r/styles/new-york-v4/<name>.json` → `<name>.tsx`;
-2. порт с дословными классами (`Variants/*` + `Components/<Name>/*.razor`), `data-slot`/`data-state`;
+1. исходник: `https://github.com/shadcn-ui/ui` → `apps/v4/registry/bases/radix/ui/<name>.tsx`
+   и стиль `apps/v4/registry/styles/style-nova.css`;
+2. порт с дословными семантическими классами (`Variants/*` + `Components/<Name>/*.razor`),
+   `data-slot`/`data-state`; утилиты живут в `styles/style-nova.css`, а не в C#;
 3. страница в демо-доке (`Docs/*Docs.razor` + запись в `DocCatalog`);
-4. `scripts/check-parity.ps1 -ReferenceDir <tsx>` — ни одного пропущенного класса, ни одного выдуманного;
+4. `scripts/check-parity.ps1 -ReferenceDir <tsx>` — ни одного пропущенного `cn-*`;
 5. `dotnet build DB.Blazor.ShadcnUI.slnx` (net10 + net11) и `dotnet test`;
 6. коммит в `main` + обновление сабмодуля в `DP.Geoportal`.
+
+## Стили
+
+Базовый стиль — **`nova`**: компоненты несут его семантические классы (`cn-button`, `cn-card-header`,
+`cn-dialog-content`, …), а `styles/style-nova.css` под `.style-nova` задаёт размеры, цвета, отступы и
+состояния. Контракт `cn-*` общий у всех восьми пресетов shadcn/ui (`nova`, `luma`, `lyra`, `maia`,
+`mira`, `rhea`, `sera`, `vega`), поэтому новый пресет — это только его CSS-файл, без правок
+компонентов. `new-york-v4` остаётся в реестре для legacy-проектов, но этот порт его больше не
+использует. Хост обязан пометить корень: `<html class="style-nova">`.
 
 ## Готово (47)
 

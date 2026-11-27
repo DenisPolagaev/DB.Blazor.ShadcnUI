@@ -4,7 +4,7 @@
 
 <div @ref="_panel" data-slot="accordion-content" data-state="@(Item?.Open == true ? "open" : "closed")"
      role="region" aria-labelledby="@Item?.TriggerId" inert="@(Item?.Open != true)"
-     class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+     class="cn-accordion-content overflow-hidden">
     <div class="@Classes">@ChildContent</div>
 </div>
 
@@ -18,7 +18,7 @@
     private ElementReference _panel;
     private IJSObjectReference? _module;
 
-    private string? Classes => MergeClass("pt-0 pb-4");
+    private string? Classes => MergeClass("cn-accordion-content-inner h-(--radix-accordion-content-height) [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4");
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -48,3 +48,5 @@
         }
     }
 }
+
+

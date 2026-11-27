@@ -1,6 +1,13 @@
-# Compares the class tokens of the shadcn/ui v4 registry with the ported sources.
-# Reports class tokens that exist in the registry but nowhere in the port (a real omission).
-# Usage: ./scripts/check-parity.ps1 -ReferenceDir <dir with new-york-v4 *.tsx>
+# Compares the cn-* component tokens of a shadcn/ui style preset with the ported sources.
+# Reports cn-* tokens that exist in the preset's registry sources but nowhere in the port
+# (a real omission), and tokens a ported component uses that its own source does not.
+#
+# The preset's markup carries semantic `cn-*` classes; the actual styling lives in the preset
+# stylesheet (styles/style-nova.css). Comparing cn-* tokens therefore checks that every component
+# part of the port is wired to its preset class, which is what a style migration is about - the
+# utility classes move into the stylesheet and are not repeated in the C# port.
+#
+# Usage: ./scripts/check-parity.ps1 -ReferenceDir <dir with the preset's *.tsx files>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)][string]$ReferenceDir
@@ -59,51 +66,40 @@ $map = [ordered]@{
     'tooltip'       = 'Tooltip'
 }
 
-function Get-QuotedStrings([string]$path) {
-    $content = Get-Content $path -Raw
-    $found = [regex]::Matches($content, '"([^"\\\r\n]{3,})"')
-    return @($found | ForEach-Object { $_.Groups[1].Value })
-}
+# Tokens the preset stylesheet provides for a component the registry source does not name
+# (the style's separator.tsx writes utilities, while style-nova.css also carries cn-separator).
+$knownExtras = @(
+    'cn-separator',
+    'cn-separator-horizontal',
+    'cn-separator-vertical'
+)
 
-function Get-ClassTokens([string[]]$texts) {
-    $tokens = New-Object 'System.Collections.Generic.HashSet[string]'
-    foreach ($text in $texts) {
-        if (-not $text) { continue }
-        foreach ($raw in ($text -split '\s+')) {
-            $token = $raw.Trim()
-            if ($token.Length -eq 0) { continue }
-            if ($token -match '[\$\{\}`]') { continue }
-            # Only tokens that look like Tailwind utilities.
-            if ($token -notmatch '^[a-z\[@\*!-]' -or $token -notmatch '-') { continue }
-            [void]$tokens.Add($token)
-        }
-    }
-    return $tokens
+function Get-CnTokens([string]$path) {
+    $content = Get-Content $path -Raw
+    return @([regex]::Matches($content, 'cn-[a-z0-9-]+') | ForEach-Object { $_.Value } | Sort-Object -Unique)
 }
 
 $portFiles = @(Get-ChildItem $srcRoot -Recurse -Include *.razor, *.cs -File | Select-Object -ExpandProperty FullName)
-$portTexts = @($portFiles | ForEach-Object { Get-QuotedStrings $_ })
-$portTokens = Get-ClassTokens $portTexts
+$portTokens = New-Object 'System.Collections.Generic.HashSet[string]'
+foreach ($file in $portFiles) {
+    foreach ($token in (Get-CnTokens $file)) { [void]$portTokens.Add($token) }
+}
 
 $totalMissing = 0
-$allReference = @($map.Keys | ForEach-Object { $tsx = Join-Path $ReferenceDir "$_.tsx"; if (Test-Path $tsx) { Get-ClassTokens (Get-QuotedStrings $tsx) } })
 foreach ($name in $map.Keys) {
     $tsx = Join-Path $ReferenceDir "$name.tsx"
     if (-not (Test-Path $tsx)) { Write-Host "no reference for $name" -ForegroundColor DarkGray; continue }
 
-    $referenceTokens = Get-ClassTokens (Get-QuotedStrings $tsx)
-    $missing = @($referenceTokens | Where-Object { -not $portTokens.Contains($_) } |
-        Where-Object { $_ -notmatch '^(client|use|radix-ui|lucide-react|react|class-variance-authority|item-aligned)$' } |
-        Where-Object { $_ -notmatch '^@/' } |
-        Sort-Object)
+    $referenceTokens = Get-CnTokens $tsx
+    $missing = @($referenceTokens | Where-Object { -not $portTokens.Contains($_) } | Sort-Object)
 
     if ($missing.Count -gt 0) {
         $totalMissing += $missing.Count
-        Write-Host "`n[$name] $($missing.Count) token(s) from the registry are missing:" -ForegroundColor Yellow
+        Write-Host "`n[$name] $($missing.Count) cn token(s) from the preset are missing:" -ForegroundColor Yellow
         $missing | ForEach-Object { Write-Host "  $_" }
     }
 
-    # Reverse direction: a utility the component uses that never appears in any reference file.
+    # Reverse direction: a cn token a ported component uses that its own preset source never names.
     $folder = Join-Path $srcRoot "Components/$($map[$name])"
     $variantFile = Join-Path $srcRoot "Variants/$($map[$name])Variants.cs"
     $ownFiles = @()
@@ -111,19 +107,19 @@ foreach ($name in $map.Keys) {
     if (Test-Path $variantFile) { $ownFiles += $variantFile }
     if ($ownFiles.Count -eq 0) { continue }
 
-    $ownTexts = @($ownFiles | ForEach-Object { Get-QuotedStrings $_ })
-    $ownTokens = @(Get-ClassTokens $ownTexts)
-    $extra = @($ownTokens | Where-Object { $allReference -notcontains $_ } |
-        Where-Object { $_ -match '^[a-z]' } |
-        Where-Object { $_ -notmatch '^(data-slot|aria-|role)' } |
-        Where-Object { $_ -notmatch '[:=]$' } |
-        Sort-Object)
+    $ownTokens = @($ownFiles | ForEach-Object { Get-CnTokens $_ } | Sort-Object -Unique)
+    $extra = @($ownTokens | Where-Object { $referenceTokens -notcontains $_ } | Where-Object { $knownExtras -notcontains $_ } | Sort-Object)
 
     if ($extra.Count -gt 0) {
-        Write-Host "[$name] $($extra.Count) token(s) not found in any reference file:" -ForegroundColor DarkYellow
+        Write-Host "[$name] $($extra.Count) cn token(s) the preset source does not name:" -ForegroundColor DarkYellow
         $extra | ForEach-Object { Write-Host "  $_" }
     }
 }
 
-Write-Host "`n$totalMissing missing token(s) across $($map.Count) components."
-
+if ($totalMissing -eq 0) {
+    Write-Host "`nAll preset cn tokens are present in the port ($($map.Count) components)." -ForegroundColor Green
+}
+else {
+    Write-Host "`n$totalMissing missing cn token(s) across $($map.Count) components." -ForegroundColor Yellow
+    exit 1
+}

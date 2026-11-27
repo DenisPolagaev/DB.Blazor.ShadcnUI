@@ -178,6 +178,22 @@ else if (Slug == "card")
                     </CardFooter>
                 </Card>
             </div></div>
+
+            <h3 class="docs-example-title">Small</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Card Size="CardSize.Sm" Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Small card</CardTitle>
+                        <CardDescription>Compact padding with the same slots.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p class="demo-item-text">A card with the small density.</p>
+                    </CardContent>
+                    <CardFooter>
+                        <Button Size="ButtonSize.Sm">Action</Button>
+                    </CardFooter>
+                </Card>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -212,10 +228,10 @@ else if (Slug == "alert")
             <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
                 <Alert>
                     <AlertTitle>Heads up!</AlertTitle>
-                    <AlertDescription>
-                        <p>You can add components to your app using the cli.</p>
+                    <AlertDescription>You can add components to your app using the cli.</AlertDescription>
+                    <AlertAction>
                         <Button Size="ButtonSize.Xs" Variant="ButtonVariant.Outline">Enable</Button>
-                    </AlertDescription>
+                    </AlertAction>
                 </Alert>
             </div></div>
 

@@ -8,5 +8,6 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass("flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none");
+    private string? Classes => MergeClass("cn-item-content flex flex-1 flex-col [&+[data-slot=item-content]]:flex-none");
 }
+

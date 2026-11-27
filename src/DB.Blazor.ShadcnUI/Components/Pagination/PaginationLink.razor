@@ -29,5 +29,10 @@ else
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(ButtonVariants.Get(IsActive ? ButtonVariant.Outline : ButtonVariant.Ghost, Size));
+    private string? Classes => Cn.Merge(
+        ButtonVariants.Get(IsActive ? ButtonVariant.Outline : ButtonVariant.Ghost, Size),
+        "cn-pagination-link",
+        Class);
 }
+
+

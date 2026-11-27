@@ -6,7 +6,7 @@
     @attributes="AdditionalAttributes">
     @if (ChildContent is null)
     {
-        <ChevronRightIcon />
+        <ChevronRightIcon Class="cn-rtl-flip" />
     }
     else
     {
@@ -17,5 +17,7 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass("[&>svg]:size-3.5");
+    private string? Classes => MergeClass("cn-breadcrumb-separator");
 }
+
+

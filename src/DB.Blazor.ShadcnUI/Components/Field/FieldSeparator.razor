@@ -7,7 +7,7 @@
     @if (ChildContent is not null)
     {
         <span data-slot="field-separator-content"
-              class="relative mx-auto block w-fit bg-background px-2 text-muted-foreground">
+              class="cn-field-separator-content relative mx-auto block w-fit bg-background">
             @ChildContent
         </span>
     }
@@ -16,6 +16,7 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2");
+    private string? Classes => MergeClass("cn-field-separator relative");
 }
+
+

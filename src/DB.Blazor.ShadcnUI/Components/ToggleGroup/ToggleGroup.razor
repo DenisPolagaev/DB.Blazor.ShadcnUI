@@ -10,8 +10,6 @@
 </div>
 
 @code {
-    private string? Classes => MergeClass(
-        "group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md " +
-        "data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch " +
-        "data-[spacing=default]:data-[variant=outline]:shadow-xs");
+    private string? Classes => MergeClass("cn-toggle-group group/toggle-group flex w-fit flex-row items-center gap-[--spacing(var(--gap))] data-vertical:flex-col data-vertical:items-stretch");
 }
+

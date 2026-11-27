@@ -8,7 +8,7 @@
      tabindex="-1" class="@Classes" style="@Style" @onclick="ToggleAsync" @keydown="HandleKeyDownAsync" @onpointerenter="OpenAsync"
      @onpointerleave="ScheduleClose" @attributes="AdditionalAttributes">
     @ChildContent
-    <ChevronRightIcon Class="ml-auto h-4 w-4" />
+    <ChevronRightIcon Class="cn-rtl-flip ml-auto size-4" />
 </div>
 
 @code {
@@ -28,9 +28,8 @@
 
     private void ScheduleClose() => Owner?.ScheduleClose();
 
-    private string? Classes => MergeClass(
-        "flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none " +
-        "focus:bg-accent focus:text-accent-foreground data-[inset]:pl-8 data-[state=open]:bg-accent " +
-        "data-[state=open]:text-accent-foreground");
+    private string? Classes => MergeClass("cn-menubar-sub-trigger flex cursor-default items-center outline-none select-none");
 }
+
+
 

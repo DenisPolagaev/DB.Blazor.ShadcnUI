@@ -12,7 +12,6 @@
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string? Classes => MergeClass(
-        "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground " +
-        "group-data-[size=sm]/avatar:text-xs");
+    private string? Classes => MergeClass("cn-avatar-fallback flex size-full items-center justify-center text-sm group-data-[size=sm]/avatar:text-xs");
 }
+

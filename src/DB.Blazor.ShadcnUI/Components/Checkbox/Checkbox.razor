@@ -7,8 +7,8 @@
         @onclick="ToggleAsync" @attributes="AdditionalAttributes">
     @if (Checked)
     {
-        <span data-slot="checkbox-indicator" class="grid place-content-center text-current transition-none">
-            <CheckIcon Class="size-3.5" />
+        <span data-slot="checkbox-indicator" class="cn-checkbox-indicator grid place-content-center text-current transition-none">
+            <CheckIcon />
         </span>
     }
 </button>
@@ -37,11 +37,7 @@
         await CheckedChanged.InvokeAsync(Checked);
     }
 
-    private string? Classes => MergeClass(
-        "peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs transition-shadow outline-none " +
-        "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 " +
-        "disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive " +
-        "aria-invalid:ring-destructive/20 data-[state=checked]:border-primary " +
-        "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground " +
-        "dark:bg-input/30 dark:aria-invalid:ring-destructive/40 dark:data-[state=checked]:bg-primary");
+    private string? Classes => MergeClass("cn-checkbox peer relative shrink-0 outline-none after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50");
 }
+
+

@@ -57,6 +57,9 @@ public partial class Accordion : ShadcnComponent
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Root class list for the <c>nova</c> style.</summary>
+    internal string? RootClasses => Cn.Merge("cn-accordion flex w-full flex-col", Class);
+
     /// <summary>True when the item with <paramref name="value"/> is expanded.</summary>
     public bool IsOpen(string? value)
     {

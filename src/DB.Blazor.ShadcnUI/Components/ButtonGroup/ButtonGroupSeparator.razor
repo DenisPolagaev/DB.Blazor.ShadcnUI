@@ -7,5 +7,6 @@
     /// <summary><c>vertical</c> by default, like shadcn.</summary>
     [Parameter] public ShadcnOrientation Orientation { get; set; } = ShadcnOrientation.Vertical;
 
-    private string? Classes => Cx("relative m-0! self-stretch bg-input data-[orientation=vertical]:h-auto", Class);
+    private string? Classes => Cx("cn-button-group-separator relative self-stretch data-horizontal:mx-px data-horizontal:w-auto data-vertical:my-px data-vertical:h-auto", Class);
 }
+
