@@ -220,6 +220,17 @@ export function positionFloating(triggerId, panel, options = {}) {
   }
 }
 
+/** Keeps a panel that positions itself (context menu at the pointer) inside the viewport. */
+function clampFixedPanel(el) {
+  el.style.position = "fixed";
+  const rect = el.getBoundingClientRect();
+  const padding = 8;
+  const left = Math.min(Math.max(padding, rect.left), Math.max(padding, window.innerWidth - rect.width - padding));
+  const top = Math.min(Math.max(padding, rect.top), Math.max(padding, window.innerHeight - rect.height - padding));
+  el.style.left = `${Math.round(left)}px`;
+  el.style.top = `${Math.round(top)}px`;
+}
+
 /**
  * Places a select listbox. Radix has two modes: `popper` behaves like any floating panel, and
  * `item-aligned` (the shadcn default) overlays the list on the trigger so the checked item sits
@@ -320,6 +331,23 @@ function syncSelectScrollButtons(panel) {
 const triggerTypeahead = new WeakMap();
 
 /**
+ * Hover/focus behaviour for triggers that render a `display: contents` wrapper (tooltips and hover
+ * cards): the wrapper has no box, so the listeners go on the control the consumer passed.
+ */
+export function bindHoverTrigger(el, dotnet) {
+  const target = el?.firstElementChild ?? el;
+  if (!target || target.dataset.hoverTriggerBound === "true") {
+    return;
+  }
+  target.dataset.hoverTriggerBound = "true";
+
+  target.addEventListener("pointerenter", () => dotnet?.invokeMethodAsync("RequestOpen"));
+  target.addEventListener("pointerleave", () => dotnet?.invokeMethodAsync("RequestClose"));
+  target.addEventListener("focusin", () => dotnet?.invokeMethodAsync("RequestOpen"));
+  target.addEventListener("focusout", () => dotnet?.invokeMethodAsync("RequestClose"));
+}
+
+/**
  * Closed-select keyboard behaviour: Arrow keys open the list, typing picks an item without
  * opening it (Radix's typeahead), both without scrolling the page.
  */
@@ -397,6 +425,23 @@ function onDismissablePointerDown(event) {
     entry.dismissedByPointer = true;
     entry.dotnet?.invokeMethodAsync("DismissAsync");
   }
+}
+
+/** Focuses the first item of a submenu once Blazor has rendered it (a frame or a SignalR hop). */
+function focusSubmenuAsync(trigger) {
+  const contentId = trigger.getAttribute("aria-controls");
+  let attempts = 0;
+  const tick = () => {
+    const content = contentId ? document.getElementById(contentId) : null;
+    if (content && content.dataset.state === "open") {
+      content.querySelector('[role="menuitem"]:not([data-disabled])')?.focus({ preventScroll: true });
+      return;
+    }
+    if (attempts++ < 20) {
+      setTimeout(tick, 25);
+    }
+  };
+  tick();
 }
 
 /** Arrow/Home/End, Enter/Space and typeahead over a select listbox. */
@@ -490,7 +535,7 @@ function onDismissableKeyDown(event) {
     return;
   }
 
-  if (!panel.matches('[data-slot="dropdown-menu-content"],[data-slot="dropdown-menu-sub-content"]')) {
+  if (panel.getAttribute("role") !== "menu") {
     return;
   }
 
@@ -518,6 +563,29 @@ function onDismissableKeyDown(event) {
     case "End":
       next = items.length - 1;
       break;
+    case "ArrowRight": {
+      // ArrowRight opens a submenu and moves into it, like Radix.
+      const active = document.activeElement;
+      if (active?.matches?.('[data-slot$="sub-trigger"]')) {
+        event.preventDefault();
+        active.click();
+        focusSubmenuAsync(active);
+      }
+      return;
+    }
+    case "ArrowLeft": {
+      // ArrowLeft leaves a submenu and returns focus to its trigger.
+      const submenu = panel.closest('[data-slot$="sub-content"]');
+      if (submenu) {
+        event.preventDefault();
+        const trigger = Array.from(
+          document.querySelectorAll('[data-slot$="sub-trigger"]'),
+        ).find((candidate) => candidate.getAttribute("aria-controls") === submenu.id);
+        entry.dotnet?.invokeMethodAsync("DismissAsync");
+        trigger?.focus({ preventScroll: true });
+      }
+      return;
+    }
     default:
       return;
   }
@@ -536,25 +604,28 @@ export function openDismissable(el, dotnet, options = {}) {
   }
 
   const listbox = options.listbox === true;
+  const fixedPosition = options.fixedPosition === true;
   const entry = {
     el,
     dotnet,
     triggerId: options.triggerId,
     reposition: () =>
-      listbox
-        ? positionSelect(options.triggerId, el, {
-            itemAligned: options.itemAligned,
-            align: options.align,
-            sideOffset: options.sideOffset,
-          })
-        : positionFloating(options.triggerId, el, {
-            side: options.side,
-            align: options.align,
-            sideOffset: options.sideOffset,
-            alignOffset: options.alignOffset,
-            originVar: options.originVar,
-            availableHeightVar: options.availableHeightVar,
-          }),
+      fixedPosition
+        ? clampFixedPanel(el)
+        : listbox
+          ? positionSelect(options.triggerId, el, {
+              itemAligned: options.itemAligned,
+              align: options.align,
+              sideOffset: options.sideOffset,
+            })
+          : positionFloating(options.triggerId, el, {
+              side: options.side,
+              align: options.align,
+              sideOffset: options.sideOffset,
+              alignOffset: options.alignOffset,
+              originVar: options.originVar,
+              availableHeightVar: options.availableHeightVar,
+            }),
   };
 
   if (listbox) {
@@ -662,6 +733,37 @@ export function focusPanel(el) {
 }
 
 const commandBindings = new WeakMap();
+
+/** Arrow Left/Right move between menubar triggers (and switch the open menu, like Radix). */
+export function bindMenubar(el) {
+  if (!el || el.dataset.menubarBound === "true") {
+    return;
+  }
+  el.dataset.menubarBound = "true";
+
+  el.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+      return;
+    }
+
+    const triggers = Array.from(el.querySelectorAll('[data-slot="menubar-trigger"]'));
+    const focusedTrigger = document.activeElement?.closest?.('[data-slot="menubar-trigger"]');
+    const openTrigger = triggers.find((trigger) => trigger.getAttribute("data-state") === "open");
+    const current = focusedTrigger ?? openTrigger;
+    const index = triggers.indexOf(current);
+    if (index < 0) {
+      return;
+    }
+
+    event.preventDefault();
+    const step = event.key === "ArrowRight" ? 1 : -1;
+    const next = triggers[(index + step + triggers.length) % triggers.length];
+    next.focus({ preventScroll: true });
+    if (openTrigger) {
+      next.click();
+    }
+  });
+}
 
 /**
  * Command palette behaviour (cmdk): client-side filtering, the highlighted item, arrow/Home/End

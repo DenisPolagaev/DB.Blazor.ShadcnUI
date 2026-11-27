@@ -3,8 +3,7 @@
 @implements IDisposable
 @inherits ShadcnComponent
 
-<span id="@Root?.TriggerId" data-slot="tooltip-trigger" style="display: contents"
-      @onmouseenter="OpenDelayed" @onmouseleave="CloseNow" @onfocusin="OpenDelayed" @onfocusout="CloseNow"
+<span @ref="_trigger" id="@Root?.TriggerId" data-slot="tooltip-trigger" style="display: contents"
       @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
@@ -12,10 +11,43 @@
 
     [CascadingParameter] private TooltipSettings? Settings { get; set; }
 
+    [Inject] private IJSRuntime Js { get; set; } = default!;
+
+    private ElementReference _trigger;
+    private DotNetObjectReference<TooltipTrigger>? _self;
+    private IJSObjectReference? _module;
+
     /// <summary>The control the tooltip describes.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     private CancellationTokenSource? _pending;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            _module ??= await ShadcnJs.ImportAsync(Js);
+            _self ??= DotNetObjectReference.Create(this);
+            await _module.InvokeVoidAsync("bindHoverTrigger", _trigger, _self);
+        }
+        catch (Exception exception) when (exception is JSException or InvalidOperationException or JSDisconnectedException or ObjectDisposedException)
+        {
+        }
+    }
+
+    /// <summary>The browser entered or focused the trigger (the wrapper has no box of its own).</summary>
+    [JSInvokable]
+    public void RequestOpen() => OpenDelayed();
+
+    /// <summary>The browser left or blurred the trigger.</summary>
+    [JSInvokable]
+    public void RequestClose() => CloseNow();
 
     private void OpenDelayed()
     {
@@ -64,5 +96,23 @@
     {
         _pending?.Cancel();
         _pending?.Dispose();
+        _self?.Dispose();
+        _ = DisposeModuleAsync();
+    }
+
+    private async Task DisposeModuleAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.DisposeAsync();
+        }
+        catch (Exception exception) when (exception is JSException or JSDisconnectedException or ObjectDisposedException)
+        {
+        }
     }
 }

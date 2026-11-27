@@ -66,7 +66,7 @@ else if (Slug == "toggle-group")
     <DocPage Title="Toggle Group" Description="A set of two-state buttons that can be toggled on or off."
              Code="@ToggleGroupCode" Usage="@ToggleGroupUsage">
         <Preview>
-            <ToggleGroup Type="ToggleGroupType.Single" Value="center">
+            <ToggleGroup Type="ToggleGroupType.Single" DefaultValue="center">
                 <ToggleGroupItem Value="left" aria-label="Align left">Left</ToggleGroupItem>
                 <ToggleGroupItem Value="center" aria-label="Align center">Center</ToggleGroupItem>
                 <ToggleGroupItem Value="right" aria-label="Align right">Right</ToggleGroupItem>
@@ -75,7 +75,7 @@ else if (Slug == "toggle-group")
         <Examples>
             <h3 class="docs-example-title">Outline with spacing</h3>
             <div class="docs-preview"><div class="docs-preview-body">
-                <ToggleGroup Type="ToggleGroupType.Single" Variant="ToggleVariant.Outline" Spacing="1" Value="bold">
+                <ToggleGroup Type="ToggleGroupType.Single" Variant="ToggleVariant.Outline" Spacing="1" DefaultValue="bold">
                     <ToggleGroupItem Value="bold" aria-label="Bold">Bold</ToggleGroupItem>
                     <ToggleGroupItem Value="italic" aria-label="Italic">Italic</ToggleGroupItem>
                     <ToggleGroupItem Value="underline" aria-label="Underline">Underline</ToggleGroupItem>
@@ -108,6 +108,39 @@ else if (Slug == "collapsible")
                 <div class="demo-repo">radix-ui/react</div>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Basic</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="align-items: stretch">
+                <Collapsible>
+                    <CollapsibleTrigger>
+                        <Button Variant="ButtonVariant.Ghost">Can I use this in my project?</Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                        <div class="rounded-md border px-4 py-2">
+                            Yes. Free to use for personal and commercial projects.
+                        </div>
+                    </CollapsibleContent>
+                </Collapsible>
+            </div></div>
+
+            <h3 class="docs-example-title">Settings Panel</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="align-items: stretch">
+                <Collapsible Open="true" Class="w-full max-w-sm rounded-md border p-4">
+                    <div class="demo-row" style="justify-content: space-between">
+                        <span class="demo-item-title">Restore defaults</span>
+                        <CollapsibleTrigger>
+                            <Button Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm">Toggle</Button>
+                        </CollapsibleTrigger>
+                    </div>
+                    <CollapsibleContent>
+                        <div class="demo-stack" style="margin-top: 12px; gap: 8px">
+                            <div class="demo-row"><Checkbox id="collapsible-setting" Checked="true" /><Label For="collapsible-setting">Enable notifications</Label></div>
+                            <div class="demo-row"><Checkbox id="collapsible-setting-2" /><Label For="collapsible-setting-2">Auto-update</Label></div>
+                        </div>
+                    </CollapsibleContent>
+                </Collapsible>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "scroll-area")
@@ -127,6 +160,19 @@ else if (Slug == "scroll-area")
                 </ScrollArea>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Horizontal</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ScrollArea Orientation="ShadcnOrientation.Horizontal" Class="w-full max-w-sm rounded-md border whitespace-nowrap">
+                    <div class="flex gap-4 p-4">
+                        @for (var i = 1; i <= 12; i++)
+                        {
+                            <div class="demo-item-title">Item @i</div>
+                        }
+                    </div>
+                </ScrollArea>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "empty")
@@ -158,6 +204,74 @@ else if (Slug == "empty")
                 </Empty>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Outline</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 480px">
+                    <Empty Class="border border-dashed">
+                        <EmptyHeader>
+                            <EmptyMedia Variant="EmptyMediaVariant.Icon">
+                                <SearchIcon />
+                            </EmptyMedia>
+                            <EmptyTitle>No results found</EmptyTitle>
+                            <EmptyDescription>Try adjusting your search terms.</EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Avatar</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 480px">
+                    <Empty>
+                        <EmptyHeader>
+                            <EmptyMedia>
+                                <Avatar><AvatarFallback>CN</AvatarFallback></Avatar>
+                            </EmptyMedia>
+                            <EmptyTitle>User offline</EmptyTitle>
+                            <EmptyDescription>This user is currently offline.</EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Avatar Group</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 480px">
+                    <Empty>
+                        <EmptyHeader>
+                            <EmptyMedia>
+                                <AvatarGroup>
+                                    <Avatar><AvatarFallback>CN</AvatarFallback></Avatar>
+                                    <Avatar><AvatarFallback>LR</AvatarFallback></Avatar>
+                                    <AvatarGroupCount>+3</AvatarGroupCount>
+                                </AvatarGroup>
+                            </EmptyMedia>
+                            <EmptyTitle>No team members</EmptyTitle>
+                            <EmptyDescription>Invite your team to collaborate.</EmptyDescription>
+                        </EmptyHeader>
+                    </Empty>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Input Group</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 480px">
+                    <Empty>
+                        <EmptyHeader>
+                            <EmptyTitle>Search projects</EmptyTitle>
+                            <EmptyDescription>Find a project by name.</EmptyDescription>
+                        </EmptyHeader>
+                        <EmptyContent>
+                            <InputGroup>
+                                <InputGroupAddon><SearchIcon /></InputGroupAddon>
+                                <InputGroupInput Placeholder="Search projects..." />
+                            </InputGroup>
+                        </EmptyContent>
+                    </Empty>
+                </div>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 
@@ -253,6 +367,20 @@ else if (Slug == "hover-card")
                 </HoverCardContent>
             </HoverCard>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Sides</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                @foreach (var side in new[] { "top", "right", "bottom", "left" })
+                {
+                    <HoverCard>
+                        <HoverCardTrigger><a href="#hover-card-sides" class="demo-link">@side</a></HoverCardTrigger>
+                        <HoverCardContent Side="@side">
+                            <div class="demo-item-text">This card opens on the @side.</div>
+                        </HoverCardContent>
+                    </HoverCard>
+                }
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "input-group")
@@ -320,6 +448,124 @@ else if (Slug == "field")
                 </FieldSet>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Input</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="w-full max-w-sm">
+                    <FieldLabel For="field-ex-input">Username</FieldLabel>
+                    <Input id="field-ex-input" Placeholder="shadcn" />
+                    <FieldDescription>This is your public display name.</FieldDescription>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Textarea</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="w-full max-w-sm">
+                    <FieldLabel For="field-ex-textarea">Message</FieldLabel>
+                    <Textarea id="field-ex-textarea" Placeholder="Type your message here." />
+                    <FieldDescription>Your message will be copied to the support team.</FieldDescription>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Select</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="w-full max-w-sm">
+                    <FieldLabel For="field-ex-select">Fruit</FieldLabel>
+                    <Select DefaultValue="apple">
+                        <SelectTrigger id="field-ex-select"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                            <SelectItem Value="apple">Apple</SelectItem>
+                            <SelectItem Value="banana">Banana</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Checkbox</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Orientation="FieldOrientation.Horizontal" Class="max-w-sm">
+                    <Checkbox id="field-ex-check" />
+                    <FieldContent>
+                        <FieldLabel For="field-ex-check">Accept terms</FieldLabel>
+                        <FieldDescription>You agree to our Terms of Service.</FieldDescription>
+                    </FieldContent>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Radio</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <RadioGroup Value="card">
+                    <Field Orientation="FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="card" id="field-ex-radio-1" />
+                        <FieldLabel For="field-ex-radio-1">Credit card</FieldLabel>
+                    </Field>
+                    <Field Orientation="FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="paypal" id="field-ex-radio-2" />
+                        <FieldLabel For="field-ex-radio-2">PayPal</FieldLabel>
+                    </Field>
+                </RadioGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Switch</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Orientation="FieldOrientation.Horizontal" Class="max-w-sm">
+                    <Switch id="field-ex-switch" />
+                    <FieldContent>
+                        <FieldLabel For="field-ex-switch">Share across devices</FieldLabel>
+                        <FieldDescription>Focus is shared across devices.</FieldDescription>
+                    </FieldContent>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Slider</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="w-full max-w-sm">
+                    <FieldLabel For="field-ex-slider">Volume</FieldLabel>
+                    <Slider Value="40" AriaLabel="Volume" />
+                    <FieldDescription>Choose a comfortable volume.</FieldDescription>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Fieldset</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <FieldSet Class="w-full max-w-sm">
+                    <FieldLegend>Payment method</FieldLegend>
+                    <FieldGroup>
+                        <Field>
+                            <FieldLabel For="field-ex-name">Name on card</FieldLabel>
+                            <Input id="field-ex-name" Placeholder="Pedro Duarte" />
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <Checkbox id="field-ex-save" />
+                            <FieldLabel For="field-ex-save">Save this card for later</FieldLabel>
+                        </Field>
+                    </FieldGroup>
+                </FieldSet>
+            </div></div>
+
+            <h3 class="docs-example-title">Choice Card</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <FieldSet Class="w-full max-w-sm">
+                    <FieldLegend Variant="FieldLegendVariant.Label">Plan</FieldLegend>
+                    <RadioGroup Value="pro">
+                        <Field Orientation="FieldOrientation.Horizontal" Class="rounded-lg border p-3">
+                            <RadioGroupItem Value="pro" id="field-ex-plan-1" />
+                            <FieldContent>
+                                <FieldTitle>Pro</FieldTitle>
+                                <FieldDescription>For teams that ship.</FieldDescription>
+                            </FieldContent>
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal" Class="rounded-lg border p-3">
+                            <RadioGroupItem Value="free" id="field-ex-plan-2" />
+                            <FieldContent>
+                                <FieldTitle>Free</FieldTitle>
+                                <FieldDescription>For personal projects.</FieldDescription>
+                            </FieldContent>
+                        </Field>
+                    </RadioGroup>
+                </FieldSet>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "input-otp")
@@ -337,6 +583,63 @@ else if (Slug == "input-otp")
                 </InputOTPGroup>
             </InputOTP>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Pattern</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <InputOTP Length="6" Pattern="^[a-zA-Z0-9]$" Type="text">
+                    <InputOTPGroup>
+                        <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+                        <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+                    </InputOTPGroup>
+                </InputOTP>
+            </div></div>
+
+            <h3 class="docs-example-title">Four Digits</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <InputOTP Length="4">
+                    <InputOTPGroup>
+                        <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" /><InputOTPSlot Index="3" />
+                    </InputOTPGroup>
+                </InputOTP>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <InputOTP Length="6" Disabled="true">
+                    <InputOTPGroup>
+                        <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+                        <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+                    </InputOTPGroup>
+                </InputOTP>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <InputOTP Length="6" aria-invalid="true">
+                    <InputOTPGroup>
+                        <InputOTPSlot Index="0" aria-invalid="true" />
+                        <InputOTPSlot Index="1" aria-invalid="true" />
+                        <InputOTPSlot Index="2" aria-invalid="true" />
+                        <InputOTPSlot Index="3" aria-invalid="true" />
+                        <InputOTPSlot Index="4" aria-invalid="true" />
+                        <InputOTPSlot Index="5" aria-invalid="true" />
+                    </InputOTPGroup>
+                </InputOTP>
+            </div></div>
+
+            <h3 class="docs-example-title">Controlled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="grid gap-3">
+                    <InputOTP Length="6" Value="@otpValue" ValueChanged="@(value => otpValue = value)">
+                        <InputOTPGroup>
+                            <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
+                            <InputOTPSlot Index="3" /><InputOTPSlot Index="4" /><InputOTPSlot Index="5" />
+                        </InputOTPGroup>
+                    </InputOTP>
+                    <div class="demo-item-text">Value: @(string.IsNullOrEmpty(otpValue) ? "empty" : otpValue)</div>
+                </div>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "slider")
@@ -348,6 +651,42 @@ else if (Slug == "slider")
                 <Slider Value="sliderValue" ValueChanged="@(value => sliderValue = value)" AriaLabel="Volume" />
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Range</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 360px">
+                    <Slider Min="10" Max="50" Value="30" ValueChanged="@(value => sliderRange = value)" AriaLabel="Range" />
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Vertical</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="flex h-48 gap-6">
+                    <Slider Orientation="ShadcnOrientation.Vertical" Value="35" ValueChanged="@(value => sliderVertical = value)" AriaLabel="Vertical" />
+                    <Slider Orientation="ShadcnOrientation.Vertical" Value="65" ValueChanged="@(value => sliderVertical2 = value)" AriaLabel="Vertical" />
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Controlled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="grid w-full max-w-sm gap-2">
+                    <Slider Value="@sliderControlled" ValueChanged="@(value => sliderControlled = value)" AriaLabel="Controlled" />
+                    <div class="demo-item-text">Value: @sliderControlled</div>
+                    <div class="flex gap-2">
+                        <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" OnClick="() => sliderControlled = 25">25</Button>
+                        <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" OnClick="() => sliderControlled = 50">50</Button>
+                        <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" OnClick="() => sliderControlled = 75">75</Button>
+                    </div>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 360px">
+                    <Slider Value="50" Disabled="true" AriaLabel="Disabled" />
+                </div>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "sonner")
@@ -357,12 +696,35 @@ else if (Slug == "sonner")
         <Preview>
             <Button Variant="ButtonVariant.Outline" OnClick="ShowToast">Show toast</Button>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Description</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Variant="ButtonVariant.Outline"
+                        @onclick='() => Toasts.Show("Event has been created", "Monday, January 3rd at 6:00pm")'>
+                    Show toast
+                </Button>
+            </div></div>
+
+            <h3 class="docs-example-title">Action</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Variant="ButtonVariant.Outline"
+                        @onclick='() => Toasts.Show("Event has been created", null, "Undo")'>
+                    Show toast with action
+                </Button>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 @code {
     [Parameter] public string? Slug { get; set; }
 
     private bool collapsibleOpen = true;
+    private string? otpValue;
+    private double sliderValue = 50;
+    private double sliderRange = 30;
+    private double sliderVertical = 35;
+    private double sliderVertical2 = 65;
+    private double sliderControlled = 50;
 
     private void ShowToast() => Toasts.Show("Event has been created", "Monday, January 3rd at 6:00pm");
 
@@ -396,7 +758,7 @@ else if (Slug == "sonner")
 """;
 
     private const string ToggleGroupCode = """
-<ToggleGroup Type="ToggleGroupType.Single" Value="center">
+<ToggleGroup Type="ToggleGroupType.Single" DefaultValue="center">
     <ToggleGroupItem Value="left">Left</ToggleGroupItem>
     <ToggleGroupItem Value="center">Center</ToggleGroupItem>
     <ToggleGroupItem Value="right">Right</ToggleGroupItem>
@@ -554,7 +916,7 @@ else if (Slug == "sonner")
     </InputOTPGroup>
 </InputOTP>
 """;
-    private double sliderValue = 50;
+
 
     private const string SliderCode = """
 <Slider Value="value" ValueChanged="@(v => value = v)" AriaLabel="Volume" />
@@ -604,3 +966,4 @@ builder.Services.AddScoped<ToastService>();
 </Empty>
 """;
 }
+

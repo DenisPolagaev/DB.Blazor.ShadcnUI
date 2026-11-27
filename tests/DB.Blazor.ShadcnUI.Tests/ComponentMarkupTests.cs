@@ -388,6 +388,77 @@ public class ComponentMarkupTests : BunitContext
         Assert.Equal("", cut.FindAll("[data-slot='select-item']")[1].GetAttribute("data-disabled"));
     }
 
+    [Fact]
+    public void FieldError_RendersChildrenAndErrors()
+    {
+        var withChild = Render<FieldError>(parameters => parameters.AddChildContent("Please select a fruit."));
+        Assert.Equal("Please select a fruit.", withChild.Find("[data-slot='field-error']").TextContent.Trim());
+
+        var withErrors = Render<FieldError>(parameters => parameters
+            .Add(p => p.Errors, new[] { "Required", "Required", "Too short" }));
+
+        var items = withErrors.FindAll("[data-slot='field-error'] li");
+        Assert.Equal(2, items.Count);
+        Assert.Equal("Required", items[0].TextContent.Trim());
+        Assert.Equal("Too short", items[1].TextContent.Trim());
+    }
+
+    [Fact]
+    public void InputOTP_TypingFillsTheSlots()
+    {
+        var cut = Render<InputOTP>(parameters => parameters
+            .Add(p => p.Length, 4)
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<InputOTPGroup>(0);
+                builder.AddAttribute(1, "ChildContent", (RenderFragment)(group =>
+                {
+                    for (var i = 0; i < 4; i++)
+                    {
+                        group.OpenComponent<InputOTPSlot>(i * 2);
+                        group.AddAttribute((i * 2) + 1, "Index", i);
+                        group.CloseComponent();
+                    }
+                }));
+                builder.CloseComponent();
+            }));
+
+        cut.Find("input").Focus();
+        cut.Find("input").Input("1234");
+
+        var slots = cut.FindAll("[data-slot='input-otp-slot']");
+        Assert.Equal(4, slots.Count);
+        Assert.Equal("1234", string.Concat(slots.Select(slot => slot.TextContent.Trim())));
+        Assert.Equal("true", slots[3].GetAttribute("data-active"));
+    }
+
+    [Fact]
+    public void InputOTP_DropsCharactersOutsideThePattern()
+    {
+        var cut = Render<InputOTP>(parameters => parameters
+            .Add(p => p.Length, 4)
+            .Add(p => p.Pattern, "^[0-9]$")
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<InputOTPGroup>(0);
+                builder.AddAttribute(1, "ChildContent", (RenderFragment)(group =>
+                {
+                    for (var i = 0; i < 4; i++)
+                    {
+                        group.OpenComponent<InputOTPSlot>(i * 2);
+                        group.AddAttribute((i * 2) + 1, "Index", i);
+                        group.CloseComponent();
+                    }
+                }));
+                builder.CloseComponent();
+            }));
+
+        cut.Find("input").Input("1a2b");
+
+        var slots = cut.FindAll("[data-slot='input-otp-slot']");
+        Assert.Equal("12", string.Concat(slots.Select(slot => slot.TextContent.Trim())));
+    }
+
     private static RenderFragment SelectTree(SelectSize size = SelectSize.Default, string? disabledValue = null) => builder =>
     {
         builder.OpenComponent<SelectTrigger>(0);

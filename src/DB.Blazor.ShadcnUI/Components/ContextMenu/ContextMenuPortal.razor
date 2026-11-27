@@ -1,0 +1,11 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@* There is no DOM portal in Blazor: the content positions itself with `position: fixed`, so the
+   portal component is the pass-through Radix's API exports. *@
+@ChildContent
+
+@code {
+    /// <summary>The portalled content.</summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

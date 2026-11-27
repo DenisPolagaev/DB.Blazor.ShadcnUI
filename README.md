@@ -26,7 +26,7 @@ context, and explicit two-way parameters instead of React state.
 libs/DB.Blazor.ShadcnUI
 ├─ src/DB.Blazor.ShadcnUI          the library (Razor class library, net10.0 + net11.0)
 ├─ samples/DB.Blazor.ShadcnUI.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
-├─ tests/DB.Blazor.ShadcnUI.Tests  bUnit + xUnit v3 tests (52 tests)
+├─ tests/DB.Blazor.ShadcnUI.Tests  bUnit + xUnit v3 tests (55 tests)
 ├─ styles/dp-shadcn.css         Tailwind v4 source of the shipped stylesheet
 └─ wwwroot                      dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
 ```
@@ -75,8 +75,8 @@ To re-theme, override the tokens — no rebuild of the library is needed:
 | --- | --- |
 | Primitives | `Button`, `Badge`, `Card` + `CardHeader`/`CardTitle`/`CardDescription`/`CardAction`/`CardContent`/`CardFooter`, `Alert` + `AlertTitle`/`AlertDescription`, `Avatar` + `AvatarImage`/`AvatarFallback`/`AvatarBadge`/`AvatarGroup`/`AvatarGroupCount`, `Separator`, `Skeleton`, `Progress`, `Spinner`, `Kbd`/`KbdGroup` |
 | Forms | `Input`, `Textarea`, `Label`, `Checkbox`, `Switch`, `RadioGroup`/`RadioGroupItem`, `NativeSelect`/`NativeSelectOption`/`NativeSelectOptGroup`, `Select` (+8, including groups, labels and scroll buttons) |
-| Data & navigation | `Table` + 8 slot components, `Tabs`/`TabsList`/`TabsTrigger`/`TabsContent`, `Accordion`/`AccordionItem`/`AccordionTrigger`/`AccordionContent`, `Breadcrumb` + 6 slots, `Pagination` + 5 slots |
-| Overlays | `Dialog` (+7), `AlertDialog` (+8), `Sheet` (+6), `DropdownMenu` (+13, including checkbox items, radio items and submenus), `Popover` (+6), `Tooltip`/`TooltipProvider`/`TooltipTrigger`/`TooltipContent`, `Command` (+8, including `CommandDialog`) |
+| Data & navigation | `Table` + 8 slot components, `Tabs`/`TabsList`/`TabsTrigger`/`TabsContent`, `Accordion`/`AccordionItem`/`AccordionTrigger`/`AccordionContent`, `Breadcrumb` + 6 slots, `Pagination` + 5 slots, `Menubar` (+15, including checkbox/radio items and submenus) |
+| Overlays | `Dialog` (+7), `AlertDialog` (+8), `Sheet` (+6), `DropdownMenu` (+13, including checkbox items, radio items and submenus), `Popover` (+6), `Tooltip`/`TooltipProvider`/`TooltipTrigger`/`TooltipContent`, `Command` (+8, including `CommandDialog`), `ContextMenu` (+14, including checkbox/radio items and submenus) |
 
 Together that is every component a site needs to ship: layout, forms, data display, navigation,
 modals and menus.
@@ -165,7 +165,7 @@ dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 
 ```powershell
 dotnet build DB.Blazor.ShadcnUI.slnx        # library for net10.0 + net11.0, demo, tests
-dotnet test tests/DB.Blazor.ShadcnUI.Tests  # 52 tests (bUnit + xUnit v3)
+dotnet test tests/DB.Blazor.ShadcnUI.Tests  # 55 tests (bUnit + xUnit v3)
 dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 
 # Only after changing a component's class list, styles/dp-shadcn.css or a demo page:

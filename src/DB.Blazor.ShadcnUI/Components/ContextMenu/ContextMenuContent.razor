@@ -5,7 +5,7 @@
 {
     <div @ref="_panel" role="menu" tabindex="-1" data-slot="context-menu-content"
          data-state="@(Root.IsOpen ? "open" : "closed")" id="@Root.ContentId" class="@Classes"
-         style="@StyleWith($"left: {Root.Left.ToString("0.##", CultureInfo.InvariantCulture)}px; top: {Root.Top.ToString("0.##", CultureInfo.InvariantCulture)}px")"
+         style="@StyleWith("position: fixed", $"left: {Root.Left.ToString("0.##", CultureInfo.InvariantCulture)}px; top: {Root.Top.ToString("0.##", CultureInfo.InvariantCulture)}px")"
          @attributes="AdditionalAttributes">
         @ChildContent
     </div>
@@ -13,7 +13,7 @@
 
 @code {
     private string? Classes => MergeClass(
-        "z-50 max-h-[var(--radix-context-menu-content-available-height)] min-w-[8rem] origin-(--radix-context-menu-content-transform-origin) " +
+        "z-50 max-h-(--radix-context-menu-content-available-height) min-w-[8rem] origin-(--radix-context-menu-content-transform-origin) " +
         "overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md " +
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 " +
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95");

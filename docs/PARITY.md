@@ -77,6 +77,10 @@ up. Every class string below was copied from the `new-york-v4` registry of
 | Overlay click closes dialog | yes | yes (`CloseOnInteractOutside`, on by default; alert dialogs never) |
 | Popover/dropdown outside click | yes | yes (pointerdown, trigger excluded so the toggle works) |
 | Menu keyboard navigation | Arrow/Home/End, roving focus | yes (ArrowUp/Down/Home/End, Enter/Space activate) |
+| Submenu keyboard | ArrowRight opens and focuses the submenu, ArrowLeft returns | yes, for dropdown, context-menu and menubar submenus |
+| Context menu placement | at the pointer, clamped to the viewport | yes (`position: fixed`, clamped by `clampFixedPanel`) |
+| Menubar | one menu open at a time; moving across triggers switches it | yes, plus ArrowLeft/ArrowRight between triggers |
+| Hover triggers | tooltip/hover card open from the real control | yes, JS binds pointer/focus on the child because the trigger wrapper is `display: contents` |
 | Select listbox | Arrow/Home/End, typeahead, selected item focused on open, Escape/Tab handling | yes (the same keys plus closed-trigger typeahead; Tab is kept inside the open list like Radix) |
 | Select placement | `item-aligned` (default) or `popper` | both; item-aligned overlays the list on the trigger so the checked item lines up with it |
 | Command filtering | cmdk filters items by value/keywords as you type, hides empty groups and shows `CommandEmpty` | same, client-side in `dp-shadcn.js` (`data-value`/`data-keywords`, falling back to the item text) |
@@ -99,6 +103,9 @@ up. Every class string below was copied from the `new-york-v4` registry of
 * `DropdownMenuItem` is a `<div role="menuitem" tabindex="-1">` with Enter/Space handled in C#;
   Radix also implements typeahead (typing to jump to an item).
 * `RadioGroup` does not implement roving focus with arrow keys yet (all items are tabbable).
+* `Slider` is single-value: the original supports an array of values (multiple thumbs).
+* `InputOTP` filters with the per-character `Pattern` regex; the original `input-otp` package also
+  implements selection/replace behaviour inside a slot.
 * Tooltips do not follow the pointer and do not stay open when the content is hovered.
 
 ## Automated parity check

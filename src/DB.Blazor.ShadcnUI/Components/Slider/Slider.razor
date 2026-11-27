@@ -5,13 +5,13 @@
    markup, so dragging, touch and keyboard work without custom JS and the visuals stay identical. *@
 <div data-slot="slider" data-orientation="@Orientation.ToDataValue()" data-disabled="@(Disabled ? "true" : null)"
      class="@Classes" style="@Style" @attributes="AdditionalAttributes">
-    <div data-slot="slider-track" class="@TrackClasses">
-        <div data-slot="slider-range" class="@RangeClasses" style="@RangeStyle"></div>
+    <div data-slot="slider-track" data-orientation="@Orientation.ToDataValue()" class="@TrackClasses">
+        <div data-slot="slider-range" data-orientation="@Orientation.ToDataValue()" class="@RangeClasses" style="@RangeStyle"></div>
     </div>
-    <div data-slot="slider-thumb" class="@ThumbClasses" style="@ThumbStyle"></div>
+    <div data-slot="slider-thumb" data-orientation="@Orientation.ToDataValue()" class="@ThumbClasses" style="@ThumbStyle"></div>
     <input type="range" min="@MinText" max="@MaxText" step="@StepText" value="@ValueText"
            disabled="@Disabled" aria-label="@AriaLabel"
-           class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+           class="absolute inset-0 h-full w-full cursor-pointer opacity-0" style="@InputStyle"
            @oninput="HandleInputAsync" />
 </div>
 
@@ -49,6 +49,10 @@
     private string StepText => Step.ToString(CultureInfo.InvariantCulture);
 
     private string ValueText => Value.ToString(CultureInfo.InvariantCulture);
+
+    private string? InputStyle => Orientation == ShadcnOrientation.Vertical
+        ? "writing-mode: vertical-lr; direction: rtl"
+        : null;
 
     private string? RangeStyle => StyleWith(Orientation == ShadcnOrientation.Vertical
         ? $"height: {Percent.ToString("0.###", CultureInfo.InvariantCulture)}%"
@@ -91,3 +95,4 @@
         "bg-white shadow-sm ring-ring/50 transition-[color,box-shadow] hover:ring-4 " +
         "focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50";
 }
+

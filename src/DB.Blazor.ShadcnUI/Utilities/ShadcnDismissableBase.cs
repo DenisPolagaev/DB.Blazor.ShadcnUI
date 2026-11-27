@@ -31,6 +31,7 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
     private string _focus = "first";
     private bool _listbox;
     private bool _itemAligned;
+    private bool _fixedPosition;
 
     /// <summary>Injected JS runtime.</summary>
     [Inject]
@@ -54,7 +55,8 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
         string focus = "first",
         string? contentId = null,
         bool listbox = false,
-        bool itemAligned = false)
+        bool itemAligned = false,
+        bool fixedPosition = false)
     {
         _triggerId = triggerId;
         _side = side;
@@ -66,6 +68,7 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
         _contentId = contentId;
         _listbox = listbox;
         _itemAligned = itemAligned;
+        _fixedPosition = fixedPosition;
     }
 
     /// <summary>Attaches the panel while <paramref name="open"/> is true, detaches it otherwise.</summary>
@@ -96,6 +99,7 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
                 focus = _focus,
                 listbox = _listbox,
                 itemAligned = _itemAligned,
+                fixedPosition = _fixedPosition,
             });
         }
         catch (Exception exception) when (exception is JSException or InvalidOperationException or JSDisconnectedException or ObjectDisposedException)
@@ -149,3 +153,4 @@ public abstract class ShadcnDismissableBase : ShadcnComponent, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 }
+

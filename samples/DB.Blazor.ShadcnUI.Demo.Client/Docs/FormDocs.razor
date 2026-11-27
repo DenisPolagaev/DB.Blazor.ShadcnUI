@@ -25,6 +25,43 @@
             <div class="docs-preview"><div class="docs-preview-body">
                 <Input Type="file" Class="max-w-sm" />
             </div></div>
+
+            <h3 class="docs-example-title">Field</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="max-w-sm">
+                    <FieldLabel For="input-field-email">Email</FieldLabel>
+                    <Input id="input-field-email" Type="email" Placeholder="Email" />
+                    <FieldDescription>We'll never share your email.</FieldDescription>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field data-invalid="true" Class="max-w-sm">
+                    <FieldLabel For="input-invalid-email">Email</FieldLabel>
+                    <Input id="input-invalid-email" Type="email" Placeholder="Email" aria-invalid="true" />
+                    <FieldError>Please enter a valid email address.</FieldError>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Inline</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <InputGroup Class="max-w-sm">
+                    <InputGroupInput Placeholder="Search..." />
+                    <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <Kbd>⌘K</Kbd>
+                    </InputGroupAddon>
+                </InputGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Grid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="grid w-full max-w-sm grid-cols-2 gap-4">
+                    <Input Placeholder="First name" />
+                    <Input Placeholder="Last name" />
+                    <Input Class="col-span-2" Type="email" Placeholder="Email" />
+                </div>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -36,6 +73,32 @@ else if (Slug == "textarea")
             <Textarea Placeholder="Type your message here." Class="max-w-sm" />
         </Preview>
         <Examples>
+            <h3 class="docs-example-title">Field</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="w-full max-w-sm">
+                    <FieldLabel For="textarea-field">Message</FieldLabel>
+                    <Textarea id="textarea-field" Placeholder="Type your message here." />
+                    <FieldDescription>Your message will be copied to the support team.</FieldDescription>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field data-invalid="true" Class="w-full max-w-sm">
+                    <FieldLabel For="textarea-invalid">Message</FieldLabel>
+                    <Textarea id="textarea-invalid" Placeholder="Type your message here." aria-invalid="true" />
+                    <FieldError>Message must be at least 20 characters.</FieldError>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="grid w-full max-w-sm gap-2">
+                    <Textarea Placeholder="Type your message here." />
+                    <Button Class="w-full">Send message</Button>
+                </div>
+            </div></div>
+
             <h3 class="docs-example-title">Disabled</h3>
             <div class="docs-preview"><div class="docs-preview-body">
                 <Textarea Disabled="true" Placeholder="Type your message here." Class="max-w-sm" />
@@ -53,6 +116,16 @@ else if (Slug == "label")
                 <Label For="label-terms">Accept terms and conditions</Label>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Label in Field</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Class="w-full max-w-sm">
+                    <FieldLabel For="label-field-email">Email</FieldLabel>
+                    <Input id="label-field-email" Type="email" Placeholder="Email" />
+                    <FieldDescription>We'll never share your email.</FieldDescription>
+                </Field>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "checkbox")
@@ -79,6 +152,80 @@ else if (Slug == "checkbox")
                 </div>
             </div></div>
 
+            <h3 class="docs-example-title">Checked State</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-row">
+                    <Checkbox id="checked-state" Checked="true" />
+                    <Label For="checked-state">Accept terms and conditions</Label>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Description</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Orientation="FieldOrientation.Horizontal" Class="max-w-sm">
+                    <Checkbox id="checkbox-description" />
+                    <FieldContent>
+                        <FieldLabel For="checkbox-description">Accept terms and conditions</FieldLabel>
+                        <FieldDescription>You agree to our Terms of Service and Privacy Policy.</FieldDescription>
+                    </FieldContent>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Group</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <FieldSet Class="max-w-sm">
+                    <FieldLegend Variant="FieldLegendVariant.Label">Show these items on the desktop:</FieldLegend>
+                    <FieldGroup>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <Checkbox id="group-hard-disks" />
+                            <FieldLabel For="group-hard-disks">Hard disks</FieldLabel>
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <Checkbox id="group-external-disks" />
+                            <FieldLabel For="group-external-disks">External disks</FieldLabel>
+                        </Field>
+                    </FieldGroup>
+                </FieldSet>
+            </div></div>
+
+            <h3 class="docs-example-title">Table</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead Class="w-8">
+                                <Checkbox aria-label="Select all" />
+                            </TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Status</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell><Checkbox aria-label="Select row" /></TableCell>
+                            <TableCell>Alice Johnson</TableCell>
+                            <TableCell>Active</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell><Checkbox aria-label="Select row" /></TableCell>
+                            <TableCell>Bob Smith</TableCell>
+                            <TableCell>Inactive</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field data-invalid="true" Class="max-w-sm">
+                    <div class="demo-row">
+                        <Checkbox id="checkbox-invalid" aria-invalid="true" />
+                        <Label For="checkbox-invalid">Accept terms and conditions</Label>
+                    </div>
+                    <FieldError>You must accept the terms to continue.</FieldError>
+                </Field>
+            </div></div>
+
             <h3 class="docs-example-title">Disabled</h3>
             <div class="docs-preview"><div class="docs-preview-body">
                 <div class="demo-row">
@@ -100,7 +247,48 @@ else if (Slug == "switch")
             </div>
         </Preview>
         <Examples>
-            <h3 class="docs-example-title">Small</h3>
+            <h3 class="docs-example-title">Description</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Orientation="FieldOrientation.Horizontal" Class="max-w-sm">
+                    <Switch id="switch-description" />
+                    <FieldContent>
+                        <FieldLabel For="switch-description">Share across devices</FieldLabel>
+                        <FieldDescription>Focus is shared across devices, and turns the switch on.</FieldDescription>
+                    </FieldContent>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Choice Card</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field Orientation="FieldOrientation.Horizontal" Class="max-w-sm rounded-lg border p-3">
+                    <Switch id="switch-choice" />
+                    <FieldContent>
+                        <FieldLabel For="switch-choice">Share across devices</FieldLabel>
+                        <FieldDescription>Focus is shared across devices, and turns the switch on.</FieldDescription>
+                    </FieldContent>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-row">
+                    <Switch id="switch-disabled" Disabled="true" />
+                    <Label For="switch-disabled">Airplane Mode</Label>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field data-invalid="true" Class="max-w-sm">
+                    <div class="demo-row">
+                        <Switch id="switch-invalid" aria-invalid="true" />
+                        <Label For="switch-invalid">Airplane Mode</Label>
+                    </div>
+                    <FieldError>You must enable airplane mode to continue.</FieldError>
+                </Field>
+            </div></div>
+
+            <h3 class="docs-example-title">Size</h3>
             <div class="docs-preview"><div class="docs-preview-body">
                 <div class="demo-row">
                     <Switch id="small-switch" Size="SwitchSize.Sm" />
@@ -131,6 +319,96 @@ else if (Slug == "radio-group")
                 </div>
             </RadioGroup>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Description</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <RadioGroup Value="comfortable">
+                    <Field Orientation="FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="default" id="r-desc-1" />
+                        <FieldContent>
+                            <FieldLabel For="r-desc-1">Default</FieldLabel>
+                            <FieldDescription>The default spacing.</FieldDescription>
+                        </FieldContent>
+                    </Field>
+                    <Field Orientation="FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="comfortable" id="r-desc-2" />
+                        <FieldContent>
+                            <FieldLabel For="r-desc-2">Comfortable</FieldLabel>
+                            <FieldDescription>A roomier layout.</FieldDescription>
+                        </FieldContent>
+                    </Field>
+                </RadioGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Choice Card</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <RadioGroup Value="default">
+                    <Field Orientation="FieldOrientation.Horizontal" Class="rounded-lg border p-3">
+                        <RadioGroupItem Value="default" id="r-card-1" />
+                        <FieldContent>
+                            <FieldLabel For="r-card-1">Default</FieldLabel>
+                            <FieldDescription>The default spacing.</FieldDescription>
+                        </FieldContent>
+                    </Field>
+                    <Field Orientation="FieldOrientation.Horizontal" Class="rounded-lg border p-3">
+                        <RadioGroupItem Value="comfortable" id="r-card-2" />
+                        <FieldContent>
+                            <FieldLabel For="r-card-2">Comfortable</FieldLabel>
+                            <FieldDescription>A roomier layout.</FieldDescription>
+                        </FieldContent>
+                    </Field>
+                </RadioGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Fieldset</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <FieldSet Class="max-w-sm">
+                    <FieldLegend Variant="FieldLegendVariant.Label">Choose a density</FieldLegend>
+                    <RadioGroup Value="comfortable">
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RadioGroupItem Value="default" id="r-set-1" />
+                            <FieldLabel For="r-set-1">Default</FieldLabel>
+                        </Field>
+                        <Field Orientation="FieldOrientation.Horizontal">
+                            <RadioGroupItem Value="comfortable" id="r-set-2" />
+                            <FieldLabel For="r-set-2">Comfortable</FieldLabel>
+                        </Field>
+                    </RadioGroup>
+                </FieldSet>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <RadioGroup Value="default" Disabled="true">
+                    <div class="demo-row">
+                        <RadioGroupItem Value="default" id="r-dis-1" />
+                        <Label For="r-dis-1">Default</Label>
+                    </div>
+                    <div class="demo-row">
+                        <RadioGroupItem Value="comfortable" id="r-dis-2" />
+                        <Label For="r-dis-2">Comfortable</Label>
+                    </div>
+                </RadioGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <FieldSet data-invalid="true" aria-invalid="true" Class="max-w-sm">
+                    <FieldLegend Variant="FieldLegendVariant.Label">Choose a density</FieldLegend>
+                    <RadioGroup Value="default">
+                        <div class="demo-row">
+                            <RadioGroupItem Value="default" id="r-inv-1" aria-invalid="true" />
+                            <Label For="r-inv-1">Default</Label>
+                        </div>
+                        <div class="demo-row">
+                            <RadioGroupItem Value="comfortable" id="r-inv-2" aria-invalid="true" />
+                            <Label For="r-inv-2">Comfortable</Label>
+                        </div>
+                    </RadioGroup>
+                    <FieldError>Please choose a density.</FieldError>
+                </FieldSet>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "native-select")
@@ -168,6 +446,27 @@ else if (Slug == "native-select")
                     </NativeSelectOptGroup>
                 </NativeSelect>
             </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <NativeSelect Disabled="true" Value="apple">
+                    <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+                    <NativeSelectOption Value="banana">Banana</NativeSelectOption>
+                </NativeSelect>
+            </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field data-invalid="true" Class="max-w-xs">
+                    <FieldLabel For="native-select-invalid">Fruit</FieldLabel>
+                    <NativeSelect id="native-select-invalid" aria-invalid="true">
+                        <NativeSelectOption Value="">Select a fruit</NativeSelectOption>
+                        <NativeSelectOption Value="apple">Apple</NativeSelectOption>
+                        <NativeSelectOption Value="banana">Banana</NativeSelectOption>
+                    </NativeSelect>
+                    <FieldError>Please select a fruit.</FieldError>
+                </Field>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -194,6 +493,34 @@ else if (Slug == "select")
             </Select>
         </Preview>
         <Examples>
+            <h3 class="docs-example-title">Align Item With Trigger</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <FieldGroup Class="w-full max-w-xs">
+                    <Field Orientation="FieldOrientation.Horizontal">
+                        <FieldContent>
+                            <FieldLabel For="select-align-item">Align Item</FieldLabel>
+                            <FieldDescription>Toggle to align the item with the trigger.</FieldDescription>
+                        </FieldContent>
+                        <Switch id="select-align-item" @bind-Checked="_alignItemWithTrigger" />
+                    </Field>
+                    <Field>
+                        <Select DefaultValue="banana">
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent Position="@(_alignItemWithTrigger ? SelectPosition.ItemAligned : SelectPosition.Popper)">
+                                <SelectGroup>
+                                    <SelectItem Value="apple">Apple</SelectItem>
+                                    <SelectItem Value="banana">Banana</SelectItem>
+                                    <SelectItem Value="blueberry">Blueberry</SelectItem>
+                                    <SelectItem Value="grapes">Grapes</SelectItem>
+                                    <SelectItem Value="pineapple">Pineapple</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </Field>
+                </FieldGroup>
+            </div></div>
             <h3 class="docs-example-title">Small</h3>
             <div class="docs-preview"><div class="docs-preview-body">
                 <Select DefaultValue="apple">
@@ -265,12 +592,34 @@ else if (Slug == "select")
                     </SelectContent>
                 </Select>
             </div></div>
+
+            <h3 class="docs-example-title">Invalid</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Field data-invalid="true" Class="w-full max-w-48">
+                    <FieldLabel For="select-invalid">Fruit</FieldLabel>
+                    <Select>
+                        <SelectTrigger id="select-invalid" aria-invalid="true">
+                            <SelectValue Placeholder="Select a fruit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem Value="apple">Apple</SelectItem>
+                                <SelectItem Value="banana">Banana</SelectItem>
+                                <SelectItem Value="blueberry">Blueberry</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <FieldError>Please select a fruit.</FieldError>
+                </Field>
+            </div></div>
         </Examples>
     </DocPage>
 }
 
 @code {
     [Parameter] public string? Slug { get; set; }
+
+    private bool _alignItemWithTrigger = true;
 
     private const string InputCode = """
 <Input Type="email" Placeholder="Email" />
@@ -402,3 +751,5 @@ else if (Slug == "select")
 }
 """;
 }
+
+

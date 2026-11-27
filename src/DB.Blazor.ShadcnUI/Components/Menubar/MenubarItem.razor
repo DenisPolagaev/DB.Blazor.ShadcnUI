@@ -4,7 +4,8 @@
 <div role="menuitem" data-slot="menubar-item" data-inset="@(Inset ? "true" : null)"
      data-variant="@(Variant == DropdownMenuItemVariant.Destructive ? "destructive" : "default")"
      data-disabled="@(Disabled ? "true" : null)" aria-disabled="@(Disabled ? "true" : null)" tabindex="-1"
-     class="@Classes" style="@Style" @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
+     class="@Classes" style="@Style" @onclick="HandleClickAsync" @keydown="HandleKeyDownAsync"
+     @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -38,6 +39,9 @@
             await Root.CloseAsync();
         }
     }
+
+    private Task HandleKeyDownAsync(KeyboardEventArgs args) =>
+        args.Key is "Enter" or " " ? HandleClickAsync() : Task.CompletedTask;
 
     private string? Classes => MergeClass(
         "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden " +

@@ -5,7 +5,7 @@
 <div role="menuitem" data-slot="dropdown-menu-sub-trigger" data-inset="@(Inset ? "true" : null)"
      data-state="@(Owner?.IsOpen == true ? "open" : "closed")" aria-haspopup="menu"
      aria-expanded="@(Owner?.IsOpen == true ? "true" : "false")" aria-controls="@Owner?.ContentId"
-     tabindex="-1" class="@Classes" style="@Style" @onclick="ToggleAsync" @onpointerenter="OpenAsync"
+     tabindex="-1" class="@Classes" style="@Style" @onclick="ToggleAsync" @keydown="HandleKeyDownAsync" @onpointerenter="OpenAsync"
      @onpointerleave="ScheduleClose" @attributes="AdditionalAttributes">
     @ChildContent
     <ChevronRightIcon Class="ml-auto size-4" />
@@ -23,6 +23,9 @@
 
     private Task OpenAsync() => Owner?.ShowAsync() ?? Task.CompletedTask;
 
+    private Task HandleKeyDownAsync(KeyboardEventArgs args) =>
+        args.Key is "Enter" or " " ? ToggleAsync() : Task.CompletedTask;
+
     private void ScheduleClose() => Owner?.ScheduleClose();
 
     private string? Classes => MergeClass(
@@ -31,3 +34,4 @@
         "data-[state=open]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 " +
         "[&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground");
 }
+

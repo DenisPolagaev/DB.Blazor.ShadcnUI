@@ -1,0 +1,29 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="group" data-slot="context-menu-radio-group" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    /// <summary>Selected value (<c>@bind-Value</c>).</summary>
+    [Parameter] public string? Value { get; set; }
+
+    /// <summary>Selection change callback.</summary>
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>True when <paramref name="value"/> is selected.</summary>
+    public bool IsSelected(string? value) => string.Equals(Value, value, StringComparison.Ordinal);
+
+    internal async Task SelectAsync(string? value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+    }
+
+    private string? Classes => MergeClass(null);
+}

@@ -24,7 +24,8 @@ public partial class ContextMenuContent : ShadcnDismissableBase
                 Root.TriggerId,
                 originVar: "--radix-context-menu-content-transform-origin",
                 focus: "first",
-                contentId: Root.ContentId);
+                contentId: Root.ContentId,
+                fixedPosition: true);
         }
     }
 

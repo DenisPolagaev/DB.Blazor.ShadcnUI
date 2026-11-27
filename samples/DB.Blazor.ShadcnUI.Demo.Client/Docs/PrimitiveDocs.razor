@@ -76,6 +76,30 @@ else if (Slug == "badge")
                 <Badge Variant="BadgeVariant.Destructive">Destructive</Badge>
                 <Badge Variant="BadgeVariant.Outline">Outline</Badge>
             </div></div>
+
+            <h3 class="docs-example-title">With Icon</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Badge><CheckIcon /> Verified</Badge>
+                <Badge Variant="BadgeVariant.Secondary"><LoaderIcon /> Syncing</Badge>
+                <Badge Variant="BadgeVariant.Outline"><XIcon /> Failed</Badge>
+            </div></div>
+
+            <h3 class="docs-example-title">With Spinner</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Badge Variant="BadgeVariant.Secondary"><Spinner Class="size-3" /> Generating</Badge>
+            </div></div>
+
+            <h3 class="docs-example-title">Link</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <a href="#badge-link" class="@BadgeVariants.Get(BadgeVariant.Link)">Read the docs</a>
+            </div></div>
+
+            <h3 class="docs-example-title">Custom Colors</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Badge Class="bg-blue-500 text-white dark:bg-blue-600">Blue</Badge>
+                <Badge Class="bg-emerald-500 text-white dark:bg-emerald-600">Emerald</Badge>
+                <Badge Class="bg-rose-500 text-white dark:bg-rose-600">Rose</Badge>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -165,6 +189,29 @@ else if (Slug == "alert")
                     <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
                 </Alert>
             </div></div>
+
+            <h3 class="docs-example-title">Action</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <Alert>
+                    <AlertTitle>Heads up!</AlertTitle>
+                    <AlertDescription>
+                        <p>You can add components to your app using the cli.</p>
+                        <Button Size="ButtonSize.Xs" Variant="ButtonVariant.Outline">Enable</Button>
+                    </AlertDescription>
+                </Alert>
+            </div></div>
+
+            <h3 class="docs-example-title">Custom Colors</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <Alert Class="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                    <AlertTitle>Success</AlertTitle>
+                    <AlertDescription>Your changes have been saved.</AlertDescription>
+                </Alert>
+                <Alert Class="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">
+                    <AlertTitle>Note</AlertTitle>
+                    <AlertDescription>This action can be undone later.</AlertDescription>
+                </Alert>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -192,6 +239,15 @@ else if (Slug == "avatar")
                     <AvatarImage Src="https://github.com/shadcn.png" Alt="shadcn" />
                     <AvatarFallback>CN</AvatarFallback>
                     <AvatarBadge></AvatarBadge>
+                </Avatar>
+            </div></div>
+
+            <h3 class="docs-example-title">Badge with Icon</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Avatar>
+                    <AvatarImage Src="https://github.com/shadcn.png" Alt="shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarBadge><CheckIcon /></AvatarBadge>
                 </Avatar>
             </div></div>
 
@@ -227,6 +283,43 @@ else if (Slug == "separator")
                 </div>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Vertical</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-row">
+                    <span class="demo-item-title">Blog</span>
+                    <Separator Orientation="ShadcnOrientation.Vertical" Class="h-5" />
+                    <span class="demo-item-title">Docs</span>
+                    <Separator Orientation="ShadcnOrientation.Vertical" Class="h-5" />
+                    <span class="demo-item-title">Source</span>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Menu</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger><Button Variant="ButtonVariant.Outline">Open menu</Button></DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-56">
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        <DropdownMenuItem>Billing</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>Team</DropdownMenuItem>
+                        <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
+
+            <h3 class="docs-example-title">List</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-stack" style="width: 100%; max-width: 420px">
+                    <div class="demo-row"><span>Item 1</span></div>
+                    <Separator />
+                    <div class="demo-row"><span>Item 2</span></div>
+                    <Separator />
+                    <div class="demo-row"><span>Item 3</span></div>
+                </div>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "skeleton")
@@ -242,6 +335,48 @@ else if (Slug == "skeleton")
                 </div>
             </div>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Card</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Card Class="w-full max-w-xs">
+                    <CardHeader>
+                        <Skeleton Class="h-4 w-2/3" />
+                        <Skeleton Class="h-4 w-1/2" />
+                    </CardHeader>
+                    <CardContent>
+                        <Skeleton Class="aspect-video w-full" />
+                    </CardContent>
+                </Card>
+            </div></div>
+
+            <h3 class="docs-example-title">Text</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-stack" style="width: 100%; max-width: 320px; gap: 8px">
+                    <Skeleton Class="h-4 w-full" />
+                    <Skeleton Class="h-4 w-[90%]" />
+                    <Skeleton Class="h-4 w-[80%]" />
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Form</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-form" style="width: 100%; max-width: 320px">
+                    <Skeleton Class="h-4 w-20" />
+                    <Skeleton Class="h-9 w-full" />
+                    <Skeleton Class="h-9 w-full" />
+                    <Skeleton Class="h-9 w-24" />
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Table</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div class="demo-stack" style="width: 100%; max-width: 420px; gap: 8px">
+                    <div class="demo-row"><Skeleton Class="h-4 w-1/3" /><Skeleton Class="h-4 w-1/4" /><Skeleton Class="h-4 w-1/4" /></div>
+                    <div class="demo-row"><Skeleton Class="h-4 w-1/3" /><Skeleton Class="h-4 w-1/4" /><Skeleton Class="h-4 w-1/4" /></div>
+                    <div class="demo-row"><Skeleton Class="h-4 w-1/3" /><Skeleton Class="h-4 w-1/4" /><Skeleton Class="h-4 w-1/4" /></div>
+                </div>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 else if (Slug == "progress")
@@ -277,6 +412,18 @@ else if (Slug == "spinner")
                 <Spinner Class="size-4" />
                 <Spinner Class="size-6" />
                 <Spinner Class="size-8" />
+            </div></div>
+
+            <h3 class="docs-example-title">Button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Disabled="true"><Spinner /> Loading</Button>
+                <Button Variant="ButtonVariant.Outline" Disabled="true"><Spinner /> Please wait</Button>
+            </div></div>
+
+            <h3 class="docs-example-title">Badge</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Badge Variant="BadgeVariant.Secondary"><Spinner Class="size-3" /> Syncing</Badge>
+                <Badge Variant="BadgeVariant.Outline"><Spinner Class="size-3" /> Generating</Badge>
             </div></div>
         </Examples>
     </DocPage>

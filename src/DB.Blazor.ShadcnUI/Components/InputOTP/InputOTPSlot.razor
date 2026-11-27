@@ -1,5 +1,6 @@
 @namespace DB.Blazor.ShadcnUI.Components
 @inherits ShadcnComponent
+@implements IDisposable
 
 <div data-slot="input-otp-slot" data-active="@(Owner?.IsActive(Index) == true ? "true" : "false")"
      class="@Classes" style="@Style" @attributes="AdditionalAttributes">
@@ -13,10 +14,35 @@
 </div>
 
 @code {
+    private InputOTP? _owner;
+
     [CascadingParameter] private InputOTP? Owner { get; set; }
 
     /// <summary>Zero-based slot index.</summary>
     [Parameter] public int Index { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        _owner = Owner;
+        if (_owner is not null)
+        {
+            _owner.Changed += OnValueChanged;
+        }
+    }
+
+    private void OnValueChanged() => _ = InvokeAsync(StateHasChanged);
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (_owner is not null)
+        {
+            _owner.Changed -= OnValueChanged;
+        }
+
+        GC.SuppressFinalize(this);
+    }
 
     private string? Classes => MergeClass(
         "relative flex h-9 w-9 items-center justify-center border-y border-r border-input text-sm shadow-xs " +

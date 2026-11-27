@@ -1,14 +1,47 @@
 @namespace DB.Blazor.ShadcnUI.Components
 @inherits ShadcnComponent
 
-<span id="@Root?.TriggerId" data-slot="menubar-trigger" style="display: contents"
-      aria-haspopup="menu" aria-expanded="@(Root?.IsOpen == true ? "true" : "false")"
-      aria-controls="@Root?.ContentId" @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</span>
+<button type="button" id="@Root?.TriggerId" role="menuitem" data-slot="menubar-trigger"
+        data-state="@(Root?.IsOpen == true ? "open" : "closed")" aria-haspopup="menu"
+        aria-expanded="@(Root?.IsOpen == true ? "true" : "false")" aria-controls="@Root?.ContentId"
+        class="@Classes" style="@Style" @onclick="ToggleAsync" @onpointerenter="OpenOnHoverAsync"
+        @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [CascadingParameter] private MenubarMenu? Root { get; set; }
 
+    [CascadingParameter] private Menubar? Bar { get; set; }
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private Task ToggleAsync() => Root?.ToggleAsync() ?? Task.CompletedTask;
+    private async Task ToggleAsync()
+    {
+        if (Root is null)
+        {
+            return;
+        }
+
+        if (!Root.IsOpen && Bar is not null)
+        {
+            await Bar.CloseOthersAsync(Root);
+        }
+
+        await Root.ToggleAsync();
+    }
+
+    private async Task OpenOnHoverAsync()
+    {
+        if (Root is null || Root.IsOpen || Bar?.HasOpenMenu != true)
+        {
+            return;
+        }
+
+        await Bar.CloseOthersAsync(Root);
+        await Root.ShowAsync();
+    }
+
+    private string? Classes => MergeClass(
+        "flex items-center rounded-sm px-2 py-1 text-sm font-medium outline-hidden select-none " +
+        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent " +
+        "data-[state=open]:text-accent-foreground");
 }

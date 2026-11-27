@@ -18,6 +18,10 @@ public partial class ToggleGroup : ShadcnComponent
     [Parameter]
     public string? Value { get; set; }
 
+    /// <summary>Initial value of an uncontrolled single group.</summary>
+    [Parameter]
+    public string? DefaultValue { get; set; }
+
     /// <summary>Single value change callback.</summary>
     [Parameter]
     public EventCallback<string?> ValueChanged { get; set; }
@@ -25,6 +29,10 @@ public partial class ToggleGroup : ShadcnComponent
     /// <summary>Controlled values for a multiple group.</summary>
     [Parameter]
     public IReadOnlyList<string>? Values { get; set; }
+
+    /// <summary>Initial values of an uncontrolled multiple group.</summary>
+    [Parameter]
+    public IReadOnlyList<string>? DefaultValues { get; set; }
 
     /// <summary>Multiple values change callback.</summary>
     [Parameter]
@@ -53,7 +61,16 @@ public partial class ToggleGroup : ShadcnComponent
     /// <summary>True when <paramref name="value"/> is pressed.</summary>
     public bool IsPressed(string? value) => Type == ToggleGroupType.Multiple
         ? (Values ?? _uncontrolledValues).Contains(value ?? string.Empty, StringComparer.Ordinal)
-        : string.Equals(Value ?? _uncontrolledValue, value, StringComparison.Ordinal);
+        : string.Equals(Value ?? _uncontrolledValue ?? DefaultValue, value, StringComparison.Ordinal);
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        if (DefaultValues is not null)
+        {
+            _uncontrolledValues.AddRange(DefaultValues);
+        }
+    }
 
     internal async Task ToggleAsync(string? value)
     {
@@ -76,7 +93,7 @@ public partial class ToggleGroup : ShadcnComponent
             return;
         }
 
-        var nextValue = string.Equals(Value ?? _uncontrolledValue, value, StringComparison.Ordinal) ? null : value;
+        var nextValue = string.Equals(Value ?? _uncontrolledValue ?? DefaultValue, value, StringComparison.Ordinal) ? null : value;
         _uncontrolledValue = nextValue;
         await ValueChanged.InvokeAsync(nextValue);
         StateHasChanged();

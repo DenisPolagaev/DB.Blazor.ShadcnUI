@@ -11,6 +11,9 @@ public partial class InputOTP : ShadcnComponent
     private string? _internalValue;
     private bool _focused;
 
+    /// <summary>Raised when the value or focus changes; the slots re-render from it.</summary>
+    internal event Action? Changed;
+
     /// <summary>Two-way bound value (<c>@bind-Value</c>).</summary>
     [Parameter]
     public string? Value { get; set; }
@@ -39,6 +42,12 @@ public partial class InputOTP : ShadcnComponent
     internal async Task SetValueAsync(string? value)
     {
         var normalized = (value ?? string.Empty).Replace(" ", string.Empty);
+        if (!string.IsNullOrEmpty(Pattern))
+        {
+            normalized = string.Concat(normalized.Where(character =>
+                System.Text.RegularExpressions.Regex.IsMatch(character.ToString(), Pattern)));
+        }
+
         if (normalized.Length > Length)
         {
             normalized = normalized[..Length];
@@ -51,12 +60,14 @@ public partial class InputOTP : ShadcnComponent
         }
 
         await ValueChanged.InvokeAsync(normalized);
+        Changed?.Invoke();
         StateHasChanged();
     }
 
     internal void SetFocused(bool focused)
     {
         _focused = focused;
+        Changed?.Invoke();
         StateHasChanged();
     }
 }

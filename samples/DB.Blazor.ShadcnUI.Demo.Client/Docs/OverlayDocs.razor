@@ -46,6 +46,221 @@
                     </CommandList>
                 </CommandDialog>
             </div></div>
+
+            <h3 class="docs-example-title">Shortcuts</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DB.Blazor.ShadcnUI.Components.Command Class="max-w-sm rounded-lg border shadow-md">
+                    <CommandInput Placeholder="Type a command or search..." />
+                    <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup Heading="Suggestions">
+                            <CommandItem Value="calendar">Calendar<CommandShortcut>⌘C</CommandShortcut></CommandItem>
+                            <CommandItem Value="emoji">Search Emoji<CommandShortcut>⌘E</CommandShortcut></CommandItem>
+                            <CommandItem Value="calculator">Calculator<CommandShortcut>⌘K</CommandShortcut></CommandItem>
+                        </CommandGroup>
+                        <CommandSeparator />
+                        <CommandGroup Heading="Settings">
+                            <CommandItem Value="profile">Profile<CommandShortcut>⌘P</CommandShortcut></CommandItem>
+                            <CommandItem Value="billing">Billing<CommandShortcut>⌘B</CommandShortcut></CommandItem>
+                        </CommandGroup>
+                    </CommandList>
+                </DB.Blazor.ShadcnUI.Components.Command>
+            </div></div>
+
+            <h3 class="docs-example-title">Scrollable</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DB.Blazor.ShadcnUI.Components.Command Class="max-w-sm rounded-lg border shadow-md">
+                    <CommandInput Placeholder="Type a command or search..." />
+                    <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup Heading="Timezones">
+                            @foreach (var zone in new[] { "EST", "CST", "MST", "PST", "AKST", "HST", "GMT", "CET", "EET", "IST", "JST", "AEST" })
+                            {
+                                <CommandItem Value="@zone">@zone</CommandItem>
+                            }
+                        </CommandGroup>
+                    </CommandList>
+                </DB.Blazor.ShadcnUI.Components.Command>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "context-menu")
+{
+    <DocPage Title="Context Menu"
+             Description="Displays a menu to the user — triggered by a right click."
+             Code="@ContextMenuCode" Usage="@ContextMenuUsage">
+        <Preview>
+            <ContextMenu>
+                <ContextMenuTrigger>
+                    <div class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+                        Right click here
+                    </div>
+                </ContextMenuTrigger>
+                <ContextMenuContent Class="w-52">
+                    <ContextMenuItem>Back<ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+                    <ContextMenuItem Disabled="true">Forward<ContextMenuShortcut>⌘]</ContextMenuShortcut></ContextMenuItem>
+                    <ContextMenuItem>Reload<ContextMenuShortcut>⌘R</ContextMenuShortcut></ContextMenuItem>
+                    <ContextMenuSeparator />
+                    <ContextMenuSub>
+                        <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+                        <ContextMenuSubContent Class="w-44">
+                            <ContextMenuItem>Save Page As...</ContextMenuItem>
+                            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                            <ContextMenuItem>Developer Tools</ContextMenuItem>
+                        </ContextMenuSubContent>
+                    </ContextMenuSub>
+                </ContextMenuContent>
+            </ContextMenu>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Checkboxes</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ContextMenu>
+                    <ContextMenuTrigger>
+                        <div class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+                            Right click here
+                        </div>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent Class="w-52">
+                        <ContextMenuGroup>
+                            <ContextMenuLabel>Appearance</ContextMenuLabel>
+                            <ContextMenuCheckboxItem @bind-Checked="_contextShowBookmarks">
+                                Show Bookmarks
+                            </ContextMenuCheckboxItem>
+                            <ContextMenuCheckboxItem @bind-Checked="_contextShowFullUrls">
+                                Show Full URLs
+                            </ContextMenuCheckboxItem>
+                        </ContextMenuGroup>
+                    </ContextMenuContent>
+                </ContextMenu>
+            </div></div>
+
+            <h3 class="docs-example-title">Radio group</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ContextMenu>
+                    <ContextMenuTrigger>
+                        <div class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+                            Right click here
+                        </div>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent Class="w-52">
+                        <ContextMenuGroup>
+                            <ContextMenuLabel>People</ContextMenuLabel>
+                            <ContextMenuRadioGroup @bind-Value="_contextPerson">
+                                <ContextMenuRadioItem Value="pedro">Pedro Duarte</ContextMenuRadioItem>
+                                <ContextMenuRadioItem Value="colm">Colm Tuite</ContextMenuRadioItem>
+                            </ContextMenuRadioGroup>
+                        </ContextMenuGroup>
+                        <ContextMenuSeparator />
+                        <ContextMenuItem Variant="DropdownMenuItemVariant.Destructive">Delete</ContextMenuItem>
+                    </ContextMenuContent>
+                </ContextMenu>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "menubar")
+{
+    <DocPage Title="Menubar" Description="A visually persistent menu common in desktop applications."
+             Code="@MenubarCode" Usage="@MenubarUsage">
+        <Preview>
+            <Menubar>
+                <MenubarMenu>
+                    <MenubarTrigger>File</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>New Tab<MenubarShortcut>⌘T</MenubarShortcut></MenubarItem>
+                        <MenubarItem>New Window<MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+                        <MenubarSeparator />
+                        <MenubarItem>Share<MenubarShortcut>⌘S</MenubarShortcut></MenubarItem>
+                        <MenubarSeparator />
+                        <MenubarItem>Print<MenubarShortcut>⌘P</MenubarShortcut></MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+                <MenubarMenu>
+                    <MenubarTrigger>Edit</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>Undo<MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+                        <MenubarItem>Redo<MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+                <MenubarMenu>
+                    <MenubarTrigger>View</MenubarTrigger>
+                    <MenubarContent Class="w-56">
+                        <MenubarCheckboxItem @bind-Checked="_menubarBookmarks">Show Bookmarks</MenubarCheckboxItem>
+                        <MenubarCheckboxItem @bind-Checked="_menubarFullUrls">Show Full URLs</MenubarCheckboxItem>
+                        <MenubarSeparator />
+                        <MenubarRadioGroup @bind-Value="_menubarPerson">
+                            <MenubarRadioItem Value="pedro">Pedro Duarte</MenubarRadioItem>
+                            <MenubarRadioItem Value="colm">Colm Tuite</MenubarRadioItem>
+                        </MenubarRadioGroup>
+                    </MenubarContent>
+                </MenubarMenu>
+                <MenubarMenu>
+                    <MenubarTrigger>Submenu</MenubarTrigger>
+                    <MenubarContent>
+                        <MenubarItem>New Tab</MenubarItem>
+                        <MenubarSeparator />
+                        <MenubarSub>
+                            <MenubarSubTrigger>Share</MenubarSubTrigger>
+                            <MenubarSubContent>
+                                <MenubarItem>Email link</MenubarItem>
+                                <MenubarItem>Messages</MenubarItem>
+                                <MenubarItem>Notes</MenubarItem>
+                            </MenubarSubContent>
+                        </MenubarSub>
+                    </MenubarContent>
+                </MenubarMenu>
+            </Menubar>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Checkbox</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Menubar>
+                    <MenubarMenu>
+                        <MenubarTrigger>View</MenubarTrigger>
+                        <MenubarContent Class="w-56">
+                            <MenubarCheckboxItem @bind-Checked="_menubarBookmarks">Show Bookmarks</MenubarCheckboxItem>
+                            <MenubarCheckboxItem @bind-Checked="_menubarFullUrls">Show Full URLs</MenubarCheckboxItem>
+                        </MenubarContent>
+                    </MenubarMenu>
+                </Menubar>
+            </div></div>
+
+            <h3 class="docs-example-title">Radio</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Menubar>
+                    <MenubarMenu>
+                        <MenubarTrigger>Profiles</MenubarTrigger>
+                        <MenubarContent Class="w-56">
+                            <MenubarRadioGroup @bind-Value="_menubarPerson">
+                                <MenubarRadioItem Value="pedro">Pedro Duarte</MenubarRadioItem>
+                                <MenubarRadioItem Value="colm">Colm Tuite</MenubarRadioItem>
+                            </MenubarRadioGroup>
+                        </MenubarContent>
+                    </MenubarMenu>
+                </Menubar>
+            </div></div>
+
+            <h3 class="docs-example-title">Submenu</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Menubar>
+                    <MenubarMenu>
+                        <MenubarTrigger>File</MenubarTrigger>
+                        <MenubarContent>
+                            <MenubarItem>New Tab</MenubarItem>
+                            <MenubarSeparator />
+                            <MenubarSub>
+                                <MenubarSubTrigger>Share</MenubarSubTrigger>
+                                <MenubarSubContent>
+                                    <MenubarItem>Email link</MenubarItem>
+                                    <MenubarItem>Messages</MenubarItem>
+                                </MenubarSubContent>
+                            </MenubarSub>
+                        </MenubarContent>
+                    </MenubarMenu>
+                </Menubar>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -92,6 +307,77 @@ else if (Slug == "dialog")
                         <DialogFooter ShowCloseButton="true">
                             <Button Variant="ButtonVariant.Secondary">Copy link</Button>
                         </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div></div>
+
+            <h3 class="docs-example-title">Custom Close Button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Dialog>
+                    <DialogTrigger><Button Variant="ButtonVariant.Outline">Share</Button></DialogTrigger>
+                    <DialogContent ShowCloseButton="false">
+                        <DialogHeader>
+                            <DialogTitle>Share link</DialogTitle>
+                            <DialogDescription>Anyone who has this link will be able to view this.</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter Class="sm:justify-between">
+                            <DialogClose><Button Variant="ButtonVariant.Secondary">Close</Button></DialogClose>
+                            <Button>Copy link</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div></div>
+
+            <h3 class="docs-example-title">Sticky Footer</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Dialog>
+                    <DialogTrigger><Button Variant="ButtonVariant.Outline">Sticky Footer</Button></DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Sticky Footer</DialogTitle>
+                            <DialogDescription>
+                                This dialog has a sticky footer that stays visible while the content scrolls.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div class="-mx-4 max-h-[50vh] overflow-y-auto px-4">
+                            <p class="mb-4 leading-normal">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </p>
+                            @for (var i = 0; i < 8; i++)
+                            {
+                                <p class="mb-4 leading-normal">
+                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                    aliquip ex ea commodo consequat.
+                                </p>
+                            }
+                        </div>
+                        <DialogFooter>
+                            <DialogClose><Button Variant="ButtonVariant.Outline">Close</Button></DialogClose>
+                            <Button>Save changes</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div></div>
+
+            <h3 class="docs-example-title">Scrollable Content</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Dialog>
+                    <DialogTrigger><Button Variant="ButtonVariant.Outline">Scrollable Content</Button></DialogTrigger>
+                    <DialogContent Class="sm:max-w-sm">
+                        <DialogHeader>
+                            <DialogTitle>Scrollable Content</DialogTitle>
+                            <DialogDescription>This is a dialog with scrollable content.</DialogDescription>
+                        </DialogHeader>
+                        <div class="-mx-4 max-h-[50vh] overflow-y-auto px-4">
+                            @for (var i = 0; i < 12; i++)
+                            {
+                                <p class="mb-4 leading-normal">
+                                    This is some additional paragraph placeholder content. It has been written
+                                    to fill the available space and show scrolling behavior.
+                                </p>
+                            }
+                        </div>
                     </DialogContent>
                 </Dialog>
             </div></div>
@@ -151,6 +437,46 @@ else if (Slug == "alert-dialog")
                     </AlertDialogContent>
                 </AlertDialog>
             </div></div>
+
+            <h3 class="docs-example-title">Small</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <AlertDialog>
+                    <AlertDialogTrigger>
+                        <Button Variant="ButtonVariant.Outline">Show Dialog</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent Size="AlertDialogContentSize.Small">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div></div>
+
+            <h3 class="docs-example-title">Destructive</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <AlertDialog>
+                    <AlertDialogTrigger>
+                        <Button Variant="ButtonVariant.Destructive">Delete account</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Delete account?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This permanently removes your account and all of its data.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction Variant="ButtonVariant.Destructive">Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -199,6 +525,19 @@ else if (Slug == "sheet")
                         </SheetContent>
                     </Sheet>
                 }
+            </div></div>
+
+            <h3 class="docs-example-title">No Close Button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Sheet>
+                    <SheetTrigger><Button Variant="ButtonVariant.Outline">Open</Button></SheetTrigger>
+                    <SheetContent ShowCloseButton="false">
+                        <SheetHeader>
+                            <SheetTitle>No close button</SheetTitle>
+                            <SheetDescription>This sheet has no close button in the corner.</SheetDescription>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
             </div></div>
         </Examples>
     </DocPage>
@@ -292,6 +631,32 @@ else if (Slug == "dropdown-menu")
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div></div>
+
+            <h3 class="docs-example-title">Icons</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-48">
+                        <DropdownMenuItem><CheckIcon /> Accept</DropdownMenuItem>
+                        <DropdownMenuItem><XIcon /> Decline</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem><LoaderIcon /> Retry</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
+
+            <h3 class="docs-example-title">Destructive</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-48">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive"><XIcon /> Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -375,6 +740,34 @@ else if (Slug == "tooltip")
                     </TooltipProvider>
                 }
             </div></div>
+
+            <h3 class="docs-example-title">With Keyboard Shortcut</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Button Variant="ButtonVariant.Outline">Save</Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            Save changes <Kbd Class="ml-1.5">⌘S</Kbd>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled Button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <span tabindex="0" class="inline-block">
+                                <Button Variant="ButtonVariant.Outline" Disabled="true">Disabled</Button>
+                            </span>
+                        </TooltipTrigger>
+                        <TooltipContent>This action is not available.</TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -402,12 +795,59 @@ else if (Slug == "drawer")
                 </DrawerContent>
             </Drawer>
         </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Sides</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                @foreach (var direction in new[] { DrawerDirection.Top, DrawerDirection.Right, DrawerDirection.Bottom, DrawerDirection.Left })
+                {
+                    <Drawer Direction="@direction">
+                        <DrawerTrigger><Button Variant="ButtonVariant.Outline">@direction</Button></DrawerTrigger>
+                        <DrawerContent>
+                            <DrawerHeader>
+                                <DrawerTitle>@direction drawer</DrawerTitle>
+                                <DrawerDescription>This drawer slides from the @direction.</DrawerDescription>
+                            </DrawerHeader>
+                        </DrawerContent>
+                    </Drawer>
+                }
+            </div></div>
+
+            <h3 class="docs-example-title">Scrollable Content</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Drawer>
+                    <DrawerTrigger><Button Variant="ButtonVariant.Outline">Open drawer</Button></DrawerTrigger>
+                    <DrawerContent>
+                        <DrawerHeader>
+                            <DrawerTitle>Scrollable Content</DrawerTitle>
+                            <DrawerDescription>This drawer has a long, scrollable body.</DrawerDescription>
+                        </DrawerHeader>
+                        <div class="max-h-[50vh] overflow-y-auto px-4">
+                            @for (var i = 0; i < 12; i++)
+                            {
+                                <p class="mb-4 leading-normal">
+                                    This is some additional paragraph placeholder content for the scrollable drawer.
+                                </p>
+                            }
+                        </div>
+                        <DrawerFooter>
+                            <DrawerClose><Button Variant="ButtonVariant.Outline">Close</Button></DrawerClose>
+                        </DrawerFooter>
+                    </DrawerContent>
+                </Drawer>
+            </div></div>
+        </Examples>
     </DocPage>
 }
 @code {
     [Parameter] public string? Slug { get; set; }
 
     private bool _commandOpen;
+    private bool _contextShowBookmarks = true;
+    private bool _contextShowFullUrls;
+    private string? _contextPerson = "pedro";
+    private bool _menubarBookmarks = true;
+    private bool _menubarFullUrls;
+    private string? _menubarPerson = "pedro";
 
     private const string peduarte = "@peduarte";
 
@@ -446,6 +886,64 @@ else if (Slug == "drawer")
         </CommandGroup>
     </CommandList>
 </DB.Blazor.ShadcnUI.Components.Command>
+""";
+
+    private const string ContextMenuCode = """
+<ContextMenu>
+    <ContextMenuTrigger>
+        <div class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed">
+            Right click here
+        </div>
+    </ContextMenuTrigger>
+    <ContextMenuContent Class="w-52">
+        <ContextMenuItem>Back<ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+        <ContextMenuItem>Reload<ContextMenuShortcut>⌘R</ContextMenuShortcut></ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuSub>
+            <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+                <ContextMenuItem>Save Page As...</ContextMenuItem>
+            </ContextMenuSubContent>
+        </ContextMenuSub>
+    </ContextMenuContent>
+</ContextMenu>
+""";
+
+    private const string ContextMenuUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<ContextMenu>
+    <ContextMenuTrigger>Right click here</ContextMenuTrigger>
+    <ContextMenuContent>
+        <ContextMenuItem>Profile</ContextMenuItem>
+    </ContextMenuContent>
+</ContextMenu>
+""";
+
+    private const string MenubarCode = """
+<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem>New Tab<MenubarShortcut>⌘T</MenubarShortcut></MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>Print<MenubarShortcut>⌘P</MenubarShortcut></MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>
+""";
+
+    private const string MenubarUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem>New Tab</MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>
 """;
 
     private const string DrawerCode = """
@@ -636,5 +1134,6 @@ else if (Slug == "drawer")
 </TooltipProvider>
 """;
 }
+
 
 

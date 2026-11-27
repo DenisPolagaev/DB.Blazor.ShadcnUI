@@ -11,6 +11,10 @@ public partial class HoverCardContent : ShadcnDismissableBase
     [CascadingParameter]
     public HoverCard? Root { get; set; }
 
+    /// <summary>Preferred side of the trigger: <c>bottom</c> by default.</summary>
+    [Parameter]
+    public string Side { get; set; } = "bottom";
+
     /// <summary>Alignment against the trigger (<c>center</c> by default, like shadcn).</summary>
     [Parameter]
     public string Align { get; set; } = "center";
@@ -30,7 +34,7 @@ public partial class HoverCardContent : ShadcnDismissableBase
         {
             ConfigurePosition(
                 Root.TriggerId,
-                "bottom",
+                Side,
                 Align,
                 SideOffset,
                 originVar: "--radix-hover-card-content-transform-origin",

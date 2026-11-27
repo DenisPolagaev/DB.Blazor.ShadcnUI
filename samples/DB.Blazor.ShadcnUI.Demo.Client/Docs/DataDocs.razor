@@ -140,6 +140,45 @@ else if (Slug == "tabs")
                     <TabsContent Value="reports"><p class="demo-item-text">Reports panel</p></TabsContent>
                 </Tabs>
             </div></div>
+
+            <h3 class="docs-example-title">Vertical</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Tabs DefaultValue="account" Orientation="ShadcnOrientation.Vertical" Class="w-full max-w-md">
+                    <TabsList>
+                        <TabsTrigger Value="account">Account</TabsTrigger>
+                        <TabsTrigger Value="password">Password</TabsTrigger>
+                    </TabsList>
+                    <TabsContent Value="account"><p class="demo-item-text">Account panel</p></TabsContent>
+                    <TabsContent Value="password"><p class="demo-item-text">Password panel</p></TabsContent>
+                </Tabs>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Tabs DefaultValue="overview" Class="w-full max-w-md">
+                    <TabsList>
+                        <TabsTrigger Value="overview">Overview</TabsTrigger>
+                        <TabsTrigger Value="analytics" Disabled="true">Analytics</TabsTrigger>
+                        <TabsTrigger Value="reports">Reports</TabsTrigger>
+                    </TabsList>
+                    <TabsContent Value="overview"><p class="demo-item-text">Overview panel</p></TabsContent>
+                    <TabsContent Value="reports"><p class="demo-item-text">Reports panel</p></TabsContent>
+                </Tabs>
+            </div></div>
+
+            <h3 class="docs-example-title">Icons</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Tabs DefaultValue="overview" Class="w-full max-w-md">
+                    <TabsList>
+                        <TabsTrigger Value="overview"><CheckIcon /> Overview</TabsTrigger>
+                        <TabsTrigger Value="analytics"><CircleIcon /> Analytics</TabsTrigger>
+                        <TabsTrigger Value="reports"><LoaderIcon /> Reports</TabsTrigger>
+                    </TabsList>
+                    <TabsContent Value="overview"><p class="demo-item-text">Overview panel</p></TabsContent>
+                    <TabsContent Value="analytics"><p class="demo-item-text">Analytics panel</p></TabsContent>
+                    <TabsContent Value="reports"><p class="demo-item-text">Reports panel</p></TabsContent>
+                </Tabs>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -189,6 +228,43 @@ else if (Slug == "breadcrumb")
                     </BreadcrumbList>
                 </Breadcrumb>
             </div></div>
+
+            <h3 class="docs-example-title">Custom separator</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem><BreadcrumbLink Href="/">Home</BreadcrumbLink></BreadcrumbItem>
+                        <BreadcrumbSeparator><span>/</span></BreadcrumbSeparator>
+                        <BreadcrumbItem><BreadcrumbLink Href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+                        <BreadcrumbSeparator><span>/</span></BreadcrumbSeparator>
+                        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
+            </div></div>
+
+            <h3 class="docs-example-title">Dropdown</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem><BreadcrumbLink Href="/">Home</BreadcrumbLink></BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger><BreadcrumbEllipsis /></DropdownMenuTrigger>
+                                <DropdownMenuContent Align="start">
+                                    <DropdownMenuItem>Documentation</DropdownMenuItem>
+                                    <DropdownMenuItem>Components</DropdownMenuItem>
+                                    <DropdownMenuItem>Breadcrumb</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem><BreadcrumbLink Href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -215,6 +291,27 @@ else if (Slug == "pagination")
                     <PaginationContent>
                         <PaginationItem><PaginationPrevious Href="#" /></PaginationItem>
                         <PaginationItem><PaginationNext Href="#" /></PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </div></div>
+
+            <h3 class="docs-example-title">Icons Only</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationLink Href="#" Size="ButtonSize.Icon" aria-label="Go to previous page">
+                                <ChevronLeftIcon />
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem><PaginationLink Href="#" Size="ButtonSize.Icon" aria-label="Go to page 1">1</PaginationLink></PaginationItem>
+                        <PaginationItem><PaginationLink Href="#" Size="ButtonSize.Icon" IsActive="true" aria-label="Go to page 2">2</PaginationLink></PaginationItem>
+                        <PaginationItem><PaginationLink Href="#" Size="ButtonSize.Icon" aria-label="Go to page 3">3</PaginationLink></PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink Href="#" Size="ButtonSize.Icon" aria-label="Go to next page">
+                                <ChevronRightIcon />
+                            </PaginationLink>
+                        </PaginationItem>
                     </PaginationContent>
                 </Pagination>
             </div></div>
@@ -252,6 +349,34 @@ else if (Slug == "accordion")
             <h3 class="docs-example-title">Multiple</h3>
             <div class="docs-preview"><div class="docs-preview-body docs-preview-block" style="max-width: 560px">
                 <Accordion Type="AccordionType.Multiple" DefaultValues="@(new[] { "item-1", "item-2" })">
+                    <AccordionItem Value="item-1">
+                        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                        <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem Value="item-2">
+                        <AccordionTrigger>Is it styled?</AccordionTrigger>
+                        <AccordionContent>Yes. It comes with default styles.</AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body docs-preview-block" style="max-width: 560px">
+                <Accordion Type="AccordionType.Single" Collapsible="true">
+                    <AccordionItem Value="item-1">
+                        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                        <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem Value="item-2" Disabled="true">
+                        <AccordionTrigger>Is it disabled?</AccordionTrigger>
+                        <AccordionContent>This item cannot be expanded.</AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </div></div>
+
+            <h3 class="docs-example-title">Borders</h3>
+            <div class="docs-preview"><div class="docs-preview-body docs-preview-block" style="max-width: 560px">
+                <Accordion Type="AccordionType.Single" Collapsible="true" Class="rounded-lg border px-4">
                     <AccordionItem Value="item-1">
                         <AccordionTrigger>Is it accessible?</AccordionTrigger>
                         <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>

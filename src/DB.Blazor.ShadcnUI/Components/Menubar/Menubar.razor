@@ -1,6 +1,8 @@
 @namespace DB.Blazor.ShadcnUI.Components
 @inherits ShadcnComponent
 
-<div role="menubar" data-slot="menubar" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
-    @ChildContent
+<div @ref="_root" role="menubar" data-slot="menubar" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
 </div>

@@ -2,25 +2,61 @@
 @inherits ShadcnComponent
 @implements IDisposable
 
-<span id="@Root?.TriggerId" data-slot="hover-card-trigger" style="display: contents"
+<span @ref="_trigger" id="@Root?.TriggerId" data-slot="hover-card-trigger" style="display: contents"
       aria-expanded="@(Root?.IsOpen == true ? "true" : "false")" aria-controls="@Root?.ContentId"
-      @onmouseenter="OpenDelayed" @onmouseleave="CloseDelayed" @onfocusin="OpenDelayed" @onfocusout="CloseDelayed"
       @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [CascadingParameter] private HoverCard? Root { get; set; }
+
+    [Inject] private IJSRuntime Js { get; set; } = default!;
+
+    private ElementReference _trigger;
+    private DotNetObjectReference<HoverCardTrigger>? _self;
+    private IJSObjectReference? _module;
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     private CancellationTokenSource? _open;
     private CancellationTokenSource? _close;
 
-    private void OpenDelayed()
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            _module ??= await ShadcnJs.ImportAsync(Js);
+            _self ??= DotNetObjectReference.Create(this);
+            await _module.InvokeVoidAsync("bindHoverTrigger", _trigger, _self);
+        }
+        catch (Exception exception) when (exception is JSException or InvalidOperationException or JSDisconnectedException or ObjectDisposedException)
+        {
+        }
+    }
+
+    /// <summary>The browser entered or focused the trigger (the wrapper has no box of its own).</summary>
+    [JSInvokable]
+    public void RequestOpen()
     {
         Cancel(ref _close);
         Cancel(ref _open);
         _open = new CancellationTokenSource();
         _ = OpenAsync(_open.Token);
+    }
+
+    /// <summary>The browser left or blurred the trigger.</summary>
+    [JSInvokable]
+    public void RequestClose()
+    {
+        Cancel(ref _open);
+        Cancel(ref _close);
+        _close = new CancellationTokenSource();
+        _ = CloseAsync(_close.Token);
     }
 
     private async Task OpenAsync(CancellationToken token)
@@ -41,14 +77,6 @@
         catch (OperationCanceledException)
         {
         }
-    }
-
-    private void CloseDelayed()
-    {
-        Cancel(ref _open);
-        Cancel(ref _close);
-        _close = new CancellationTokenSource();
-        _ = CloseAsync(_close.Token);
     }
 
     private async Task CloseAsync(CancellationToken token)
@@ -83,5 +111,23 @@
     {
         Cancel(ref _open);
         Cancel(ref _close);
+        _self?.Dispose();
+        _ = DisposeModuleAsync();
+    }
+
+    private async Task DisposeModuleAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.DisposeAsync();
+        }
+        catch (Exception exception) when (exception is JSException or JSDisconnectedException or ObjectDisposedException)
+        {
+        }
     }
 }

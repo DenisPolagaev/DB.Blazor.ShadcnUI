@@ -2,8 +2,9 @@
 @inherits ShadcnComponent
 
 <div data-slot="input-otp" class="@ContainerClasses" style="@Style" @attributes="AdditionalAttributes">
-    <input type="@Type" inputmode="numeric" autocomplete="one-time-code" maxlength="@Length" value="@Owner?.Current"
-           disabled="@Disabled" class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
+    <input type="@Type" inputmode="@InputMode" pattern="@Pattern" autocomplete="one-time-code" maxlength="@Length"
+           value="@Current" disabled="@Disabled"
+           class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
            @oninput="HandleInputAsync" @onfocus="HandleFocus" @onblur="HandleBlur" />
     <CascadingValue Value="this" IsFixed="true">
         @ChildContent
@@ -11,25 +12,25 @@
 </div>
 
 @code {
-    [CascadingParameter] private InputOTP? Owner { get; set; }
-
-    /// <summary>Input mode hint (<c>numeric</c> or <c>text</c>).</summary>
+    /// <summary>Input type (<c>text</c>; the mobile keyboard hint follows it).</summary>
     [Parameter] public string Type { get; set; } = "text";
+
+    /// <summary>Validation pattern (input-otp's <c>pattern</c>); characters that do not match are dropped.</summary>
+    [Parameter] public string? Pattern { get; set; }
 
     /// <summary>Container content: slots, groups, separators.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string InputMode => string.Equals(Type, "text", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
 
     private string? ContainerClasses => MergeClass("relative flex items-center gap-2 has-disabled:opacity-50");
 
     private async Task HandleInputAsync(ChangeEventArgs args)
     {
-        if (Owner is not null)
-        {
-            await Owner.SetValueAsync(args.Value?.ToString());
-        }
+        await SetValueAsync(args.Value?.ToString());
     }
 
-    private void HandleFocus() => Owner?.SetFocused(true);
+    private void HandleFocus() => SetFocused(true);
 
-    private void HandleBlur() => Owner?.SetFocused(false);
+    private void HandleBlur() => SetFocused(false);
 }
