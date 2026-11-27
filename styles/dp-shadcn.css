@@ -286,6 +286,10 @@
     color: inherit;
     letter-spacing: inherit;
     background-color: transparent;
+    /* Preflight's universal margin/padding reset: without it a bare <button data-slot="switch">
+       keeps the UA `1px 6px` padding and the 16px thumb sits in the middle of a 32px track. */
+    margin: 0;
+    padding: 0;
   }
 
   :where(button, [role="button"])[data-slot],
@@ -571,6 +575,7 @@
     transition-duration: 0.01ms !important;
   }
 }
+
 
 
 
