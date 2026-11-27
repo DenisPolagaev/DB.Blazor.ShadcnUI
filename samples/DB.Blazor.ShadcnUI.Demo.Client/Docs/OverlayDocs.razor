@@ -330,11 +330,62 @@ else if (Slug == "tooltip")
     </DocPage>
 }
 
+else if (Slug == "drawer")
+{
+    <DocPage Title="Drawer" Description="A drawer component for React."
+             Code="@DrawerCode" Usage="@DrawerUsage">
+        <Preview>
+            <Drawer>
+                <DrawerTrigger>
+                    <Button Variant="ButtonVariant.Outline">Open drawer</Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                    <DrawerHeader>
+                        <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                        <DrawerDescription>This action cannot be undone.</DrawerDescription>
+                    </DrawerHeader>
+                    <DrawerFooter>
+                        <Button>Submit</Button>
+                        <DrawerClose>
+                            <Button Variant="ButtonVariant.Outline">Cancel</Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </DrawerContent>
+            </Drawer>
+        </Preview>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
     private const string peduarte = "@peduarte";
 
+    private const string DrawerCode = """
+<Drawer>
+    <DrawerTrigger><Button Variant="ButtonVariant.Outline">Open drawer</Button></DrawerTrigger>
+    <DrawerContent>
+        <DrawerHeader>
+            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+            <DrawerDescription>This action cannot be undone.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+            <Button>Submit</Button>
+            <DrawerClose><Button Variant="ButtonVariant.Outline">Cancel</Button></DrawerClose>
+        </DrawerFooter>
+    </DrawerContent>
+</Drawer>
+""";
+
+    private const string DrawerUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Drawer>
+    <DrawerTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DrawerTrigger>
+    <DrawerContent>
+        <DrawerHeader><DrawerTitle>Drawer</DrawerTitle></DrawerHeader>
+    </DrawerContent>
+</Drawer>
+""";
     private const string DialogCode = """
 <Dialog>
     <DialogTrigger><Button Variant="ButtonVariant.Outline">Edit Profile</Button></DialogTrigger>
