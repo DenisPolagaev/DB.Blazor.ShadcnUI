@@ -1,0 +1,15 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<h2 data-slot="alert-dialog-title" id="@Root?.TitleId" class="@Classes" style="@Style"
+    @attributes="AdditionalAttributes">@ChildContent</h2>
+
+@code {
+    [CascadingParameter] private AlertDialog? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2");
+}

@@ -1,0 +1,12 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="empty" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 " +
+        "text-center text-balance md:p-12");
+}

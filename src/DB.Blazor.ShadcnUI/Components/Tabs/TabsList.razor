@@ -1,0 +1,19 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<div role="tablist" data-slot="tabs-list" data-variant="@Variant.ToDataValue()" aria-orientation="@OrientationValue"
+     class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [CascadingParameter] private Tabs? Owner { get; set; }
+
+    /// <summary>List style, <c>default</c> or <c>line</c>.</summary>
+    [Parameter] public TabsListVariant Variant { get; set; } = TabsListVariant.Default;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? OrientationValue => Owner?.Orientation.ToDataValue();
+
+    private string? Classes => MergeClass(TabsListVariants.Get(Variant));
+}

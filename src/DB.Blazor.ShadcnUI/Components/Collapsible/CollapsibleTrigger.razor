@@ -1,0 +1,15 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<span data-slot="collapsible-trigger" data-state="@(Owner?.IsOpen == true ? "open" : "closed")"
+      aria-expanded="@(Owner?.IsOpen == true ? "true" : "false")"
+      aria-controls="@Owner?.ContentId" style="display: contents" @onclick="ToggleAsync"
+      @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private Collapsible? Owner { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private Task ToggleAsync() => Owner?.ToggleAsync() ?? Task.CompletedTask;
+}

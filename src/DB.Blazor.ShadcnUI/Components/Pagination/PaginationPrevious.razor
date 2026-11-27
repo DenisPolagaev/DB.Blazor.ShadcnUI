@@ -1,0 +1,17 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<PaginationLink Href="@Href" OnClick="OnClick" Size="ButtonSize.Default" aria-label="Go to previous page"
+                Class="@Classes">
+    <ChevronLeftIcon />
+    <span class="hidden sm:block">Previous</span>
+</PaginationLink>
+
+@code {
+    [Parameter] public string? Href { get; set; }
+
+    [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
+
+    private string? Classes => Cx("gap-1 px-2.5 sm:pl-2.5", Class);
+}

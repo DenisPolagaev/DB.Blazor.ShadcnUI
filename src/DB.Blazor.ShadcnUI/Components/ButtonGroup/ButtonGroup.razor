@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="group" data-slot="button-group" data-orientation="@Orientation.ToDataValue()" class="@Classes"
+     style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    /// <summary><c>horizontal</c> (default) or <c>vertical</c>.</summary>
+    [Parameter] public ShadcnOrientation Orientation { get; set; } = ShadcnOrientation.Horizontal;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(ButtonGroupVariants.Get(Orientation));
+}

@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DB.Blazor.ShadcnUI/DB.Blazor.ShadcnUI.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/DB.Blazor.ShadcnUI.Demo/DB.Blazor.ShadcnUI.Demo.csproj" />
+    <Project Path="samples/DB.Blazor.ShadcnUI.Demo.Client/DB.Blazor.ShadcnUI.Demo.Client.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DB.Blazor.ShadcnUI.Tests/DB.Blazor.ShadcnUI.Tests.csproj" />
+  </Folder>
+</Solution>

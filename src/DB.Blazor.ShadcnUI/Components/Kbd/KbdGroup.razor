@@ -1,0 +1,11 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<kbd data-slot="kbd-group" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</kbd>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("inline-flex items-center gap-1");
+}

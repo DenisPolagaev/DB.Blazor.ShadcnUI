@@ -1,0 +1,12 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<span data-slot="breadcrumb-page" role="link" aria-disabled="true" aria-current="page" class="@Classes"
+      style="@Style" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("font-normal text-foreground");
+}

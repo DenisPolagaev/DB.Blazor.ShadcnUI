@@ -8,7 +8,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$srcRoot = Join-Path $root 'src/DP.ShadcnBlazor'
+$srcRoot = Join-Path $root 'src/DB.Blazor.ShadcnUI'
 
 $map = [ordered]@{
     'accordion'     = 'Accordion'

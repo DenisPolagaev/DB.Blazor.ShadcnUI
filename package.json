@@ -1,12 +1,12 @@
 {
   "name": "dp-shadcn-blazor-styles",
   "private": true,
-  "description": "Tailwind v4 builds: the library stylesheet (styles/dp-shadcn.css -> src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css) and the docs demo bundle (samples/.../styles/docs.css -> samples/.../wwwroot/docs.css).",
+  "description": "Tailwind v4 builds: the library stylesheet (styles/dp-shadcn.css -> src/DB.Blazor.ShadcnUI/wwwroot/dp-shadcn.css) and the docs demo bundle (samples/.../styles/docs.css -> samples/.../wwwroot/docs.css).",
   "scripts": {
-    "build": "tailwindcss -i ./styles/dp-shadcn.css -o ./src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css --minify",
-    "build:demo": "tailwindcss -i ./samples/DP.ShadcnBlazor.Demo/styles/docs.css -o ./samples/DP.ShadcnBlazor.Demo/wwwroot/docs.css --minify",
-    "watch": "tailwindcss -i ./styles/dp-shadcn.css -o ./src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css --watch",
-    "watch:demo": "tailwindcss -i ./samples/DP.ShadcnBlazor.Demo/styles/docs.css -o ./samples/DP.ShadcnBlazor.Demo/wwwroot/docs.css --watch"
+    "build": "tailwindcss -i ./styles/dp-shadcn.css -o ./src/DB.Blazor.ShadcnUI/wwwroot/dp-shadcn.css --minify",
+    "build:demo": "tailwindcss -i ./samples/DB.Blazor.ShadcnUI.Demo/styles/docs.css -o ./samples/DB.Blazor.ShadcnUI.Demo/wwwroot/docs.css --minify",
+    "watch": "tailwindcss -i ./styles/dp-shadcn.css -o ./src/DB.Blazor.ShadcnUI/wwwroot/dp-shadcn.css --watch",
+    "watch:demo": "tailwindcss -i ./samples/DB.Blazor.ShadcnUI.Demo/styles/docs.css -o ./samples/DB.Blazor.ShadcnUI.Demo/wwwroot/docs.css --watch"
   },
   "devDependencies": {
     "@tailwindcss/cli": "4.3.5",

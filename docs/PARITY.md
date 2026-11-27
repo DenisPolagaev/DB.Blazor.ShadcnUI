@@ -56,7 +56,7 @@ up. Every class string below was copied from the `new-york-v4` registry of
 
 ## Behaviour
 
-| Behaviour | Radix | DP.ShadcnBlazor |
+| Behaviour | Radix | DB.Blazor.ShadcnUI |
 | --- | --- | --- |
 | Dialog/Sheet/AlertDialog focus trap | yes | yes (`dp-shadcn.js`), Tab/Shift+Tab cycle, focus restored to the trigger |
 | Escape closes modals | yes | yes, topmost modal only |

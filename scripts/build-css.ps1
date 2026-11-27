@@ -5,7 +5,7 @@
 
 .DESCRIPTION
     Tailwind v4 scans the library's .razor/.cs files and the demo's pages (the `@source`
-    directives in `styles/dp-shadcn.css` and `samples/DP.ShadcnBlazor.Demo/styles/docs.css`).
+    directives in `styles/dp-shadcn.css` and `samples/DB.Blazor.ShadcnUI.Demo/styles/docs.css`).
     Both outputs are committed so `dotnet build`, `dotnet pack` and every NuGet consumer work
     without Node.
 
@@ -31,5 +31,5 @@ if ($LASTEXITCODE -ne 0) { throw 'library tailwind build failed' }
 npm run build:demo
 if ($LASTEXITCODE -ne 0) { throw 'demo tailwind build failed' }
 
-Write-Host "Wrote $root/src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css"
-Write-Host "Wrote $root/samples/DP.ShadcnBlazor.Demo/wwwroot/docs.css"
+Write-Host "Wrote $root/src/DB.Blazor.ShadcnUI/wwwroot/dp-shadcn.css"
+Write-Host "Wrote $root/samples/DB.Blazor.ShadcnUI.Demo/wwwroot/docs.css"

@@ -1,0 +1,106 @@
+@namespace DB.Blazor.ShadcnUI.Demo.Client.Pages
+
+@page "/"
+
+<PageTitle>shadcn/ui for Blazor — The Foundation for your Design System</PageTitle>
+
+<section class="home-hero">
+    <h1>The Foundation for your Design System</h1>
+    <p>
+        Composable, accessible components with thoughtful defaults. Build your own component library
+        with code you can customize, extend, and make your own.
+    </p>
+    <div class="home-hero-actions">
+        <a href="/docs/components" class="@ButtonVariants.Get(ButtonVariant.Default, ButtonSize.Lg)">Get Started</a>
+        <a href="/docs/components" class="@ButtonVariants.Get(ButtonVariant.Outline, ButtonSize.Lg)">View Components</a>
+    </div>
+</section>
+
+<section class="home-showcase">
+    <div class="home-showcase-grid">
+        <Card>
+            <CardHeader>
+                <CardTitle>Total Revenue</CardTitle>
+                <CardDescription>$15,231.89 this month</CardDescription>
+                <CardAction><Badge Variant="BadgeVariant.Outline">+20.1%</Badge></CardAction>
+            </CardHeader>
+            <CardContent>
+                <div class="demo-stack">
+                    <div class="demo-row" style="justify-content: space-between">
+                        <span class="demo-item-text">Subscriptions</span>
+                        <span class="demo-item-title">$12,480.00</span>
+                    </div>
+                    <Separator />
+                    <div class="demo-row" style="justify-content: space-between">
+                        <span class="demo-item-text">Services</span>
+                        <span class="demo-item-title">$2,751.89</span>
+                    </div>
+                    <Separator />
+                    <Progress Value="72" />
+                </div>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Team</CardTitle>
+                <CardDescription>Invite your team to collaborate.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="demo-stack">
+                    <AvatarGroup>
+                        <Avatar><AvatarFallback>CN</AvatarFallback></Avatar>
+                        <Avatar><AvatarFallback>LR</AvatarFallback></Avatar>
+                        <Avatar><AvatarFallback>ER</AvatarFallback></Avatar>
+                        <AvatarGroupCount>+4</AvatarGroupCount>
+                    </AvatarGroup>
+                    <div class="demo-row">
+                        <Input Placeholder="name@example.com" Class="flex-1" />
+                        <Button>Invite</Button>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Deployments</CardTitle>
+                <CardDescription>Your most recent deployments.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Table>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell Class="font-medium">production</TableCell>
+                            <TableCell><Badge>Ready</Badge></TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell Class="font-medium">preview</TableCell>
+                            <TableCell><Badge Variant="BadgeVariant.Secondary">Building</Badge></TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell Class="font-medium">staging</TableCell>
+                            <TableCell><Badge Variant="BadgeVariant.Outline">Queued</Badge></TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardContent>
+            <CardFooter>
+                <Dialog>
+                    <DialogTrigger>
+                        <Button Variant="ButtonVariant.Outline">Deploy</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Deploy to production</DialogTitle>
+                            <DialogDescription>This will deploy the current commit to production.</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter ShowCloseButton="true">
+                            <Button>Deploy</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </CardFooter>
+        </Card>
+    </div>
+</section>

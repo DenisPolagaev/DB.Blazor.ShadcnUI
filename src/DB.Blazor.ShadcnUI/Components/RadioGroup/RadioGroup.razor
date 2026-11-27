@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<div role="radiogroup" data-slot="radio-group" data-orientation="@Orientation.ToDataValue()" class="@Classes"
+     style="@Style" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    private string? Classes => MergeClass("grid gap-3");
+}

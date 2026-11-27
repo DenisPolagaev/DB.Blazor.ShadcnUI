@@ -1,0 +1,29 @@
+@namespace DB.Blazor.ShadcnUI.Demo.Client.Layout
+@using DB.Blazor.ShadcnUI.Demo.Client.Docs
+
+<aside class="docs-sidebar">
+    <nav aria-label="Documentation">
+        <p class="docs-nav-label">Sections</p>
+        <ul class="docs-nav-list">
+            <li><a href="/docs" class="@ItemClass("introduction")">Introduction</a></li>
+            <li><a href="/docs/components" class="@ItemClass("components")">Components</a></li>
+        </ul>
+
+        <p class="docs-nav-label">Components</p>
+        <ul class="docs-nav-list">
+            @foreach (var entry in DocCatalog.Components)
+            {
+                <li>
+                    <a href="@($"/docs/components/{entry.Slug}")" class="@ItemClass(entry.Slug)">@entry.Name</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</aside>
+
+@code {
+    [Parameter] public string? ActiveSlug { get; set; }
+
+    private string ItemClass(string? slug) =>
+        string.Equals(slug, ActiveSlug, StringComparison.OrdinalIgnoreCase) ? "docs-nav-link is-active" : "docs-nav-link";
+}

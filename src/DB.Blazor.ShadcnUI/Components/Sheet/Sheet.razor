@@ -1,0 +1,12 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnModalRoot
+
+<CascadingValue Value="this" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    /// <summary>shadcn's sheet uses a longer 300 ms exit.</summary>
+    protected override int CloseAnimationMilliseconds => 300;
+}

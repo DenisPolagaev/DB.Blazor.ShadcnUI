@@ -1,0 +1,9 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<li data-slot="pagination-item" class="@Class" style="@Style" @attributes="AdditionalAttributes">@ChildContent</li>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,18 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<div data-slot="separator" data-orientation="@Orientation.ToDataValue()" role="@(Decorative ? "none" : "separator")"
+     aria-orientation="@(Decorative ? null : Orientation.ToDataValue())" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes"></div>
+
+@code {
+    [Parameter] public ShadcnOrientation Orientation { get; set; } = ShadcnOrientation.Horizontal;
+
+    /// <summary>Radix's <c>decorative</c>: a decorative separator is hidden from assistive technology.</summary>
+    [Parameter] public bool Decorative { get; set; } = true;
+
+    private string? Classes => MergeClass(
+        "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full " +
+        "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px");
+}

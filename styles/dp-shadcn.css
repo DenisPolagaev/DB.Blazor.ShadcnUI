@@ -1,7 +1,7 @@
 /*
- * DP.ShadcnBlazor — Tailwind v4 source for the stylesheet shipped with the library.
+ * DB.Blazor.ShadcnUI — Tailwind v4 source for the stylesheet shipped with the library.
  *
- * Build:  npm run build   (or scripts/build-css.ps1)  ->  src/DP.ShadcnBlazor/wwwroot/dp-shadcn.css
+ * Build:  npm run build   (or scripts/build-css.ps1)  ->  src/DB.Blazor.ShadcnUI/wwwroot/dp-shadcn.css
  *
  * Two deliberate differences from a shadcn/ui `globals.css`:
  *
@@ -24,8 +24,8 @@
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
 
-@source "../src/DP.ShadcnBlazor/**/*.razor";
-@source "../src/DP.ShadcnBlazor/**/*.cs";
+@source "../src/DB.Blazor.ShadcnUI/**/*.razor";
+@source "../src/DB.Blazor.ShadcnUI/**/*.cs";
 
 /* shadcn/ui v4 dark mode: `.dark` on <html>, or on any ancestor. */
 @custom-variant dark (&:where(.dark, .dark *));

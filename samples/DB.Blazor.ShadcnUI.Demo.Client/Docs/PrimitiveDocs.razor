@@ -1,0 +1,465 @@
+@namespace DB.Blazor.ShadcnUI.Demo.Client.Docs
+
+@if (Slug == "button")
+{
+    <DocPage Title="Button" Description="Displays a button or a component that looks like a button."
+             Code="@ButtonCode" Usage="@ButtonUsage">
+        <Preview>
+            <Button>Button</Button>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Size</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Size="ButtonSize.Xs">Extra Small</Button>
+                <Button Size="ButtonSize.Sm">Small</Button>
+                <Button Size="ButtonSize.Default">Default</Button>
+                <Button Size="ButtonSize.Lg">Large</Button>
+            </div></div>
+
+            <h3 class="docs-example-title">Variants</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Variant="ButtonVariant.Default">Default</Button>
+                <Button Variant="ButtonVariant.Outline">Outline</Button>
+                <Button Variant="ButtonVariant.Secondary">Secondary</Button>
+                <Button Variant="ButtonVariant.Ghost">Ghost</Button>
+                <Button Variant="ButtonVariant.Destructive">Destructive</Button>
+                <Button Variant="ButtonVariant.Link">Link</Button>
+            </div></div>
+
+            <h3 class="docs-example-title">With Icon</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M7 17 17 7" />
+                        <path d="M7 7h10v10" />
+                    </svg>
+                    Login
+                </Button>
+                <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Icon" aria-label="Open">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                </Button>
+            </div></div>
+
+            <h3 class="docs-example-title">Rounded</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Class="rounded-full">Get Started</Button>
+            </div></div>
+
+            <h3 class="docs-example-title">Spinner</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Disabled="true"><Spinner /> Generating</Button>
+                <Button Variant="ButtonVariant.Secondary" Disabled="true"><Spinner /> Downloading</Button>
+            </div></div>
+
+            <h3 class="docs-example-title">As Link</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <a href="#as-link" class="@ButtonVariants.Get(ButtonVariant.Link)">Login</a>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "badge")
+{
+    <DocPage Title="Badge" Description="Displays a badge or a component that looks like a badge."
+             Code="@BadgeCode" Usage="@BadgeUsage">
+        <Preview>
+            <Badge>Badge</Badge>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Variants</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Badge Variant="BadgeVariant.Default">Default</Badge>
+                <Badge Variant="BadgeVariant.Secondary">Secondary</Badge>
+                <Badge Variant="BadgeVariant.Destructive">Destructive</Badge>
+                <Badge Variant="BadgeVariant.Outline">Outline</Badge>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "card")
+{
+    <DocPage Title="Card" Description="Displays a card with header, content, and footer."
+             Code="@CardCode" Usage="@CardUsage">
+        <Preview>
+            <Card Class="w-full max-w-sm">
+                <CardHeader>
+                    <CardTitle>Login to your account</CardTitle>
+                    <CardDescription>Enter your email below to login to your account</CardDescription>
+                    <CardAction>
+                        <Button Variant="ButtonVariant.Link">Sign Up</Button>
+                    </CardAction>
+                </CardHeader>
+                <CardContent>
+                    <div class="demo-form">
+                        <Label For="card-email">Email</Label>
+                        <Input id="card-email" Type="email" Placeholder="m@example.com" />
+                        <div class="demo-form-row">
+                            <Label For="card-password">Password</Label>
+                            <a href="#card" class="demo-link">Forgot your password?</a>
+                        </div>
+                        <Input id="card-password" Type="password" />
+                    </div>
+                </CardContent>
+                <CardFooter Class="flex-col gap-2">
+                    <Button Class="w-full">Login</Button>
+                    <Button Variant="ButtonVariant.Outline" Class="w-full">Login with Google</Button>
+                </CardFooter>
+            </Card>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Create project</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Create project</CardTitle>
+                        <CardDescription>Deploy your new project in one-click.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div class="demo-form">
+                            <Label For="project-name">Name</Label>
+                            <Input id="project-name" Placeholder="Name of your project" />
+                            <Label For="project-framework">Framework</Label>
+                            <NativeSelect id="project-framework" Value="next">
+                                <NativeSelectOption Value="next">Next.js</NativeSelectOption>
+                                <NativeSelectOption Value="sveltekit">SvelteKit</NativeSelectOption>
+                                <NativeSelectOption Value="astro">Astro</NativeSelectOption>
+                                <NativeSelectOption Value="nuxt">Nuxt.js</NativeSelectOption>
+                            </NativeSelect>
+                        </div>
+                    </CardContent>
+                    <CardFooter Class="justify-between">
+                        <Button Variant="ButtonVariant.Outline">Cancel</Button>
+                        <Button>Deploy</Button>
+                    </CardFooter>
+                </Card>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "alert")
+{
+    <DocPage Title="Alert" Description="Displays a callout for user attention."
+             Code="@AlertCode" Usage="@AlertUsage">
+        <Preview>
+            <Alert Class="w-full">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4M12 8h.01" />
+                </svg>
+                <AlertTitle>Heads up!</AlertTitle>
+                <AlertDescription>You can add components and dependencies to your app using the cli.</AlertDescription>
+            </Alert>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Destructive</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <Alert Variant="AlertVariant.Destructive">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 8v4M12 16h.01" />
+                    </svg>
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+                </Alert>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "avatar")
+{
+    <DocPage Title="Avatar" Description="An image element with a fallback for representing the user."
+             Code="@AvatarCode" Usage="@AvatarUsage">
+        <Preview>
+            <Avatar>
+                <AvatarImage Src="https://github.com/shadcn.png" Alt="shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Sizes</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Avatar Size="AvatarSize.Sm"><AvatarFallback>SM</AvatarFallback></Avatar>
+                <Avatar><AvatarFallback>DF</AvatarFallback></Avatar>
+                <Avatar Size="AvatarSize.Lg"><AvatarFallback>LG</AvatarFallback></Avatar>
+            </div></div>
+
+            <h3 class="docs-example-title">With badge</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Avatar>
+                    <AvatarImage Src="https://github.com/shadcn.png" Alt="shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarBadge></AvatarBadge>
+                </Avatar>
+            </div></div>
+
+            <h3 class="docs-example-title">Group</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <AvatarGroup>
+                    <Avatar><AvatarFallback>CN</AvatarFallback></Avatar>
+                    <Avatar><AvatarFallback>LR</AvatarFallback></Avatar>
+                    <Avatar><AvatarFallback>ER</AvatarFallback></Avatar>
+                    <AvatarGroupCount>+3</AvatarGroupCount>
+                </AvatarGroup>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "separator")
+{
+    <DocPage Title="Separator" Description="Visually or semantically separates content."
+             Code="@SeparatorCode" Usage="@SeparatorUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 420px">
+                <div class="demo-stack">
+                    <div>
+                        <div class="demo-item-title">shadcn/ui</div>
+                        <div class="demo-item-text">The Foundation for your Design System</div>
+                    </div>
+                    <Separator />
+                    <div class="demo-row">
+                        <span class="demo-item-text">Blog</span>
+                        <span class="demo-item-text">Docs</span>
+                        <span class="demo-item-text">Source</span>
+                    </div>
+                </div>
+            </div>
+        </Preview>
+    </DocPage>
+}
+else if (Slug == "skeleton")
+{
+    <DocPage Title="Skeleton" Description="Use to show a placeholder while content is loading."
+             Code="@SkeletonCode" Usage="@SkeletonUsage">
+        <Preview>
+            <div class="demo-user-card">
+                <Skeleton Class="size-12 rounded-full" />
+                <div class="demo-stack" style="gap: 8px; flex: 1">
+                    <Skeleton Class="h-4 w-[160px]" />
+                    <Skeleton Class="h-4 w-[120px]" />
+                </div>
+            </div>
+        </Preview>
+    </DocPage>
+}
+else if (Slug == "progress")
+{
+    <DocPage Title="Progress" Description="Displays an indicator showing the completion progress of a task."
+             Code="@ProgressCode" Usage="@ProgressUsage">
+        <Preview>
+            <Progress Value="33" Class="w-[60%]" />
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">With label</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <div class="demo-row" style="justify-content: space-between">
+                    <span class="demo-item-title">Uploading</span>
+                    <span class="demo-item-text">66%</span>
+                </div>
+                <Progress Value="66" />
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "spinner")
+{
+    <DocPage Title="Spinner" Description="An indicator that can be used to show a loading state."
+             Code="@SpinnerCode" Usage="@SpinnerUsage">
+        <Preview>
+            <Spinner />
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">Size</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Spinner Class="size-3" />
+                <Spinner Class="size-4" />
+                <Spinner Class="size-6" />
+                <Spinner Class="size-8" />
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+else if (Slug == "kbd")
+{
+    <DocPage Title="Kbd" Description="Used to display keyboard keys or shortcuts."
+             Code="@KbdCode" Usage="@KbdUsage">
+        <Preview>
+            <KbdGroup>
+                <Kbd>Ctrl</Kbd>
+                <Kbd>B</Kbd>
+            </KbdGroup>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">In a tooltip</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Button Variant="ButtonVariant.Outline">Save</Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            Save changes <Kbd>Ctrl</Kbd> <Kbd>S</Kbd>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
+
+@code {
+    [Parameter] public string? Slug { get; set; }
+
+    private const string ButtonCode = """
+<Button>Button</Button>
+<Button Variant="ButtonVariant.Outline">Outline</Button>
+<Button Variant="ButtonVariant.Secondary" Size="ButtonSize.Sm">Small</Button>
+<Button Size="ButtonSize.Icon" aria-label="Open"><SearchIcon /></Button>
+""";
+
+    private const string ButtonUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Button variant="outline">Button</Button>
+""";
+
+    private const string BadgeCode = """
+<Badge>Badge</Badge>
+<Badge Variant="BadgeVariant.Secondary">Secondary</Badge>
+<Badge Variant="BadgeVariant.Outline">Outline</Badge>
+""";
+
+    private const string BadgeUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Badge variant="outline">Badge</Badge>
+""";
+
+    private const string CardCode = """
+<Card>
+    <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>Enter your email below to login to your account</CardDescription>
+        <CardAction><Button Variant="ButtonVariant.Link">Sign Up</Button></CardAction>
+    </CardHeader>
+    <CardContent>
+        <Label For="email">Email</Label>
+        <Input Id="email" Type="email" Placeholder="m@example.com" />
+    </CardContent>
+    <CardFooter><Button Class="w-full">Login</Button></CardFooter>
+</Card>
+""";
+
+    private const string CardUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Card>
+    <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
+    </CardHeader>
+    <CardContent>
+        <p>Card Content</p>
+    </CardContent>
+    <CardFooter>
+        <p>Card Footer</p>
+    </CardFooter>
+</Card>
+""";
+
+    private const string AlertCode = """
+<Alert>
+    <InfoIcon />
+    <AlertTitle>Heads up!</AlertTitle>
+    <AlertDescription>
+        You can add components and dependencies to your app using the cli.
+    </AlertDescription>
+</Alert>
+""";
+
+    private const string AlertUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Alert>
+    <AlertTitle>Heads up!</AlertTitle>
+    <AlertDescription>You can add components to your app using the cli.</AlertDescription>
+</Alert>
+""";
+
+    private const string AvatarCode = """
+<Avatar>
+    <AvatarImage Src="https://github.com/shadcn.png" Alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+""";
+
+    private const string AvatarUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Avatar>
+    <AvatarImage Src="/avatars/01.png" Alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+""";
+
+    private const string SeparatorCode = """
+<Separator />
+""";
+
+    private const string SeparatorUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Separator />
+""";
+
+    private const string SkeletonCode = """
+<div class="flex items-center gap-4">
+    <Skeleton Class="size-12 rounded-full" />
+    <div class="grid gap-2">
+        <Skeleton Class="h-4 w-[250px]" />
+        <Skeleton Class="h-4 w-[200px]" />
+    </div>
+</div>
+""";
+
+    private const string SkeletonUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Skeleton Class="h-4 w-[250px]" />
+""";
+
+    private const string ProgressCode = """
+<Progress Value="33" />
+""";
+
+    private const string ProgressUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Progress Value="33" />
+""";
+
+    private const string SpinnerCode = """
+<Spinner />
+""";
+
+    private const string SpinnerUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Spinner />
+""";
+
+    private const string KbdCode = """
+<KbdGroup>
+    <Kbd>Ctrl</Kbd>
+    <Kbd>B</Kbd>
+</KbdGroup>
+""";
+
+    private const string KbdUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Kbd>Ctrl</Kbd>
+""";
+}

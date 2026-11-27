@@ -1,0 +1,11 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<CascadingValue Value="Settings" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    private TooltipSettings Settings => new(DelayDuration, SkipDelayDuration);
+}

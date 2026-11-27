@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>DB.Blazor.ShadcnUI.Demo</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <!-- A full Blazor Web App: prerendering on the server, then InteractiveServer or
+         InteractiveWebAssembly depending on the page (`InteractiveAuto`). It proves the same
+         components render in both hosting models. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DB.Blazor.ShadcnUI.Demo.Client\DB.Blazor.ShadcnUI.Demo.Client.csproj" />
+    <ProjectReference Include="..\..\src\DB.Blazor.ShadcnUI\DB.Blazor.ShadcnUI.csproj" />
+  </ItemGroup>
+
+</Project>

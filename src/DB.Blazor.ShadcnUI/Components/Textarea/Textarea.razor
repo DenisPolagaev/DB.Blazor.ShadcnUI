@@ -1,0 +1,42 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<textarea data-slot="textarea" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" name="@Name"
+          class="@Classes" style="@Style" @oninput="HandleInputAsync" @attributes="AdditionalAttributes">@Value</textarea>
+
+@code {
+    /// <summary>Two-way bound value (<c>@bind-Value</c>).</summary>
+    [Parameter] public string? Value { get; set; }
+
+    /// <summary>Value change callback.</summary>
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    /// <summary>Expression for validation messages inside an <c>EditForm</c>.</summary>
+    [Parameter] public System.Linq.Expressions.Expression<Func<string?>>? ValueExpression { get; set; }
+
+    /// <summary>Placeholder text.</summary>
+    [Parameter] public string? Placeholder { get; set; }
+
+    /// <summary>Native <c>name</c>.</summary>
+    [Parameter] public string? Name { get; set; }
+
+    /// <summary>Disables the textarea.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Makes the textarea read-only.</summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    private async Task HandleInputAsync(ChangeEventArgs args)
+    {
+        Value = args.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private string? Classes => MergeClass(
+        "flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 " +
+        "text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground " +
+        "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 " +
+        "disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive " +
+        "aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40");
+}

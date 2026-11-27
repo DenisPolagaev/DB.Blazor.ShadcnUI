@@ -1,0 +1,17 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<label for="@For" data-slot="label" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</label>
+
+@code {
+    /// <summary>Id of the labelled control (<c>for</c>).</summary>
+    [Parameter] public string? For { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "flex items-center gap-2 text-sm leading-none font-medium select-none " +
+        "group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 " +
+        "peer-disabled:cursor-not-allowed peer-disabled:opacity-50");
+}

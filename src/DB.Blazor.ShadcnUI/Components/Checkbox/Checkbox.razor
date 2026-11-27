@@ -1,0 +1,47 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<button type="button" role="checkbox" data-slot="checkbox" data-state="@(Checked ? "checked" : "unchecked")"
+        aria-checked="@(Checked ? "true" : "false")" disabled="@Disabled" class="@Classes" style="@Style"
+        @onclick="ToggleAsync" @attributes="AdditionalAttributes">
+    @if (Checked)
+    {
+        <span data-slot="checkbox-indicator" class="grid place-content-center text-current transition-none">
+            <CheckIcon Class="size-3.5" />
+        </span>
+    }
+</button>
+
+@code {
+    /// <summary>Checked state (<c>@bind-Checked</c>).</summary>
+    [Parameter] public bool Checked { get; set; }
+
+    /// <summary>Checked change callback.</summary>
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
+    /// <summary>Expression for validation messages inside an <c>EditForm</c>.</summary>
+    [Parameter] public System.Linq.Expressions.Expression<Func<bool>>? CheckedExpression { get; set; }
+
+    /// <summary>Disables the checkbox.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    private async Task ToggleAsync()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        Checked = !Checked;
+        await CheckedChanged.InvokeAsync(Checked);
+    }
+
+    private string? Classes => MergeClass(
+        "peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs transition-shadow outline-none " +
+        "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 " +
+        "disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive " +
+        "aria-invalid:ring-destructive/20 data-[state=checked]:border-primary " +
+        "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground " +
+        "dark:bg-input/30 dark:aria-invalid:ring-destructive/40 dark:data-[state=checked]:bg-primary");
+}

@@ -1,0 +1,24 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<div data-slot="dialog-footer" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+    @if (ShowCloseButton)
+    {
+        <Button Variant="ButtonVariant.Outline" OnClick="CloseAsync">Close</Button>
+    }
+</div>
+
+@code {
+    [CascadingParameter] private Dialog? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Renders a shadcn "Close" outline button (shadcn's <c>showCloseButton</c>).</summary>
+    [Parameter] public bool ShowCloseButton { get; set; }
+
+    private Task CloseAsync() => Root?.CloseAsync() ?? Task.CompletedTask;
+
+    private string? Classes => MergeClass("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end");
+}

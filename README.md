@@ -1,6 +1,6 @@
-# DP.ShadcnBlazor
+# DB.Blazor.ShadcnUI
 
-> Repository **DB.Blazor.ShadcnUI** · NuGet package **DP.ShadcnBlazor** · MIT license
+> Repository and NuGet package **DB.Blazor.ShadcnUI** · MIT license
 
 [shadcn/ui](https://ui.shadcn.com) ported to Blazor — Server and WebAssembly, `net10.0` and `net11.0`.
 
@@ -15,10 +15,10 @@ Authoring is one component per folder on a shared `ShadcnComponent` base (`Class
 context, and explicit two-way parameters instead of React state.
 
 ```
-libs/DP.ShadcnBlazor
-├─ src/DP.ShadcnBlazor          the library (Razor class library, net10.0 + net11.0)
-├─ samples/DP.ShadcnBlazor.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
-├─ tests/DP.ShadcnBlazor.Tests  bUnit + xUnit v3 tests (44 tests)
+libs/DB.Blazor.ShadcnUI
+├─ src/DB.Blazor.ShadcnUI          the library (Razor class library, net10.0 + net11.0)
+├─ samples/DB.Blazor.ShadcnUI.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
+├─ tests/DB.Blazor.ShadcnUI.Tests  bUnit + xUnit v3 tests (44 tests)
 ├─ styles/dp-shadcn.css         Tailwind v4 source of the shipped stylesheet
 └─ wwwroot                      dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
 ```
@@ -26,19 +26,19 @@ libs/DP.ShadcnBlazor
 ## Quick start
 
 ```xml
-<ProjectReference Include="libs/DP.ShadcnBlazor/src/DP.ShadcnBlazor/DP.ShadcnBlazor.csproj" />
+<ProjectReference Include="libs/DB.Blazor.ShadcnUI/src/DB.Blazor.ShadcnUI/DB.Blazor.ShadcnUI.csproj" />
 ```
 
 `_Imports.razor`:
 
 ```razor
-@using DP.ShadcnBlazor.Components
+@using DB.Blazor.ShadcnUI.Components
 ```
 
 `index.html` / `App.razor` — one stylesheet, no `npm` required:
 
 ```html
-<link rel="stylesheet" href="_content/DP.ShadcnBlazor/dp-shadcn.css" />
+<link rel="stylesheet" href="_content/DB.Blazor.ShadcnUI/dp-shadcn.css" />
 ```
 
 ```razor
@@ -75,7 +75,7 @@ modals and menus.
 
 ## How the React contract maps to Blazor
 
-| shadcn/ui (React) | DP.ShadcnBlazor |
+| shadcn/ui (React) | DB.Blazor.ShadcnUI |
 | --- | --- |
 | `className` | `Class` (Blazor binds `class="…"` to it), merged with `cn()` — a port of `clsx` + `tailwind-merge` |
 | `variant` / `size` props | `ButtonVariant` / `ButtonSize` enums, rendered as `data-variant` / `data-size` |
@@ -127,14 +127,14 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
 
 ## Demo site
 
-`samples/DP.ShadcnBlazor.Demo` is a copy of the ui.shadcn.com documentation site: the same header,
+`samples/DB.Blazor.ShadcnUI.Demo` is a copy of the ui.shadcn.com documentation site: the same header,
 sidebar, "Preview / Code" cards, component pages, examples and copy, built from the ported
-components. `samples/DP.ShadcnBlazor.Demo/wwwroot/docs.css` is a demo-only Tailwind bundle
+components. `samples/DB.Blazor.ShadcnUI.Demo/wwwroot/docs.css` is a demo-only Tailwind bundle
 (`styles/docs.css` = the library source + the demo pages), because the docs examples use utilities
 (`w-56`, `max-w-sm`, `text-right`, …) that the library itself never emits.
 
 ```powershell
-dotnet run --project samples/DP.ShadcnBlazor.Demo   # http://localhost:5199
+dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 ```
 
 ## Styling contract
@@ -149,15 +149,15 @@ dotnet run --project samples/DP.ShadcnBlazor.Demo   # http://localhost:5199
 * Utilities are intentionally **unlayered** so they beat that scoped base layer. Override a library
   class with your own CSS after the stylesheet, or with `Class`.
 * A host that already runs Tailwind can skip `dp-shadcn.css` and point its own build at the library:
-  `@source "…/libs/DP.ShadcnBlazor/src/DP.ShadcnBlazor/**/*.razor";` plus the tokens from
+  `@source "…/libs/DB.Blazor.ShadcnUI/src/DB.Blazor.ShadcnUI/**/*.razor";` plus the tokens from
   `styles/dp-shadcn.css`.
 
 ## Build and test
 
 ```powershell
-dotnet build DP.ShadcnBlazor.slnx        # library for net10.0 + net11.0, demo, tests
-dotnet test tests/DP.ShadcnBlazor.Tests  # 44 tests (bUnit + xUnit v3)
-dotnet run --project samples/DP.ShadcnBlazor.Demo   # http://localhost:5199
+dotnet build DB.Blazor.ShadcnUI.slnx        # library for net10.0 + net11.0, demo, tests
+dotnet test tests/DB.Blazor.ShadcnUI.Tests  # 44 tests (bUnit + xUnit v3)
+dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 
 # Only after changing a component's class list, styles/dp-shadcn.css or a demo page:
 scripts/build-css.ps1 -Install           # npm install once, then both Tailwind v4 builds

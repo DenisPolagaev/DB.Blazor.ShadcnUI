@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<span data-slot="sheet-close" style="display: contents" @onclick="CloseAsync"
+      @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private Sheet? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private Task CloseAsync() => Root?.CloseAsync() ?? Task.CompletedTask;
+}

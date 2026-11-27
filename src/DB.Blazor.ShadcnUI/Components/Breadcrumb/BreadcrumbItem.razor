@@ -1,0 +1,11 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<li data-slot="breadcrumb-item" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</li>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("inline-flex items-center gap-1.5");
+}

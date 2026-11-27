@@ -1,0 +1,18 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+@if (Owner is null || !Owner.ImageLoaded)
+{
+    <span data-slot="avatar-fallback" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</span>
+}
+
+@code {
+    [CascadingParameter] private Avatar? Owner { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground " +
+        "group-data-[size=sm]/avatar:text-xs");
+}

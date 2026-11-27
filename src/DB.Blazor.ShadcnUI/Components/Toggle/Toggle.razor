@@ -1,0 +1,39 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<button type="button" data-slot="toggle" data-state="@(Pressed ? "on" : "off")"
+        aria-pressed="@(Pressed ? "true" : "false")" disabled="@Disabled" class="@Classes" style="@Style"
+        @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</button>
+
+@code {
+    /// <summary>Pressed state (<c>@bind-Pressed</c>).</summary>
+    [Parameter] public bool Pressed { get; set; }
+
+    /// <summary>Pressed change callback.</summary>
+    [Parameter] public EventCallback<bool> PressedChanged { get; set; }
+
+    /// <summary>Visual variant, <c>default</c> out of the box.</summary>
+    [Parameter] public ToggleVariant Variant { get; set; } = ToggleVariant.Default;
+
+    /// <summary>Control size, <c>default</c> out of the box.</summary>
+    [Parameter] public ToggleSize Size { get; set; } = ToggleSize.Default;
+
+    /// <summary>Disables the toggle.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Content (an icon and/or a label).</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(ToggleVariants.Get(Variant, Size));
+
+    private async Task ToggleAsync()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        Pressed = !Pressed;
+        await PressedChanged.InvokeAsync(Pressed);
+    }
+}

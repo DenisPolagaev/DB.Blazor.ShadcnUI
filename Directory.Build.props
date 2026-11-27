@@ -7,7 +7,7 @@
     <Version>0.1.0</Version>
     <Authors>Denis Polagaev</Authors>
     <Company>DP</Company>
-    <Product>DP.ShadcnBlazor</Product>
+    <Product>DB.Blazor.ShadcnUI</Product>
     <RepositoryUrl>https://github.com/DenisPolagaev/DB.Blazor.ShadcnUI</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

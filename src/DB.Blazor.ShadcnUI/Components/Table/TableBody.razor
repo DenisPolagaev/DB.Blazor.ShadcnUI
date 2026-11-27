@@ -1,0 +1,11 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<tbody data-slot="table-body" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</tbody>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("[&_tr:last-child]:border-0");
+}

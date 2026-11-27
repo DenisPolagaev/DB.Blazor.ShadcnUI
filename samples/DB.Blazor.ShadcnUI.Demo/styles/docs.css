@@ -1,0 +1,13 @@
+/*
+ * Docs site bundle: the library stylesheet source (tokens, scoped preflight, component
+ * utilities) plus every utility the demo's documentation pages use. The shipped
+ * `dp-shadcn.css` stays library-only; this file exists so the demo can be a 1:1 copy of
+ * ui.shadcn.com, whose examples use arbitrary utilities (`w-56`, `max-w-sm`, `text-right`, …).
+ *
+ * Build: npm run build:demo   ->  samples/DB.Blazor.ShadcnUI.Demo/wwwroot/docs.css
+ */
+
+@import "../../../styles/dp-shadcn.css";
+
+@source "../../DB.Blazor.ShadcnUI.Demo/**/*.razor";
+@source "../../DB.Blazor.ShadcnUI.Demo.Client/**/*.razor";

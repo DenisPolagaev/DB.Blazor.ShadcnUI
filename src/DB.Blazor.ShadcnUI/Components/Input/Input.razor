@@ -1,0 +1,48 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<input data-slot="input" type="@Type" value="@Value" placeholder="@Placeholder" disabled="@Disabled"
+       readonly="@ReadOnly" name="@Name" class="@Classes" style="@Style"
+       @oninput="HandleInputAsync" @attributes="AdditionalAttributes" />
+
+@code {
+    /// <summary>Native input type, <c>text</c> by default — shadcn's <c>type</c> prop.</summary>
+    [Parameter] public string Type { get; set; } = "text";
+
+    /// <summary>Two-way bound value (<c>@bind-Value</c>).</summary>
+    [Parameter] public string? Value { get; set; }
+
+    /// <summary>Value change callback (fires on <c>input</c>, like the browser's live editing).</summary>
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    /// <summary>Expression for validation messages when the input is used inside an <c>EditForm</c>.</summary>
+    [Parameter] public System.Linq.Expressions.Expression<Func<string?>>? ValueExpression { get; set; }
+
+    /// <summary>Placeholder text.</summary>
+    [Parameter] public string? Placeholder { get; set; }
+
+    /// <summary>Native <c>name</c> attribute, for form posts.</summary>
+    [Parameter] public string? Name { get; set; }
+
+    /// <summary>Disables the input.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Makes the input read-only.</summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    private async Task HandleInputAsync(ChangeEventArgs args)
+    {
+        Value = args.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private string? Classes => MergeClass(
+        "h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs " +
+        "transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground " +
+        "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium " +
+        "file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none " +
+        "disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 " +
+        "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 " +
+        "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40");
+}

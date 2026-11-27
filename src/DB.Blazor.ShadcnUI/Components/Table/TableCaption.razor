@@ -1,0 +1,11 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<caption data-slot="table-caption" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</caption>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("mt-4 text-sm text-muted-foreground");
+}

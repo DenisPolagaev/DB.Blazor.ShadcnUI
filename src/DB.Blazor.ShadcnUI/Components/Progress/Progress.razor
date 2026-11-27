@@ -1,0 +1,34 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnComponent
+
+<div data-slot="progress" role="progressbar" aria-valuemin="0" aria-valuemax="@MaxValueText"
+     aria-valuenow="@ValueText" data-value="@ValueText" data-max="@MaxValueText"
+     class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    <div data-slot="progress-indicator" class="h-full w-full flex-1 bg-primary transition-all"
+         style="@IndicatorStyle"></div>
+</div>
+
+@code {
+    /// <summary>Current value. <c>null</c> renders an indeterminate-looking empty track, like Radix.</summary>
+    [Parameter] public double? Value { get; set; }
+
+    /// <summary>Upper bound, 100 by default (Radix <c>max</c>).</summary>
+    [Parameter] public double Max { get; set; } = 100;
+
+    private string MaxValueText => Max.ToString(CultureInfo.InvariantCulture);
+
+    private string? ValueText => Value?.ToString(CultureInfo.InvariantCulture);
+
+    private string? IndicatorStyle
+    {
+        get
+        {
+            var percentage = Max <= 0 ? 0d : Math.Clamp((Value ?? 0d) / Max * 100d, 0d, 100d);
+            var offset = (100d - percentage).ToString("0.###", CultureInfo.InvariantCulture);
+            return StyleWith($"transform: translateX(-{offset}%)");
+        }
+    }
+
+    private string? Classes => MergeClass("relative h-2 w-full overflow-hidden rounded-full bg-primary/20");
+}

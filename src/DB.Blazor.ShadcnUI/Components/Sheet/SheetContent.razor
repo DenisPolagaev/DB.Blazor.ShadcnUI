@@ -1,0 +1,55 @@
+@namespace DB.Blazor.ShadcnUI.Components
+
+@inherits ShadcnOverlayBase
+
+@if (Root is { IsVisible: true })
+{
+    <div data-slot="sheet-portal">
+        <div data-slot="sheet-overlay" data-state="@(Root.IsOpen ? "open" : "closed")"
+             class="fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
+             @onclick="CloseAsync"></div>
+        <div @ref="_panel" role="dialog" aria-modal="true" tabindex="-1" data-slot="sheet-content"
+             data-state="@(Root.IsOpen ? "open" : "closed")" data-side="@Side.ToDataValue()" id="@Root.ContentId"
+             aria-labelledby="@Root.TitleId" aria-describedby="@Root.DescriptionId"
+             class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+            @ChildContent
+            @if (ShowCloseButton)
+            {
+                <button type="button" data-slot="sheet-close" class="@CloseClasses" @onclick="CloseAsync">
+                    <XIcon Class="size-4" />
+                    <span class="sr-only">Close</span>
+                </button>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private const string CloseClasses =
+        "absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 " +
+        "focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none " +
+        "data-[state=open]:bg-secondary";
+
+    /// <summary>The edge the sheet slides in from; <c>right</c> by default.</summary>
+    [Parameter] public SheetSide Side { get; set; } = SheetSide.Right;
+
+    /// <summary>Renders the built-in close button.</summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    private string SideClasses => Side switch
+    {
+        SheetSide.Left =>
+            "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
+        SheetSide.Top =>
+            "inset-x-0 top-0 h-auto border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+        SheetSide.Bottom =>
+            "inset-x-0 bottom-0 h-auto border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+        _ =>
+            "inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
+    };
+
+    private string? Classes => MergeClass(
+        "fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out " +
+        "data-[state=closed]:animate-out data-[state=closed]:duration-300 " +
+        "data-[state=open]:animate-in data-[state=open]:duration-500 " + SideClasses);
+}
