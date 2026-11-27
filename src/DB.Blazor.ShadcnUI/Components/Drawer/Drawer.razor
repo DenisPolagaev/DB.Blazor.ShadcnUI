@@ -1,0 +1,8 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnModalRoot
+
+@* vaul's Drawer root is a context provider with a direction; the Blazor port keeps the open state
+   in ShadcnModalRoot and exposes the direction to the content. *@
+<CascadingValue Value="this" IsFixed="true">
+    @ChildContent
+</CascadingValue>

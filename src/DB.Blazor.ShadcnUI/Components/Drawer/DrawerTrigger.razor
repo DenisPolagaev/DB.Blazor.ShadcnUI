@@ -1,0 +1,14 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<span id="@Root?.TriggerId" data-slot="drawer-trigger" style="display: contents"
+      aria-haspopup="dialog" aria-expanded="@(Root?.IsOpen == true ? "true" : "false")"
+      aria-controls="@Root?.ContentId" @onclick="OpenAsync" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [CascadingParameter] private Drawer? Root { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private Task OpenAsync() => Root?.ShowAsync() ?? Task.CompletedTask;
+}

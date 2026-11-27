@@ -29,6 +29,7 @@ $map = [ordered]@{
     'card'          = 'Card'
     'checkbox'      = 'Checkbox'
     'dialog'        = 'Dialog'
+    'drawer'        = 'Drawer'
     'dropdown-menu' = 'DropdownMenu'
     'field'         = 'Field'
     'hover-card'    = 'HoverCard'

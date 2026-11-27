@@ -1,0 +1,10 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div data-slot="drawer-footer" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("mt-auto flex flex-col gap-2 p-4");
+}

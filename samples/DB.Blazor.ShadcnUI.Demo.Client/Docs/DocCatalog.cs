@@ -25,6 +25,7 @@ public static class DocCatalog
         new("checkbox", "Checkbox", "A control that allows the user to toggle between checked and not checked."),
         new("dialog", "Dialog", "A window overlaid on either the primary window or another dialog window."),
         new("dropdown-menu", "Dropdown Menu", "Displays a menu to the user — such as a set of actions or functions — triggered by a button."),
+        new("drawer", "Drawer", "A drawer component for React."),
         new("empty", "Empty", "Use the Empty component to display an empty state."),
         new("field", "Field", "Combine labels, controls, and help text to compose accessible form fields."),
         new("hover-card", "Hover Card", "For sighted users to preview content available behind a link."),
