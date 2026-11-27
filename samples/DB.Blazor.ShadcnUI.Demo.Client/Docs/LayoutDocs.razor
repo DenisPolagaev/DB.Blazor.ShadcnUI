@@ -23,6 +23,15 @@
                     </div>
                 </AspectRatio>
             </div></div>
+
+            <h3 class="docs-example-title">Portrait</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <AspectRatio Ratio="3.0 / 4.0" Class="w-40 rounded-lg bg-muted">
+                    <div class="demo-row" style="height: 100%; align-items: center; justify-content: center">
+                        <span class="demo-item-text">3 : 4</span>
+                    </div>
+                </AspectRatio>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -38,6 +47,16 @@ else if (Slug == "toggle")
             </Toggle>
         </Preview>
         <Examples>
+            <h3 class="docs-example-title">With Text</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Toggle aria-label="Toggle italic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M19 4h-9M14 20H5M15 4 9 20" />
+                    </svg>
+                    Italic
+                </Toggle>
+            </div></div>
+
             <h3 class="docs-example-title">Outline</h3>
             <div class="docs-preview"><div class="docs-preview-body">
                 <Toggle Variant="ToggleVariant.Outline" aria-label="Toggle italic">
@@ -79,6 +98,37 @@ else if (Slug == "toggle-group")
                     <ToggleGroupItem Value="bold" aria-label="Bold">Bold</ToggleGroupItem>
                     <ToggleGroupItem Value="italic" aria-label="Italic">Italic</ToggleGroupItem>
                     <ToggleGroupItem Value="underline" aria-label="Underline">Underline</ToggleGroupItem>
+                </ToggleGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Size</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ToggleGroup Type="ToggleGroupType.Single" Size="ToggleSize.Sm" DefaultValue="left">
+                    <ToggleGroupItem Value="left" aria-label="Left">Left</ToggleGroupItem>
+                    <ToggleGroupItem Value="center" aria-label="Center">Center</ToggleGroupItem>
+                </ToggleGroup>
+                <ToggleGroup Type="ToggleGroupType.Single" Size="ToggleSize.Lg" DefaultValue="left">
+                    <ToggleGroupItem Value="left" aria-label="Left">Left</ToggleGroupItem>
+                    <ToggleGroupItem Value="center" aria-label="Center">Center</ToggleGroupItem>
+                </ToggleGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Vertical</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ToggleGroup Type="ToggleGroupType.Multiple" Orientation="ShadcnOrientation.Vertical" Spacing="1"
+                             DefaultValues="@(new[] { "bold", "italic" })">
+                    <ToggleGroupItem Value="bold" aria-label="Bold">Bold</ToggleGroupItem>
+                    <ToggleGroupItem Value="italic" aria-label="Italic">Italic</ToggleGroupItem>
+                    <ToggleGroupItem Value="underline" aria-label="Underline">Underline</ToggleGroupItem>
+                </ToggleGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Disabled</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ToggleGroup Type="ToggleGroupType.Single" Disabled="true" DefaultValue="center">
+                    <ToggleGroupItem Value="left" aria-label="Left">Left</ToggleGroupItem>
+                    <ToggleGroupItem Value="center" aria-label="Center">Center</ToggleGroupItem>
+                    <ToggleGroupItem Value="right" aria-label="Right">Right</ToggleGroupItem>
                 </ToggleGroup>
             </div></div>
         </Examples>
@@ -308,6 +358,51 @@ else if (Slug == "button-group")
                     <Button Variant="ButtonVariant.Outline">Open</Button>
                 </ButtonGroup>
             </div></div>
+
+            <h3 class="docs-example-title">Size</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ButtonGroup>
+                    <Button Size="ButtonSize.Sm" Variant="ButtonVariant.Outline">Small</Button>
+                    <Button Size="ButtonSize.Sm" Variant="ButtonVariant.Outline">Button</Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <Button Size="ButtonSize.Lg" Variant="ButtonVariant.Outline">Large</Button>
+                    <Button Size="ButtonSize.Lg" Variant="ButtonVariant.Outline">Button</Button>
+                </ButtonGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Split</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ButtonGroup>
+                    <Button Variant="ButtonVariant.Secondary">Button</Button>
+                    <ButtonGroupSeparator />
+                    <Button Variant="ButtonVariant.Secondary" Size="ButtonSize.Icon" aria-label="More">…</Button>
+                </ButtonGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Input</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ButtonGroup>
+                    <Input Placeholder="Search..." Class="w-48" />
+                    <Button Variant="ButtonVariant.Outline">Search</Button>
+                </ButtonGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Dropdown</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ButtonGroup>
+                    <Button Variant="ButtonVariant.Outline">Follow</Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Icon" aria-label="More options">…</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent Align="end">
+                            <DropdownMenuItem>Mute</DropdownMenuItem>
+                            <DropdownMenuItem>Block</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </ButtonGroup>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -347,6 +442,60 @@ else if (Slug == "item")
                     </Item>
                 </ItemGroup>
             </div></div>
+
+            <h3 class="docs-example-title">Variant</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <div class="demo-stack" style="max-width: 460px">
+                    <Item Variant="ItemVariant.Outline"><ItemContent><ItemTitle>Outline</ItemTitle><ItemDescription>Bordered item.</ItemDescription></ItemContent></Item>
+                    <Item Variant="ItemVariant.Muted"><ItemContent><ItemTitle>Muted</ItemTitle><ItemDescription>Muted background.</ItemDescription></ItemContent></Item>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Size</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <div class="demo-stack" style="max-width: 460px">
+                    <Item Size="ItemSize.Sm"><ItemContent><ItemTitle>Small</ItemTitle><ItemDescription>Compact padding.</ItemDescription></ItemContent></Item>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Avatar</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 460px">
+                    <Item>
+                        <ItemMedia>
+                            <Avatar><AvatarFallback>CN</AvatarFallback></Avatar>
+                        </ItemMedia>
+                        <ItemContent>
+                            <ItemTitle>shadcn</ItemTitle>
+                            <ItemDescription>hello@example.com</ItemDescription>
+                        </ItemContent>
+                        <ItemActions><Button Size="ButtonSize.Sm" Variant="ButtonVariant.Outline">Invite</Button></ItemActions>
+                    </Item>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Header</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 460px">
+                    <Item Variant="ItemVariant.Outline">
+                        <ItemHeader><ItemTitle>Project files</ItemTitle><Badge Variant="BadgeVariant.Secondary">12</Badge></ItemHeader>
+                        <ItemContent><ItemDescription>Updated 2 hours ago.</ItemDescription></ItemContent>
+                        <ItemFooter><Button Size="ButtonSize.Sm">Open</Button></ItemFooter>
+                    </Item>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Link</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 460px">
+                    <a href="#item-link" class="demo-link">
+                        <Item Variant="ItemVariant.Outline">
+                            <ItemContent><ItemTitle>Open the docs</ItemTitle><ItemDescription>This whole item is a link.</ItemDescription></ItemContent>
+                            <ItemActions><ChevronRightIcon /></ItemActions>
+                        </Item>
+                    </a>
+                </div>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -380,6 +529,18 @@ else if (Slug == "hover-card")
                     </HoverCard>
                 }
             </div></div>
+
+            <h3 class="docs-example-title">Trigger Delays</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <HoverCard OpenDelay="100" CloseDelay="100">
+                    <HoverCardTrigger><a href="#hover-card-delay" class="demo-link">fast</a></HoverCardTrigger>
+                    <HoverCardContent><div class="demo-item-text">Opens after 100 ms.</div></HoverCardContent>
+                </HoverCard>
+                <HoverCard OpenDelay="700" CloseDelay="300">
+                    <HoverCardTrigger><a href="#hover-card-delay" class="demo-link">slow</a></HoverCardTrigger>
+                    <HoverCardContent><div class="demo-item-text">Opens after 700 ms.</div></HoverCardContent>
+                </HoverCard>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -411,6 +572,78 @@ else if (Slug == "input-group")
                         <InputGroupInput Placeholder="Enter your email" Type="email" />
                         <InputGroupAddon Align="InputGroupAlign.InlineEnd">
                             <InputGroupButton Variant="ButtonVariant.Default">Subscribe</InputGroupButton>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Icon</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupAddon><SearchIcon /></InputGroupAddon>
+                        <InputGroupInput Placeholder="Search..." />
+                    </InputGroup>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Text</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupAddon><InputGroupText>https://</InputGroupText></InputGroupAddon>
+                        <InputGroupInput Placeholder="example.com" />
+                    </InputGroup>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Kbd</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupInput Placeholder="Search..." />
+                        <InputGroupAddon Align="InputGroupAlign.InlineEnd"><Kbd>⌘K</Kbd></InputGroupAddon>
+                    </InputGroup>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Dropdown</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupInput Placeholder="Search..." />
+                        <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <InputGroupButton>⌘K</InputGroupButton>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent Align="end">
+                                    <DropdownMenuItem>Search docs</DropdownMenuItem>
+                                    <DropdownMenuItem>Search components</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Spinner</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupAddon><Spinner /></InputGroupAddon>
+                        <InputGroupInput Placeholder="Loading..." Disabled="true" />
+                    </InputGroup>
+                </div>
+            </div></div>
+
+            <h3 class="docs-example-title">Textarea</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupTextarea Placeholder="Write a message..." />
+                        <InputGroupAddon Align="InputGroupAlign.BlockEnd">
+                            <InputGroupButton Variant="ButtonVariant.Default">Send</InputGroupButton>
                         </InputGroupAddon>
                     </InputGroup>
                 </div>

@@ -157,6 +157,39 @@ else if (Slug == "context-menu")
                     </ContextMenuContent>
                 </ContextMenu>
             </div></div>
+
+            <h3 class="docs-example-title">Shortcuts</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ContextMenu>
+                    <ContextMenuTrigger>
+                        <div class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+                            Right click here
+                        </div>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent Class="w-52">
+                        <ContextMenuItem>Back<ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+                        <ContextMenuItem>Forward<ContextMenuShortcut>⌘]</ContextMenuShortcut></ContextMenuItem>
+                        <ContextMenuItem>Reload<ContextMenuShortcut>⌘R</ContextMenuShortcut></ContextMenuItem>
+                    </ContextMenuContent>
+                </ContextMenu>
+            </div></div>
+
+            <h3 class="docs-example-title">Icons</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <ContextMenu>
+                    <ContextMenuTrigger>
+                        <div class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+                            Right click here
+                        </div>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent Class="w-52">
+                        <ContextMenuItem><CheckIcon /> Accept</ContextMenuItem>
+                        <ContextMenuItem><XIcon /> Decline</ContextMenuItem>
+                        <ContextMenuSeparator />
+                        <ContextMenuItem Variant="DropdownMenuItemVariant.Destructive"><XIcon /> Delete</ContextMenuItem>
+                    </ContextMenuContent>
+                </ContextMenu>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -257,6 +290,21 @@ else if (Slug == "menubar")
                                     <MenubarItem>Messages</MenubarItem>
                                 </MenubarSubContent>
                             </MenubarSub>
+                        </MenubarContent>
+                    </MenubarMenu>
+                </Menubar>
+            </div></div>
+
+            <h3 class="docs-example-title">With Icons</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Menubar>
+                    <MenubarMenu>
+                        <MenubarTrigger>File</MenubarTrigger>
+                        <MenubarContent>
+                            <MenubarItem><CheckIcon /> New Tab</MenubarItem>
+                            <MenubarItem><XIcon /> Close Tab</MenubarItem>
+                            <MenubarSeparator />
+                            <MenubarItem><LoaderIcon /> Reload</MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
                 </Menubar>
@@ -657,6 +705,50 @@ else if (Slug == "dropdown-menu")
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div></div>
+
+            <h3 class="docs-example-title">Avatar</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button Variant="ButtonVariant.Ghost" Class="h-auto gap-2 px-2 py-1.5">
+                            <Avatar Size="AvatarSize.Sm"><AvatarFallback>CN</AvatarFallback></Avatar>
+                            <span>shadcn</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent Align="end" Class="w-56">
+                        <DropdownMenuLabel>
+                            <div class="demo-item-title">shadcn</div>
+                            <div class="demo-item-text">hello@example.com</div>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        <DropdownMenuItem>Billing</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
+
+            <h3 class="docs-example-title">Complex</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger><Button Variant="ButtonVariant.Outline">Open</Button></DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-56">
+                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>Profile<DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut></DropdownMenuItem>
+                            <DropdownMenuItem>Billing<DropdownMenuShortcut>⌘B</DropdownMenuShortcut></DropdownMenuItem>
+                            <DropdownMenuItem>Settings<DropdownMenuShortcut>⌘S</DropdownMenuShortcut></DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                            <DropdownMenuCheckboxItem Checked="true">Show Bookmarks</DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem>Show Full URLs</DropdownMenuCheckboxItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -688,6 +780,17 @@ else if (Slug == "popover")
             </Popover>
         </Preview>
         <Examples>
+            <h3 class="docs-example-title">Basic</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Popover>
+                    <PopoverTrigger><Button Variant="ButtonVariant.Outline">Open popover</Button></PopoverTrigger>
+                    <PopoverContent Class="w-64">
+                        <div class="demo-item-title">Dimensions</div>
+                        <div class="demo-item-text">Set the dimensions for the layer.</div>
+                    </PopoverContent>
+                </Popover>
+            </div></div>
+
             <h3 class="docs-example-title">Align</h3>
             <div class="docs-preview"><div class="docs-preview-body">
                 <Popover>

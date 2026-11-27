@@ -71,6 +71,44 @@
                     </TableBody>
                 </Table>
             </div></div>
+
+            <h3 class="docs-example-title">Actions</h3>
+            <div class="docs-preview"><div class="docs-preview-body docs-preview-block">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Invoice</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead Class="text-right">Amount</TableHead>
+                            <TableHead Class="w-8"></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var invoice in new[] { ("INV001", "Paid", "$250.00"), ("INV002", "Pending", "$150.00") })
+                        {
+                            <TableRow>
+                                <TableCell Class="font-medium">@invoice.Item1</TableCell>
+                                <TableCell><Badge Variant="BadgeVariant.Secondary">@invoice.Item2</Badge></TableCell>
+                                <TableCell Class="text-right">@invoice.Item3</TableCell>
+                                <TableCell>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger>
+                                            <Button Variant="ButtonVariant.Ghost" Size="ButtonSize.IconSm" aria-label="Open menu">…</Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent Align="end">
+                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                            <DropdownMenuItem>Copy ID</DropdownMenuItem>
+                                            <DropdownMenuItem>View invoice</DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive">Delete</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -386,6 +424,28 @@ else if (Slug == "accordion")
                         <AccordionContent>Yes. It comes with default styles.</AccordionContent>
                     </AccordionItem>
                 </Accordion>
+            </div></div>
+
+            <h3 class="docs-example-title">Card</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Subscription &amp; Billing</CardTitle>
+                        <CardDescription>Common questions about your account, plans and cancellations.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Accordion Type="AccordionType.Single" Collapsible="true" DefaultValue="plans">
+                            <AccordionItem Value="plans">
+                                <AccordionTrigger>What subscription plans do you offer?</AccordionTrigger>
+                                <AccordionContent>We offer three subscription tiers with increasing storage and support.</AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem Value="billing">
+                                <AccordionTrigger>How does billing work?</AccordionTrigger>
+                                <AccordionContent>Billing occurs automatically at the start of each cycle.</AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </CardContent>
+                </Card>
             </div></div>
         </Examples>
     </DocPage>

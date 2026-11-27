@@ -50,6 +50,10 @@ public partial class ToggleGroup : ShadcnComponent
     [Parameter]
     public int Spacing { get; set; }
 
+    /// <summary>Layout direction (Radix's <c>orientation</c>, horizontal by default).</summary>
+    [Parameter]
+    public ShadcnOrientation Orientation { get; set; } = ShadcnOrientation.Horizontal;
+
     /// <summary>Disables every item.</summary>
     [Parameter]
     public bool Disabled { get; set; }

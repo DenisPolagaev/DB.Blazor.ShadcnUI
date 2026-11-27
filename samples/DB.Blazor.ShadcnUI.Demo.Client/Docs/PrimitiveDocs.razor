@@ -160,6 +160,24 @@ else if (Slug == "card")
                     </CardFooter>
                 </Card>
             </div></div>
+
+            <h3 class="docs-example-title">Image</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Card Class="w-full max-w-sm overflow-hidden pt-0">
+                    <img src="https://github.com/shadcn.png" alt="Preview"
+                         class="aspect-video w-full object-cover" />
+                    <CardHeader>
+                        <CardTitle>Design system</CardTitle>
+                        <CardDescription>Tokens, primitives and docs in one place.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p class="demo-item-text">A card with an image on top.</p>
+                    </CardContent>
+                    <CardFooter>
+                        <Button Class="w-full">Open</Button>
+                    </CardFooter>
+                </Card>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -259,6 +277,29 @@ else if (Slug == "avatar")
                     <Avatar><AvatarFallback>ER</AvatarFallback></Avatar>
                     <AvatarGroupCount>+3</AvatarGroupCount>
                 </AvatarGroup>
+            </div></div>
+
+            <h3 class="docs-example-title">Dropdown</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button Variant="ButtonVariant.Ghost" Size="ButtonSize.Icon" Class="rounded-full" aria-label="Open menu">
+                            <Avatar>
+                                <AvatarImage Src="https://github.com/shadcn.png" Alt="shadcn" />
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent Class="w-40">
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                            <DropdownMenuItem>Billing</DropdownMenuItem>
+                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive">Log out</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div></div>
         </Examples>
     </DocPage>
@@ -395,6 +436,20 @@ else if (Slug == "progress")
                 </div>
                 <Progress Value="66" />
             </div></div>
+
+            <h3 class="docs-example-title">Controlled</h3>
+            <div class="docs-preview"><div class="docs-preview-body" style="flex-direction: column; align-items: stretch">
+                <div class="demo-row" style="justify-content: space-between">
+                    <span class="demo-item-title">Progress</span>
+                    <span class="demo-item-text">@progressValue%</span>
+                </div>
+                <Progress Value="@progressValue" />
+                <div class="demo-row">
+                    <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" OnClick="() => progressValue = 25">25</Button>
+                    <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" OnClick="() => progressValue = 50">50</Button>
+                    <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" OnClick="() => progressValue = 75">75</Button>
+                </div>
+            </div></div>
         </Examples>
     </DocPage>
 }
@@ -452,12 +507,34 @@ else if (Slug == "kbd")
                     </Tooltip>
                 </TooltipProvider>
             </div></div>
+
+            <h3 class="docs-example-title">Button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <Button Variant="ButtonVariant.Outline">
+                    Accept
+                    <KbdGroup><Kbd>Ctrl</Kbd><Kbd>Enter</Kbd></KbdGroup>
+                </Button>
+            </div></div>
+
+            <h3 class="docs-example-title">Input Group</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupInput Placeholder="Search..." />
+                        <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                            <KbdGroup><Kbd>Ctrl</Kbd><Kbd>K</Kbd></KbdGroup>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
+            </div></div>
         </Examples>
     </DocPage>
 }
 
 @code {
     [Parameter] public string? Slug { get; set; }
+
+    private int progressValue = 50;
 
     private const string ButtonCode = """
 <Button>Button</Button>
@@ -610,3 +687,4 @@ else if (Slug == "kbd")
 <Kbd>Ctrl</Kbd>
 """;
 }
+
