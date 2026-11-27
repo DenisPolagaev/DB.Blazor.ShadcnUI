@@ -23,6 +23,7 @@ public static class DocCatalog
         new("card", "Card", "Displays a card with header, content, and footer."),
         new("collapsible", "Collapsible", "An interactive component which expands/collapses a panel."),
         new("checkbox", "Checkbox", "A control that allows the user to toggle between checked and not checked."),
+        new("context-menu", "Context Menu", "Displays a menu to the user — triggered by a right click."),
         new("dialog", "Dialog", "A window overlaid on either the primary window or another dialog window."),
         new("dropdown-menu", "Dropdown Menu", "Displays a menu to the user — such as a set of actions or functions — triggered by a button."),
         new("drawer", "Drawer", "A drawer component for React."),
