@@ -228,9 +228,9 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Radix's accordion animation variables, so the component keeps the original class list. */
-  --animate-caret-blink: dp-caret-blink 1s ease-out infinite;
-  --animate-accordion-down: dp-accordion-down 200ms ease-out both;
-  --animate-accordion-up: dp-accordion-up 200ms ease-out both;
+  --animate-caret-blink: dp-caret-blink var(--tw-duration, 1.25s) var(--tw-ease, ease-out) infinite;
+  --animate-accordion-down: dp-accordion-down var(--tw-duration, 200ms) var(--tw-ease, ease-out) both;
+  --animate-accordion-up: dp-accordion-up var(--tw-duration, 200ms) var(--tw-ease, ease-out) both;
 }
 
 @keyframes dp-caret-blink {
@@ -377,11 +377,11 @@
 }
 
 @utility animate-in {
-  animation: dp-enter var(--dp-animation-duration, 150ms) var(--dp-animation-ease, ease) both;
+  animation: dp-enter var(--dp-animation-duration, var(--tw-duration, 150ms)) var(--dp-animation-ease, var(--tw-ease, ease)) both;
 }
 
 @utility animate-out {
-  animation: dp-exit var(--dp-animation-duration, 150ms) var(--dp-animation-ease, ease) both;
+  animation: dp-exit var(--dp-animation-duration, var(--tw-duration, 150ms)) var(--dp-animation-ease, var(--tw-ease, ease)) both;
 }
 
 @utility fade-in {
@@ -444,6 +444,38 @@
   --dp-enter-translate-y: 0.5rem;
 }
 
+@utility slide-in-from-top-10 {
+  --dp-enter-translate-y: -2.5rem;
+}
+
+@utility slide-in-from-right-10 {
+  --dp-enter-translate-x: 2.5rem;
+}
+
+@utility slide-in-from-bottom-10 {
+  --dp-enter-translate-y: 2.5rem;
+}
+
+@utility slide-in-from-left-10 {
+  --dp-enter-translate-x: -2.5rem;
+}
+
+@utility slide-out-to-top-10 {
+  --dp-exit-translate-y: -2.5rem;
+}
+
+@utility slide-out-to-right-10 {
+  --dp-exit-translate-x: 2.5rem;
+}
+
+@utility slide-out-to-bottom-10 {
+  --dp-exit-translate-y: 2.5rem;
+}
+
+@utility slide-out-to-left-10 {
+  --dp-exit-translate-x: -2.5rem;
+}
+
 @utility slide-in-from-left-2 {
   --dp-enter-translate-x: -0.5rem;
 }
@@ -466,6 +498,22 @@
 
 @utility slide-out-to-top {
   --dp-exit-translate-y: -100%;
+}
+
+@utility slide-out-to-top-2 {
+  --dp-exit-translate-y: -0.5rem;
+}
+
+@utility slide-out-to-bottom-2 {
+  --dp-exit-translate-y: 0.5rem;
+}
+
+@utility slide-out-to-left-2 {
+  --dp-exit-translate-x: -0.5rem;
+}
+
+@utility slide-out-to-right-2 {
+  --dp-exit-translate-x: 0.5rem;
 }
 
 @utility slide-out-to-right {
@@ -575,6 +623,9 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+
 
 
 

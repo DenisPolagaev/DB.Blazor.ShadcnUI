@@ -90,12 +90,9 @@ public abstract class ShadcnFloatingRoot : ShadcnComponent
             return;
         }
 
+        // `IsOpen` goes false at once (data-state="closed", the exit animation runs) while
+        // `IsVisible` keeps the panel mounted until the animation delay elapses.
         _closing = true;
-        await InvokeAsync(StateHasChanged);
-
-        await Task.Delay(CloseAnimationMilliseconds);
-
-        _closing = false;
         _internalOpen = false;
         if (OpenChanged.HasDelegate)
         {
@@ -104,5 +101,11 @@ public abstract class ShadcnFloatingRoot : ShadcnComponent
 
         await OpenChanged.InvokeAsync(false);
         await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(CloseAnimationMilliseconds);
+
+        _closing = false;
+        await InvokeAsync(StateHasChanged);
     }
 }
+

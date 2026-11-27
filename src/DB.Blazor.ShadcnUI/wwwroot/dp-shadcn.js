@@ -227,6 +227,7 @@ export function positionFloating(triggerId, panel, options = {}) {
 
   panel.style.left = `${Math.round(left)}px`;
   panel.style.top = `${Math.round(top)}px`;
+  restartEntryAnimation(panel);
   panel.style.visibility = "";
   panel.dataset.side = resolved;
 
@@ -259,16 +260,37 @@ export function positionFloating(triggerId, panel, options = {}) {
   }
 }
 
+/** Restarts the enter animation once the panel has its final position, so the visible part of the
+ *  animation starts at frame zero instead of mid-flight after the JS-interop round trip. */
+function restartEntryAnimation(el) {
+  if (el.dataset.entryPending !== "true") {
+    return;
+  }
+  el.dataset.entryPending = "false";
+  el.style.animation = "none";
+  void el.offsetWidth;
+  el.style.animation = "";
+}
 /** Keeps a panel that positions itself (context menu at the pointer) inside the viewport. */
 function clampFixedPanel(el) {
   el.style.position = "fixed";
   // Use the coordinates the component wrote, not the animated rect: the enter transform scales
   // the panel around its origin and would otherwise skew the clamp by a few pixels.
   const rect = el.getBoundingClientRect();
+  // The anchor coordinates are the component's inline style, not the previous clamp: repeated
+  // reposition calls must not drift (or flip the slide direction) once the panel has been clamped.
+  if (el.dataset.anchorTop === undefined) {
+    el.dataset.anchorTop = el.style.top;
+  }
+  if (el.dataset.anchorLeft === undefined) {
+    el.dataset.anchorLeft = el.style.left;
+  }
+  const anchorTop = Number.parseFloat(el.dataset.anchorTop);
+  const anchorLeft = Number.parseFloat(el.dataset.anchorLeft);
   const baseLeft = Number.parseFloat(el.style.left);
   const baseTop = Number.parseFloat(el.style.top);
-  const left0 = Number.isFinite(baseLeft) ? baseLeft : rect.left;
-  const top0 = Number.isFinite(baseTop) ? baseTop : rect.top;
+  const left0 = Number.isFinite(anchorLeft) ? anchorLeft : Number.isFinite(baseLeft) ? baseLeft : rect.left;
+  const top0 = Number.isFinite(anchorTop) ? anchorTop : Number.isFinite(baseTop) ? baseTop : rect.top;
   const width = el.offsetWidth;
   const height = el.offsetHeight;
   const padding = 8;
@@ -276,6 +298,13 @@ function clampFixedPanel(el) {
   const top = Math.min(Math.max(padding, top0), Math.max(padding, window.innerHeight - height - padding));
   el.style.left = `${Math.round(left)}px`;
   el.style.top = `${Math.round(top)}px`;
+  // A menu pulled up from the pointer opens upward, so its slide-in comes from the bottom edge;
+  // the preset keys the slide direction off data-side. Set it once: changing it mid-animation
+  // would make the panel jump into the opposite direction.
+  if (!el.dataset.side) {
+    el.dataset.side = top0 + height + padding > window.innerHeight ? "top" : "bottom";
+  }
+  restartEntryAnimation(el);
   el.style.visibility = "";
 }
 
@@ -356,6 +385,7 @@ export function positionSelect(triggerId, panel, options = {}) {
 
   panel.style.setProperty("--radix-select-trigger-width", `${Math.ceil(triggerRect.width)}px`);
   panel.style.setProperty("--radix-select-trigger-height", `${Math.ceil(triggerRect.height)}px`);
+  restartEntryAnimation(panel);
   panel.style.visibility = "";
 
   // A scroll button appearing shifts the viewport, which breaks the item alignment: position once
@@ -661,6 +691,12 @@ export function openDismissable(el, dotnet, options = {}) {
 
   const listbox = options.listbox === true;
   const fixedPosition = options.fixedPosition === true;
+  // A fresh open starts from the component's own coordinates; placement data from a previous
+  // mount must not leak into the new open.
+  delete el.dataset.anchorTop;
+  delete el.dataset.anchorLeft;
+  delete el.dataset.side;
+  el.dataset.entryPending = "true";
   const entry = {
     el,
     dotnet,
@@ -1035,6 +1071,10 @@ export function syncAccordion(el, open) {
   el.style.setProperty("--radix-accordion-content-height", `${height}px`);
   el.style.height = open ? `${height}px` : "0px";
 }
+
+
+
+
 
 
 

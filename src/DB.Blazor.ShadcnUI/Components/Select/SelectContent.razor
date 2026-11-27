@@ -2,7 +2,7 @@
 @inherits ShadcnDismissableBase
 
 <div @ref="_panel" role="listbox" tabindex="-1" id="@Root?.ContentId"
-     data-slot="select-content" data-position="@(Position == SelectPosition.Popper ? "popper" : "item-aligned")" data-state="@(Root?.IsOpen == true ? "open" : "closed")"
+     data-slot="select-content" data-position="@(Position == SelectPosition.Popper ? "popper" : "item-aligned")" data-align-trigger="@(Position == SelectPosition.ItemAligned ? "true" : null)" data-state="@(Root?.IsOpen == true ? "open" : "closed")"
      aria-labelledby="@Root?.TriggerId" hidden="@(Root?.IsVisible != true)" class="@Classes"
      style="@Styles" @oncontextmenu:preventDefault="true" @attributes="AdditionalAttributes">
     <SelectScrollUpButton />
@@ -31,5 +31,6 @@
         "cn-select-viewport data-[position=popper]:h-(--radix-select-trigger-height) " +
         "data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)");
 }
+
 
 

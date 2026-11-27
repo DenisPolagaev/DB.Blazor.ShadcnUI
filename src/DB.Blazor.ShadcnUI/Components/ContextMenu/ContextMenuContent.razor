@@ -5,7 +5,7 @@
 {
     <div @ref="_panel" role="menu" tabindex="-1" data-slot="context-menu-content"
          data-state="@(Root.IsOpen ? "open" : "closed")" id="@Root.ContentId" class="@Classes"
-         style="@StyleWith("position: fixed", $"left: {Root.Left.ToString("0.##", CultureInfo.InvariantCulture)}px; top: {Root.Top.ToString("0.##", CultureInfo.InvariantCulture)}px")"
+         style="@StyleWith("position: fixed", "visibility: hidden", $"left: {Root.Left.ToString("0.##", CultureInfo.InvariantCulture)}px; top: {Root.Top.ToString("0.##", CultureInfo.InvariantCulture)}px")"
          @attributes="AdditionalAttributes">
         @ChildContent
     </div>
@@ -14,4 +14,5 @@
 @code {
     private string? Classes => MergeClass("cn-context-menu-content cn-menu-target cn-menu-translucent z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) overflow-x-hidden overflow-y-auto");
 }
+
 

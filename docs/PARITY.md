@@ -22,6 +22,27 @@ markup and semantic `cn-*` class names are copied from the preset's Registry sou
   earlier `new-york-v4` port; the migration is a class-name and stylesheet change.
 
 
+## Animations
+
+The `tw-animate-css` subset the class lists name is implemented in `styles/dp-shadcn.css`:
+`dp-enter`/`dp-exit`, `fade-*`, `zoom-*`, `slide-in-from-*`/`slide-out-to-*` (including the
+`-10`/`-52` steps), the accordion height keyframes and the caret blink. `animate-spin` and
+`animate-pulse` come from Tailwind.
+
+Two behaviours are added on top of the preset so its animation classes actually run:
+
+* **Two-phase closing.** A panel stays mounted with `data-state="closed"` for one animation
+  window, then is removed - Radix's Presence. Without it `data-closed:animate-out` never applied:
+  the panel went from `open` straight to unmounted.
+* **Menus animate.** `.cn-menu-translucent` carries `animate-none!` in the preset, which cancelled
+  the `data-open:animate-in` / `data-closed:animate-out` classes of the dropdown, context, menubar
+  and select panels. The port drops that declaration; item-aligned Select still opts out with
+  `data-[align-trigger=true]:animate-none`, exactly like Radix (no animation in aligned mode).
+
+Animated components: Accordion (height), AlertDialog, Dialog, Sheet, Drawer (overlay plus a
+slide-in/out content the vaul port has to animate itself), Popover, Tooltip, HoverCard,
+DropdownMenu, ContextMenu, Menubar (fields), Select (popper mode), CommandDialog, Sonner toasts
+(enter and exit), InputOTP caret, Spinner and Skeleton.
 ## Markup
 
 * Every component renders the same `data-slot` names as the React original: `button`, `badge`,
@@ -161,3 +182,4 @@ The utility classes themselves are no longer compared: they moved into `styles/s
 the port's C# only carries the semantic class and the layout utilities the preset source names.
 
 Last run: 46 components, 0 missing tokens, 0 unknown tokens.
+

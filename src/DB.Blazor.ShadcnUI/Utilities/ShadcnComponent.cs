@@ -58,6 +58,8 @@ public abstract class ShadcnComponent : ComponentBase
             }
         }
 
-        return parts.Count == 0 ? null : string.Join(' ', parts);
+        return parts.Count == 0 ? null : string.Join("; ", parts.Select(part => part.Trim().TrimEnd(' ', ';')));
     }
 }
+
+

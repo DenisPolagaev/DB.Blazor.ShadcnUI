@@ -99,13 +99,10 @@ public abstract class ShadcnModalRoot : ShadcnComponent
             return;
         }
 
-        // Keep the panel mounted with data-state="closed" so `animate-out` can run.
+        // The panel stays mounted while `IsVisible` is true, but `IsOpen` goes false immediately:
+        // the content renders data-state="closed" so `data-closed:animate-out` runs, and only
+        // the end of the delay removes it (what Radix gets from Presence).
         _closing = true;
-        await InvokeAsync(StateHasChanged);
-
-        await Task.Delay(CloseAnimationMilliseconds);
-
-        _closing = false;
         _internalOpen = false;
         if (OpenChanged.HasDelegate)
         {
@@ -114,5 +111,11 @@ public abstract class ShadcnModalRoot : ShadcnComponent
 
         await OpenChanged.InvokeAsync(false);
         await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(CloseAnimationMilliseconds);
+
+        _closing = false;
+        await InvokeAsync(StateHasChanged);
     }
 }
+
