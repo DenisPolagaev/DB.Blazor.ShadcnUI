@@ -1,0 +1,24 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<Button Type="@Type" Variant="@Variant" data-size="@InputGroupVariants.ButtonSizeValue(Size)" Class="@Classes"
+        OnClick="OnClick" @attributes="AdditionalAttributes">@ChildContent</Button>
+
+@code {
+    /// <summary>Button variant, <c>ghost</c> by default like shadcn.</summary>
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Ghost;
+
+    /// <summary>Group button size, <c>xs</c> by default.</summary>
+    [Parameter] public InputGroupButtonSize Size { get; set; } = InputGroupButtonSize.Xs;
+
+    /// <summary>Native <c>type</c>, <c>button</c> by default.</summary>
+    [Parameter] public string Type { get; set; } = "button";
+
+    /// <summary>Click handler.</summary>
+    [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes =>
+        Cn.Merge(Cn.Join(InputGroupVariants.ButtonBase, InputGroupVariants.ButtonSize(Size)), Class);
+}

@@ -32,6 +32,7 @@ $map = [ordered]@{
     'dropdown-menu' = 'DropdownMenu'
     'hover-card'    = 'HoverCard'
     'input'         = 'Input'
+    'input-group'   = 'InputGroup'
     'kbd'           = 'Kbd'
     'label'         = 'Label'
     'native-select' = 'NativeSelect'

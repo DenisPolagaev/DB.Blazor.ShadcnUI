@@ -254,6 +254,41 @@ else if (Slug == "hover-card")
         </Preview>
     </DocPage>
 }
+else if (Slug == "input-group")
+{
+    <DocPage Title="Input Group" Description="A set of composable input components for building rich form controls."
+             Code="@InputGroupCode" Usage="@InputGroupUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 420px">
+                <InputGroup>
+                    <InputGroupAddon>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                    </InputGroupAddon>
+                    <InputGroupInput Placeholder="Search…" />
+                    <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <InputGroupText>⌘K</InputGroupText>
+                    </InputGroupAddon>
+                </InputGroup>
+            </div>
+        </Preview>
+        <Examples>
+            <h3 class="docs-example-title">With button</h3>
+            <div class="docs-preview"><div class="docs-preview-body">
+                <div style="width: 100%; max-width: 420px">
+                    <InputGroup>
+                        <InputGroupInput Placeholder="Enter your email" Type="email" />
+                        <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                            <InputGroupButton Variant="ButtonVariant.Default">Subscribe</InputGroupButton>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
+            </div></div>
+        </Examples>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
@@ -389,6 +424,21 @@ else if (Slug == "hover-card")
     <HoverCardTrigger><Button Variant="ButtonVariant.Link">Hover</Button></HoverCardTrigger>
     <HoverCardContent>Place content for the hover card here.</HoverCardContent>
 </HoverCard>
+""";
+    private const string InputGroupCode = """
+<InputGroup>
+    <InputGroupAddon><SearchIcon /></InputGroupAddon>
+    <InputGroupInput Placeholder="Search…" />
+    <InputGroupAddon Align="InputGroupAlign.InlineEnd"><InputGroupText>⌘K</InputGroupText></InputGroupAddon>
+</InputGroup>
+""";
+
+    private const string InputGroupUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<InputGroup>
+    <InputGroupInput Placeholder="Search…" />
+</InputGroup>
 """;
     private const string EmptyCode = """
 <Empty>

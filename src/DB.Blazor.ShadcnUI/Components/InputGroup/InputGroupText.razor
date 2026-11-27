@@ -1,0 +1,12 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<span data-slot="input-group-text" class="@Classes" style="@Style" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(
+        "flex items-center gap-2 text-sm text-muted-foreground [&_svg]:pointer-events-none " +
+        "[&_svg:not([class*='size-'])]:size-4");
+}

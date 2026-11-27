@@ -1,0 +1,16 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="group" data-slot="input-group-addon" data-align="@InputGroupVariants.AddonAlignValue(Align)"
+     class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>Where the addon sits inside the group (Radix <c>align</c>).</summary>
+    [Parameter] public InputGroupAlign Align { get; set; } = InputGroupAlign.InlineStart;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass(Cx(InputGroupVariants.AddonBase, InputGroupVariants.AddonAlign(Align)));
+}
