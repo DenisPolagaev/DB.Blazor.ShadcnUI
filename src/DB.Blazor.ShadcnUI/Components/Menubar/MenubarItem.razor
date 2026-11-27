@@ -1,0 +1,50 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="menuitem" data-slot="menubar-item" data-inset="@(Inset ? "true" : null)"
+     data-variant="@(Variant == DropdownMenuItemVariant.Destructive ? "destructive" : "default")"
+     data-disabled="@(Disabled ? "true" : null)" aria-disabled="@(Disabled ? "true" : null)" tabindex="-1"
+     class="@Classes" style="@Style" @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter] private MenubarMenu? Root { get; set; }
+
+    /// <summary>Indents the item like an item with an indicator.</summary>
+    [Parameter] public bool Inset { get; set; }
+
+    /// <summary><c>default</c> or <c>destructive</c>.</summary>
+    [Parameter] public DropdownMenuItemVariant Variant { get; set; } = DropdownMenuItemVariant.Default;
+
+    /// <summary>Disables the item.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Runs when the item is chosen; the menu then closes.</summary>
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private async Task HandleClickAsync()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        await OnClick.InvokeAsync();
+        if (Root is not null)
+        {
+            await Root.CloseAsync();
+        }
+    }
+
+    private string? Classes => MergeClass(
+        "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden " +
+        "select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none " +
+        "data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive " +
+        "data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive " +
+        "dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none " +
+        "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " +
+        "[&_svg:not([class*='text-'])]:text-muted-foreground");
+}

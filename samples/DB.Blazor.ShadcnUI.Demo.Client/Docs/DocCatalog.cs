@@ -36,6 +36,7 @@ public static class DocCatalog
         new("item", "Item", "A flexible component for displaying an item in a container."),
         new("kbd", "Kbd", "Used to display keyboard keys or shortcuts."),
         new("label", "Label", "Renders an accessible label associated with controls."),
+        new("menubar", "Menubar", "A visually persistent menu common in desktop applications."),
         new("native-select", "Native Select", "A native select element with a custom chevron and consistent styling."),
         new("pagination", "Pagination", "Pagination with page navigation, next and previous links."),
         new("popover", "Popover", "Displays rich content in a portal, triggered by a button."),

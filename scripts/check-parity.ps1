@@ -39,6 +39,7 @@ $map = [ordered]@{
     'input-otp'     = 'InputOTP'
     'kbd'           = 'Kbd'
     'label'         = 'Label'
+    'menubar'       = 'Menubar'
     'native-select' = 'NativeSelect'
     'pagination'    = 'Pagination'
     'popover'       = 'Popover'

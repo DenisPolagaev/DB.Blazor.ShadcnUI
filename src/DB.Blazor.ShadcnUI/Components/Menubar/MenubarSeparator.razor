@@ -1,0 +1,9 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<div role="separator" aria-orientation="horizontal" data-slot="menubar-separator" class="@Classes" style="@Style"
+     @attributes="AdditionalAttributes"></div>
+
+@code {
+    private string? Classes => MergeClass("-mx-1 my-1 h-px bg-border");
+}

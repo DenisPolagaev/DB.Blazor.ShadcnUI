@@ -1,0 +1,12 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+<span data-slot="menubar-shortcut" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    @ChildContent
+</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? Classes => MergeClass("ml-auto text-xs tracking-widest text-muted-foreground");
+}
