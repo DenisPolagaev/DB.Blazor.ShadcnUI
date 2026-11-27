@@ -64,8 +64,8 @@
         {
             var percent = Percent.ToString("0.###", CultureInfo.InvariantCulture);
             return Orientation == ShadcnOrientation.Vertical
-                ? $"bottom: calc({percent}% - 0.375rem); left: 50%; transform: translateX(-50%)"
-                : $"left: calc({percent}% - 0.375rem); top: 50%; transform: translateY(-50%)";
+                ? $"position: absolute; bottom: calc({percent}% - 0.375rem); left: 50%; transform: translateX(-50%)"
+                : $"position: absolute; left: calc({percent}% - 0.375rem); top: 50%; transform: translateY(-50%)";
         }
     }
 
@@ -86,6 +86,7 @@
 
     private static string ThumbClasses => "cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50";
 }
+
 
 
 

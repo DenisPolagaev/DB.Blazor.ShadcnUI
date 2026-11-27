@@ -227,7 +227,7 @@ export function positionFloating(triggerId, panel, options = {}) {
 
   panel.style.left = `${Math.round(left)}px`;
   panel.style.top = `${Math.round(top)}px`;
-  restartEntryAnimation(panel);
+  panel.dataset.positioned = "true";
   panel.style.visibility = "";
   panel.dataset.side = resolved;
 
@@ -260,17 +260,6 @@ export function positionFloating(triggerId, panel, options = {}) {
   }
 }
 
-/** Restarts the enter animation once the panel has its final position, so the visible part of the
- *  animation starts at frame zero instead of mid-flight after the JS-interop round trip. */
-function restartEntryAnimation(el) {
-  if (el.dataset.entryPending !== "true") {
-    return;
-  }
-  el.dataset.entryPending = "false";
-  el.style.animation = "none";
-  void el.offsetWidth;
-  el.style.animation = "";
-}
 /** Keeps a panel that positions itself (context menu at the pointer) inside the viewport. */
 function clampFixedPanel(el) {
   el.style.position = "fixed";
@@ -304,7 +293,7 @@ function clampFixedPanel(el) {
   if (!el.dataset.side) {
     el.dataset.side = top0 + height + padding > window.innerHeight ? "top" : "bottom";
   }
-  restartEntryAnimation(el);
+  el.dataset.positioned = "true";
   el.style.visibility = "";
 }
 
@@ -385,7 +374,7 @@ export function positionSelect(triggerId, panel, options = {}) {
 
   panel.style.setProperty("--radix-select-trigger-width", `${Math.ceil(triggerRect.width)}px`);
   panel.style.setProperty("--radix-select-trigger-height", `${Math.ceil(triggerRect.height)}px`);
-  restartEntryAnimation(panel);
+  panel.dataset.positioned = "true";
   panel.style.visibility = "";
 
   // A scroll button appearing shifts the viewport, which breaks the item alignment: position once
@@ -696,7 +685,7 @@ export function openDismissable(el, dotnet, options = {}) {
   delete el.dataset.anchorTop;
   delete el.dataset.anchorLeft;
   delete el.dataset.side;
-  el.dataset.entryPending = "true";
+  delete el.dataset.positioned;
   const entry = {
     el,
     dotnet,
@@ -1071,6 +1060,8 @@ export function syncAccordion(el, open) {
   el.style.setProperty("--radix-accordion-content-height", `${height}px`);
   el.style.height = open ? `${height}px` : "0px";
 }
+
+
 
 
 

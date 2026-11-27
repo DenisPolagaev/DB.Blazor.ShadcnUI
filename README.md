@@ -1,16 +1,18 @@
 # DB.Blazor.ShadcnUI
 
-> Repository and NuGet package **DB.Blazor.ShadcnUI** — MIT license
+> Repository and NuGet package **DB.Blazor.ShadcnUI** â€” MIT license
 
-[shadcn/ui](https://ui.shadcn.com) ported to Blazor — Server and WebAssembly, `net10.0` and `net11.0`.
+[shadcn/ui](https://ui.shadcn.com) ported to Blazor â€” Server and WebAssembly, `net10.0` and `net11.0`.
 
 The port keeps the **component contract of shadcn/ui v4**: the same component names (`Button`,
-`Card`, `CardHeader`, `Dialog`, `DropdownMenuItem`, …), the same variant values
+`Card`, `CardHeader`, `Dialog`, `DropdownMenuItem`, â€¦), the same variant values
 (`default`/`destructive`/`outline`/`secondary`/`ghost`/`link`, `sm`/`lg`/`icon`), the same
 `data-slot` / `data-state` / `data-variant` markup and the same semantic `cn-*` class names of the
-**`nova` style preset** — only the React/Radix plumbing is replaced by Blazor parameters, cascading
+**`nova` style preset** â€” only the React/Radix plumbing is replaced by Blazor parameters, cascading
 contexts and one small JS module. The visual half of those class names lives in
-`styles/style-nova.css` (the complete preset, every component and Base UI variant), scoped under `.style-nova`.
+`styles/style-nova.css` (the complete preset, every component and Base UI variant), scoped under
+`.style-nova`; animations come from the vendored `tw-animate-css` (`styles/tw-animate.css`), the
+same package the shadcn/ui class lists target.
 
 Authoring is one component per folder on a shared `ShadcnComponent` base (`Class`, `Style`, `Id`,
 `AdditionalAttributes`), C# variant tables instead of `cva`, cascading contexts instead of React
@@ -18,12 +20,13 @@ context, and explicit two-way parameters instead of React state.
 
 ```
 libs/DB.Blazor.ShadcnUI
-+- src/DB.Blazor.ShadcnUI          the library (Razor class library, net10.0 + net11.0)
-+- samples/DB.Blazor.ShadcnUI.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
-+- tests/DB.Blazor.ShadcnUI.Tests  bUnit + xUnit v3 tests (55 tests)
-+- styles/dp-shadcn.css            Tailwind v4 source of the shipped stylesheet
-+- styles/style-nova.css           the `nova` preset (semantic `cn-*` classes), scoped to `.style-nova`
-L- wwwroot                         dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
+|-- src/DB.Blazor.ShadcnUI          the library (Razor class library, net10.0 + net11.0)
+|-- samples/DB.Blazor.ShadcnUI.Demo Blazor Web App demo (InteractiveServer + InteractiveWebAssembly)
+|-- tests/DB.Blazor.ShadcnUI.Tests  bUnit + xUnit v3 tests (55 tests)
+|-- styles/dp-shadcn.css            Tailwind v4 source of the shipped stylesheet
+|-- styles/style-nova.css           the `nova` preset (semantic `cn-*` classes), scoped to `.style-nova`
+|-- styles/tw-animate.css           vendored tw-animate-css (enter/exit, fade/zoom/slide utilities)
+`-- wwwroot                         dp-shadcn.css (prebuilt) + dp-shadcn.js (the only JS)
 ```
 
 ## Quick start
@@ -38,7 +41,7 @@ L- wwwroot                         dp-shadcn.css (prebuilt) + dp-shadcn.js (the 
 @using DB.Blazor.ShadcnUI.Components
 ```
 
-`index.html` / `App.razor` — one stylesheet, no `npm` required:
+`index.html` / `App.razor` â€” one stylesheet, no `npm` required:
 
 ```html
 <link rel="stylesheet" href="_content/DB.Blazor.ShadcnUI/dp-shadcn.css" />
@@ -54,13 +57,13 @@ The `style-nova` class on the root element is **required**: it activates the pre
 <Button Size="ButtonSize.Icon" aria-label="Settings"><SettingsIcon /></Button>
 ```
 
-The stylesheet carries the shadcn **neutral** tokens (`--background`, `--primary`, … as `oklch()`),
+The stylesheet carries the shadcn **neutral** tokens (`--background`, `--primary`, â€¦ as `oklch()`),
 the `nova` preset (sizes, colors, spacing and states of every `cn-*` class), the utilities the
 components use, and a scoped slice of Tailwind preflight. Dark mode is the shadcn convention: add
 `class="dark"` to `<html>`. RTL follows the platform `dir` attribute (`dir="rtl"` on `<html>` or any
 ancestor), exactly like shadcn/ui; `cn-rtl-flip` mirrors directional glyphs.
 
-To re-theme, override the tokens — no rebuild of the library is needed:
+To re-theme, override the tokens â€” no rebuild of the library is needed:
 
 ```css
 :root {
@@ -87,11 +90,11 @@ modals and menus.
 
 | shadcn/ui (React) | DB.Blazor.ShadcnUI |
 | --- | --- |
-| `className` | `Class` (Blazor binds `class="…"` to it), merged with `cn()` — a port of `clsx` + `tailwind-merge` |
+| `className` | `Class` (Blazor binds `class="â€¦"` to it), merged with `cn()` â€” a port of `clsx` + `tailwind-merge` |
 | `variant` / `size` props | `ButtonVariant` / `ButtonSize` enums, rendered as `data-variant` / `data-size` |
-| React context (`DialogContext`, `TabsContext`, …) | `CascadingValue` of the root component |
-| `asChild` + `<Slot>` | not supported. A link that looks like a button is an `<a>` with `class="@ButtonVariants.Get(...)"` — exactly shadcn's "As Link" recipe; triggers are renderless (see below) |
-| Portals (`DialogPortal`, `Popover` portal) | a `data-slot="…-portal"` wrapper rendered in place; panels are `position: fixed` |
+| React context (`DialogContext`, `TabsContext`, â€¦) | `CascadingValue` of the root component |
+| `asChild` + `<Slot>` | not supported. A link that looks like a button is an `<a>` with `class="@ButtonVariants.Get(...)"` â€” exactly shadcn's "As Link" recipe; triggers are renderless (see below) |
+| Portals (`DialogPortal`, `Popover` portal) | a `data-slot="â€¦-portal"` wrapper rendered in place; panels are `position: fixed` |
 | Radix behaviour | `wwwroot/dp-shadcn.js`: focus trap, Escape, scroll lock, outside click, placement, menu keys |
 | `onValueChange` / `onCheckedChange` | `ValueChanged` / `CheckedChanged`, so `@bind-Value` / `@bind-Checked` work |
 | `uncontrolled` + `defaultValue` | `DefaultValue` / `DefaultOpen` (+ controlled `Value`/`Open`) |
@@ -105,7 +108,7 @@ and forwards the event:
 ```razor
 <Dialog>
     <DialogTrigger><Button>Edit profile</Button></DialogTrigger>
-    <DialogContent>…</DialogContent>
+    <DialogContent>â€¦</DialogContent>
 </Dialog>
 ```
 
@@ -119,8 +122,8 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
    with a fixed z-index). A parent with `transform`, `filter` or `contain: paint` creates a
    containing block and will offset a fixed panel.
 2. **Exit animations play.** Closing is two-phase: the root keeps the panel mounted with
-   `data-state="closed"` for 150–300 ms (200 for dialogs, 300 for sheets) so `animate-out`,
-   `fade-out-0`, `zoom-out-95` and `slide-out-to-*` run, then removes it — the lifecycle Radix
+   `data-state="closed"` for 150â€“300 ms (200 for dialogs, 300 for sheets) so `animate-out`,
+   `fade-out-0`, `zoom-out-95` and `slide-out-to-*` run, then removes it â€” the lifecycle Radix
    gets from Presence.
 3. **`asChild` has no equivalent.** `Button` always renders a native `<button>` (as it does in
    React without `asChild`); for a link, put `ButtonVariants.Get(...)` on an `<a>`, which is what
@@ -142,7 +145,7 @@ semantic, and clicks/keyboard activation of the inner control bubble to the wrap
 sidebar, "Preview / Code" cards, component pages, examples and copy, built from the ported
 components. `samples/DB.Blazor.ShadcnUI.Demo/wwwroot/docs.css` is a demo-only Tailwind bundle
 (`styles/docs.css` = the library source + the demo pages), because the docs examples use utilities
-(`w-56`, `max-w-sm`, `text-right`, …) that the library itself never emits.
+(`w-56`, `max-w-sm`, `text-right`, â€¦) that the library itself never emits.
 
 ```powershell
 dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
@@ -151,9 +154,9 @@ dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
 ## Styling contract
 
 * Every component part renders its preset class (`cn-button`, `cn-card-header`, `cn-dialog-content`,
-  …). Sizes, colors, spacing and state styling come from `.style-nova .cn-*` in
+  â€¦). Sizes, colors, spacing and state styling come from `.style-nova .cn-*` in
   `styles/style-nova.css`; the C# class list only adds the layout utilities the preset source names.
-* `Class` is merged with `tailwind-merge`, so `Class="px-8"` removes a `px-…` in the component's own
+* `Class` is merged with `tailwind-merge`, so `Class="px-8"` removes a `px-â€¦` in the component's own
   class list. Consumer utilities also win over the preset's `cn-*` CSS, because utilities are
   emitted **unlayered** while the preset is imported into `layer(base)`.
 * The shipped `dp-shadcn.css` is Tailwind v4 output: tokens in `oklch`, the `nova` preset, only the
@@ -161,9 +164,9 @@ dotnet run --project samples/DB.Blazor.ShadcnUI.Demo   # http://localhost:5199
   preflight the components need (`border-box`, `border: 0 solid`, form controls inheriting the page
   font) is scoped to `[data-slot]` subtrees.
 * The `nova` markup contract is shared by every shadcn/ui style (`nova`, `luma`, `lyra`, `maia`,
-  `mira`, `rhea`, `sera`, `vega`), so another preset is a stylesheet swap — no component change.
+  `mira`, `rhea`, `sera`, `vega`), so another preset is a stylesheet swap â€” no component change.
 * A host that already runs Tailwind can skip `dp-shadcn.css` and point its own build at the library:
-  `@source "…/libs/DB.Blazor.ShadcnUI/src/DB.Blazor.ShadcnUI/**/*.razor";` plus `styles/style-nova.css`
+  `@source "â€¦/libs/DB.Blazor.ShadcnUI/src/DB.Blazor.ShadcnUI/**/*.razor";` plus `styles/style-nova.css`
   and the tokens from `styles/dp-shadcn.css`.
 
 ## Build and test
@@ -182,7 +185,7 @@ consumer work without Node.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT â€” see [LICENSE](LICENSE).
 
 The ported class strings, markup and tokens come from [shadcn/ui](https://ui.shadcn.com) (MIT) and
 the inline glyphs from [lucide](https://lucide.dev) (ISC); the full texts are in

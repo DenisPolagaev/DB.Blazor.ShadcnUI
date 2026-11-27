@@ -23,6 +23,7 @@
    with their own unlayered rule. */
 @import "tailwindcss/theme.css";
 @import "tailwindcss/utilities.css";
+@import "./tw-animate.css";
 @import "./style-nova.css" layer(base);
 
 @source "../src/DB.Blazor.ShadcnUI/**/*.razor";
@@ -226,41 +227,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
-  /* Radix's accordion animation variables, so the component keeps the original class list. */
-  --animate-caret-blink: dp-caret-blink var(--tw-duration, 1.25s) var(--tw-ease, ease-out) infinite;
-  --animate-accordion-down: dp-accordion-down var(--tw-duration, 200ms) var(--tw-ease, ease-out) both;
-  --animate-accordion-up: dp-accordion-up var(--tw-duration, 200ms) var(--tw-ease, ease-out) both;
 }
 
-@keyframes dp-caret-blink {
-  0%,
-  70% {
-    opacity: 1;
-  }
-  20%,
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes dp-accordion-down {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
-}
-
-@keyframes dp-accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
-}
 
 /* ---------------------------------------------------------------------------------------------
  * Base layer — the slice of Tailwind preflight that shadcn components depend on.
@@ -353,182 +321,6 @@
 }
 
 /* ---------------------------------------------------------------------------------------------
- * Animations — the `tw-animate-css` subset shadcn/ui v4 components name in their class lists
- * (`animate-in`, `fade-in-0`, `zoom-in-95`, `slide-in-from-top-2`, `animate-out`, …).
- * Declared with `@utility` so `data-[state=open]:animate-in` variants compile.
- * ------------------------------------------------------------------------------------------- */
-
-@keyframes dp-enter {
-  from {
-    opacity: var(--dp-enter-opacity, 1);
-    transform: translate3d(var(--dp-enter-translate-x, 0), var(--dp-enter-translate-y, 0), 0)
-      scale3d(var(--dp-enter-scale, 1), var(--dp-enter-scale, 1), 1)
-      rotate(var(--dp-enter-rotate, 0));
-  }
-}
-
-@keyframes dp-exit {
-  to {
-    opacity: var(--dp-exit-opacity, 1);
-    transform: translate3d(var(--dp-exit-translate-x, 0), var(--dp-exit-translate-y, 0), 0)
-      scale3d(var(--dp-exit-scale, 1), var(--dp-exit-scale, 1), 1)
-      rotate(var(--dp-exit-rotate, 0));
-  }
-}
-
-@utility animate-in {
-  animation: dp-enter var(--dp-animation-duration, var(--tw-duration, 150ms)) var(--dp-animation-ease, var(--tw-ease, ease)) both;
-}
-
-@utility animate-out {
-  animation: dp-exit var(--dp-animation-duration, var(--tw-duration, 150ms)) var(--dp-animation-ease, var(--tw-ease, ease)) both;
-}
-
-@utility fade-in {
-  --dp-enter-opacity: 0;
-}
-
-@utility fade-in-0 {
-  --dp-enter-opacity: 0;
-}
-
-@utility fade-out {
-  --dp-exit-opacity: 0;
-}
-
-@utility fade-out-0 {
-  --dp-exit-opacity: 0;
-}
-
-@utility zoom-in-90 {
-  --dp-enter-scale: 0.9;
-}
-
-@utility zoom-in-95 {
-  --dp-enter-scale: 0.95;
-}
-
-@utility zoom-out-90 {
-  --dp-exit-scale: 0.9;
-}
-
-@utility zoom-out-95 {
-  --dp-exit-scale: 0.95;
-}
-
-@utility slide-in-from-top-2 {
-  --dp-enter-translate-y: -0.5rem;
-}
-
-@utility slide-in-from-left-52 {
-  --dp-enter-translate-x: -13rem;
-}
-
-@utility slide-in-from-right-52 {
-  --dp-enter-translate-x: 13rem;
-}
-
-@utility slide-out-to-left-52 {
-  --dp-exit-translate-x: -13rem;
-}
-
-@utility slide-out-to-right-52 {
-  --dp-exit-translate-x: 13rem;
-}
-
-@utility slide-in-from-right-2 {
-  --dp-enter-translate-x: 0.5rem;
-}
-
-@utility slide-in-from-bottom-2 {
-  --dp-enter-translate-y: 0.5rem;
-}
-
-@utility slide-in-from-top-10 {
-  --dp-enter-translate-y: -2.5rem;
-}
-
-@utility slide-in-from-right-10 {
-  --dp-enter-translate-x: 2.5rem;
-}
-
-@utility slide-in-from-bottom-10 {
-  --dp-enter-translate-y: 2.5rem;
-}
-
-@utility slide-in-from-left-10 {
-  --dp-enter-translate-x: -2.5rem;
-}
-
-@utility slide-out-to-top-10 {
-  --dp-exit-translate-y: -2.5rem;
-}
-
-@utility slide-out-to-right-10 {
-  --dp-exit-translate-x: 2.5rem;
-}
-
-@utility slide-out-to-bottom-10 {
-  --dp-exit-translate-y: 2.5rem;
-}
-
-@utility slide-out-to-left-10 {
-  --dp-exit-translate-x: -2.5rem;
-}
-
-@utility slide-in-from-left-2 {
-  --dp-enter-translate-x: -0.5rem;
-}
-
-@utility slide-in-from-top {
-  --dp-enter-translate-y: -100%;
-}
-
-@utility slide-in-from-right {
-  --dp-enter-translate-x: 100%;
-}
-
-@utility slide-in-from-bottom {
-  --dp-enter-translate-y: 100%;
-}
-
-@utility slide-in-from-left {
-  --dp-enter-translate-x: -100%;
-}
-
-@utility slide-out-to-top {
-  --dp-exit-translate-y: -100%;
-}
-
-@utility slide-out-to-top-2 {
-  --dp-exit-translate-y: -0.5rem;
-}
-
-@utility slide-out-to-bottom-2 {
-  --dp-exit-translate-y: 0.5rem;
-}
-
-@utility slide-out-to-left-2 {
-  --dp-exit-translate-x: -0.5rem;
-}
-
-@utility slide-out-to-right-2 {
-  --dp-exit-translate-x: 0.5rem;
-}
-
-@utility slide-out-to-right {
-  --dp-exit-translate-x: 100%;
-}
-
-@utility slide-out-to-bottom {
-  --dp-exit-translate-y: 100%;
-}
-
-@utility slide-out-to-left {
-  --dp-exit-translate-x: -100%;
-}
-
-/* ---------------------------------------------------------------------------------------------
  * Component plumbing that cannot be expressed with a static utility class. These are the only
  * non-Tailwind rules the port needs; everything visual still comes from the shadcn class list.
  * ------------------------------------------------------------------------------------------- */
@@ -542,6 +334,29 @@
     overflow: hidden;
   }
 
+  /* The port positions a floating panel from JS after the Blazor render; until the placement has
+     happened (`data-positioned` set by dp-shadcn.js) the enter animation must not run while the
+     panel is still at its unpositioned coordinates. */
+  :where([data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"],
+    [data-slot="context-menu-content"], [data-slot="context-menu-sub-content"],
+    [data-slot="menubar-content"], [data-slot="menubar-sub-content"],
+    [data-slot="select-content"], [data-slot="popover-content"],
+    [data-slot="hover-card-content"], [data-slot="tooltip-content"]):not([data-positioned]) {
+    animation: none !important;
+  }
+  /* The shadcn class lists carry `duration-*` as the tw-animate duration source (it sets
+     `--tw-duration` and, as a side effect, `transition-duration`). Without a transition-property
+     utility the browser default is `all`, so the left/top the port writes once would visibly
+     glide from their first value. Panels are placed in one step; only animations move them. */
+  :where([data-slot="dialog-content"], [data-slot="alert-dialog-content"],
+    [data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"],
+    [data-slot="context-menu-content"], [data-slot="context-menu-sub-content"],
+    [data-slot="menubar-content"], [data-slot="menubar-sub-content"],
+    [data-slot="select-content"], [data-slot="popover-content"],
+    [data-slot="hover-card-content"], [data-slot="tooltip-content"],
+    [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+    transition-property: none;
+  }
   /* ScrollArea: Radix drives its own scrollbar from JavaScript; the port keeps the markup and
      lets the browser scroll the viewport (the scrollbar element stays hidden). */
   [data-slot="scroll-area-viewport"] {
@@ -623,6 +438,10 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+
+
 
 
 

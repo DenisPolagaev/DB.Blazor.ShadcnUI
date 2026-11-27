@@ -24,17 +24,23 @@ markup and semantic `cn-*` class names are copied from the preset's Registry sou
 
 ## Animations
 
-The `tw-animate-css` subset the class lists name is implemented in `styles/dp-shadcn.css`:
-`dp-enter`/`dp-exit`, `fade-*`, `zoom-*`, `slide-in-from-*`/`slide-out-to-*` (including the
-`-10`/`-52` steps), the accordion height keyframes and the caret blink. `animate-spin` and
-`animate-pulse` come from Tailwind.
+The class lists use **`tw-animate-css` 1.4.0 verbatim** (`styles/tw-animate.css`, vendored MIT):
+`enter`/`exit`, every `fade-*`/`zoom-*`/`slide-*` utility, the accordion height keyframes and the
+caret blink. `animate-spin` and `animate-pulse` come from Tailwind. There are no hand-written
+animation utilities in the port, so `duration-*`, `ease-*`, `delay-*` and the fill-mode utilities
+behave exactly as in the shadcn/ui source.
 
 Two behaviours are added on top of the preset so its animation classes actually run:
 
 * **Two-phase closing.** A panel stays mounted with `data-state="closed"` for one animation
   window, then is removed - Radix's Presence. Without it `data-closed:animate-out` never applied:
   the panel went from `open` straight to unmounted.
-* **Menus animate.** `.cn-menu-translucent` carries `animate-none!` in the preset, which cancelled
+* **Panels are placed before they animate.** A floating panel is rendered `visibility: hidden`;
+  the enter animation is gated on `data-positioned` (set by `dp-shadcn.js` when `left/top` are
+  final), and the popup slots opt out of CSS transitions. Without that, the `duration-*` class
+  (which is the tw-animate duration source) also enables the browser's default `transition-property:
+  all`, so the one-shot `left/top` change glided the panel across the screen (the "menu appears on
+  the left and flies" bug in the table actions example).* **Menus animate.** `.cn-menu-translucent` carries `animate-none!` in the preset, which cancelled
   the `data-open:animate-in` / `data-closed:animate-out` classes of the dropdown, context, menubar
   and select panels. The port drops that declaration; item-aligned Select still opts out with
   `data-[align-trigger=true]:animate-none`, exactly like Radix (no animation in aligned mode).
@@ -43,6 +49,7 @@ Animated components: Accordion (height), AlertDialog, Dialog, Sheet, Drawer (ove
 slide-in/out content the vaul port has to animate itself), Popover, Tooltip, HoverCard,
 DropdownMenu, ContextMenu, Menubar (fields), Select (popper mode), CommandDialog, Sonner toasts
 (enter and exit), InputOTP caret, Spinner and Skeleton.
+
 ## Markup
 
 * Every component renders the same `data-slot` names as the React original: `button`, `badge`,
@@ -182,4 +189,6 @@ The utility classes themselves are no longer compared: they moved into `styles/s
 the port's C# only carries the semantic class and the layout utilities the preset source names.
 
 Last run: 46 components, 0 missing tokens, 0 unknown tokens.
+
+
 
