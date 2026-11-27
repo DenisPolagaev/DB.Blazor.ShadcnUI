@@ -180,7 +180,9 @@ export function positionFloating(triggerId, panel, options = {}) {
   panel.style.top = "0px";
 
   const rect = anchor.getBoundingClientRect();
-  const size = panel.getBoundingClientRect();
+  // offsetWidth/offsetHeight are layout sizes: they ignore the enter animation's scale, so the
+  // placement is final on the first frame instead of jumping when the animation ends.
+  const size = { width: panel.offsetWidth, height: panel.offsetHeight };
 
   let resolved = side;
   const spaceTop = rect.top;
@@ -260,12 +262,21 @@ export function positionFloating(triggerId, panel, options = {}) {
 /** Keeps a panel that positions itself (context menu at the pointer) inside the viewport. */
 function clampFixedPanel(el) {
   el.style.position = "fixed";
+  // Use the coordinates the component wrote, not the animated rect: the enter transform scales
+  // the panel around its origin and would otherwise skew the clamp by a few pixels.
   const rect = el.getBoundingClientRect();
+  const baseLeft = Number.parseFloat(el.style.left);
+  const baseTop = Number.parseFloat(el.style.top);
+  const left0 = Number.isFinite(baseLeft) ? baseLeft : rect.left;
+  const top0 = Number.isFinite(baseTop) ? baseTop : rect.top;
+  const width = el.offsetWidth;
+  const height = el.offsetHeight;
   const padding = 8;
-  const left = Math.min(Math.max(padding, rect.left), Math.max(padding, window.innerWidth - rect.width - padding));
-  const top = Math.min(Math.max(padding, rect.top), Math.max(padding, window.innerHeight - rect.height - padding));
+  const left = Math.min(Math.max(padding, left0), Math.max(padding, window.innerWidth - width - padding));
+  const top = Math.min(Math.max(padding, top0), Math.max(padding, window.innerHeight - height - padding));
   el.style.left = `${Math.round(left)}px`;
   el.style.top = `${Math.round(top)}px`;
+  el.style.visibility = "";
 }
 
 /**
@@ -683,17 +694,13 @@ export function openDismissable(el, dotnet, options = {}) {
   }
 
   dismissables.add(entry);
+  el.style.visibility = "hidden";
   el.dataset.state = "open";
   document.addEventListener("pointerdown", onDismissablePointerDown, true);
   document.addEventListener("keydown", onDismissableKeyDown, true);
   window.addEventListener("resize", entry.reposition);
   window.addEventListener("scroll", entry.reposition, true);
 
-  // The enter animation scales the panel, so the first measurement is taken mid-animation and
-  // is a few pixels small. Re-place once the animation finished (and whenever its size changes
-  // later: web fonts, images, a longer label), like Radix re-measuring its popper.
-  entry.onAnimationEnd = () => entry.reposition();
-  el.addEventListener("animationend", entry.onAnimationEnd, true);
 
   if (typeof ResizeObserver !== "undefined") {
     let scheduled = false;
@@ -769,7 +776,6 @@ export function closeDismissable(id) {
     window.removeEventListener("resize", entry.reposition);
     window.removeEventListener("scroll", entry.reposition, true);
     entry.resizeObserver?.disconnect();
-    el.removeEventListener("animationend", entry.onAnimationEnd, true);
     if (entry.onScroll) {
       entry.el.removeEventListener("scroll", entry.onScroll, true);
     }
@@ -1021,6 +1027,9 @@ export function syncAccordion(el, open) {
   el.style.setProperty("--radix-accordion-content-height", `${height}px`);
   el.style.height = open ? `${height}px` : "0px";
 }
+
+
+
 
 
 

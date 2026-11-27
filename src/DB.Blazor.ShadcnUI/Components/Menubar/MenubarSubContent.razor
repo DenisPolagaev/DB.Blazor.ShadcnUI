@@ -6,7 +6,7 @@
 {
     <div @ref="_panel" role="menu" tabindex="-1" data-slot="menubar-sub-content"
          data-state="@(Owner.IsOpen ? "open" : "closed")" id="@Owner.ContentId"
-         aria-labelledby="@Owner.TriggerId" class="@Classes" style="@Style"
+         aria-labelledby="@Owner.TriggerId" class="@Classes" style="@StyleWith("visibility: hidden")"
          @onpointerenter="CancelClose" @onpointerleave="ScheduleClose" @attributes="AdditionalAttributes">
         @ChildContent
     </div>
@@ -15,4 +15,5 @@
 @code {
     private string? Classes => MergeClass("cn-menubar-sub-content cn-menu-target cn-menu-translucent z-50 origin-(--radix-menubar-content-transform-origin) overflow-hidden");
 }
+
 

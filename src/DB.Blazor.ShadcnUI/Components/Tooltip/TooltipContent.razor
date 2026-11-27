@@ -5,7 +5,7 @@
 @if (Root is { IsVisible: true })
 {
     <div @ref="_panel" data-slot="tooltip-content" data-state="@(Root.IsOpen ? "open" : "closed")" role="tooltip" id="@Root.ContentId"
-         class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+         class="@Classes" style="@StyleWith("visibility: hidden")" @attributes="AdditionalAttributes">
         @ChildContent
         <span data-slot="tooltip-arrow"
               class="cn-tooltip-arrow z-50 bg-foreground fill-foreground"></span>
@@ -15,4 +15,5 @@
 @code {
     private string? Classes => MergeClass("cn-tooltip-content z-50 w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) bg-foreground text-background");
 }
+
 

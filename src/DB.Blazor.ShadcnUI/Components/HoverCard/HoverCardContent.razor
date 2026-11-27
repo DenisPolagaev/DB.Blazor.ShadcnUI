@@ -4,7 +4,7 @@
 @if (Root is { IsVisible: true })
 {
     <div @ref="_panel" tabindex="-1" data-slot="hover-card-content" data-state="@(Root.IsOpen ? "open" : "closed")"
-         id="@Root.ContentId" class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+         id="@Root.ContentId" class="@Classes" style="@StyleWith("visibility: hidden")" @attributes="AdditionalAttributes">
         @ChildContent
     </div>
 }
@@ -12,4 +12,5 @@
 @code {
     private string? Classes => MergeClass("cn-hover-card-content z-50 origin-(--radix-hover-card-content-transform-origin) outline-hidden");
 }
+
 
