@@ -43,6 +43,7 @@ public static class DocCatalog
         new("separator", "Separator", "Visually or semantically separates content."),
         new("sheet", "Sheet", "Extends the Dialog component to display content that complements the main content of the screen."),
         new("skeleton", "Skeleton", "Use to show a placeholder while content is loading."),
+        new("slider", "Slider", "An input where the user selects a value from within a given range."),
         new("spinner", "Spinner", "An indicator that can be used to show a loading state."),
         new("switch", "Switch", "A control that allows the user to toggle between checked and not checked."),
         new("table", "Table", "A responsive table component."),

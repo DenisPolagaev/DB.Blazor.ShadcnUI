@@ -45,6 +45,7 @@ $map = [ordered]@{
     'separator'     = 'Separator'
     'sheet'         = 'Sheet'
     'skeleton'      = 'Skeleton'
+    'slider'        = 'Slider'
     'spinner'       = 'Spinner'
     'switch'        = 'Switch'
     'table'         = 'Table'

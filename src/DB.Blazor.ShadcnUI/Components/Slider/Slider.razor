@@ -1,0 +1,92 @@
+@namespace DB.Blazor.ShadcnUI.Components
+@inherits ShadcnComponent
+
+@* Radix drives the slider with pointer events; the port overlays a native range input on the same
+   markup, so dragging, touch and keyboard work without custom JS and the visuals stay identical. *@
+<div data-slot="slider" data-orientation="@Orientation.ToDataValue()" data-disabled="@(Disabled ? "true" : null)"
+     class="@Classes" style="@Style" @attributes="AdditionalAttributes">
+    <div data-slot="slider-track" class="@TrackClasses">
+        <div data-slot="slider-range" class="@RangeClasses" style="@RangeStyle"></div>
+    </div>
+    <div data-slot="slider-thumb" class="@ThumbClasses" style="@ThumbStyle"></div>
+    <input type="range" min="@MinText" max="@MaxText" step="@StepText" value="@ValueText"
+           disabled="@Disabled" aria-label="@AriaLabel"
+           class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+           @oninput="HandleInputAsync" />
+</div>
+
+@code {
+    /// <summary>Current value.</summary>
+    [Parameter] public double Value { get; set; }
+
+    /// <summary>Value change callback.</summary>
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+
+    /// <summary>Lower bound, 0 by default.</summary>
+    [Parameter] public double Min { get; set; }
+
+    /// <summary>Upper bound, 100 by default.</summary>
+    [Parameter] public double Max { get; set; } = 100;
+
+    /// <summary>Step, 1 by default.</summary>
+    [Parameter] public double Step { get; set; } = 1;
+
+    /// <summary>Layout direction.</summary>
+    [Parameter] public ShadcnOrientation Orientation { get; set; } = ShadcnOrientation.Horizontal;
+
+    /// <summary>Disables the slider.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Accessible label for the range input.</summary>
+    [Parameter] public string? AriaLabel { get; set; }
+
+    private double Percent => Max <= Min ? 0 : Math.Clamp((Value - Min) / (Max - Min) * 100d, 0d, 100d);
+
+    private string MinText => Min.ToString(CultureInfo.InvariantCulture);
+
+    private string MaxText => Max.ToString(CultureInfo.InvariantCulture);
+
+    private string StepText => Step.ToString(CultureInfo.InvariantCulture);
+
+    private string ValueText => Value.ToString(CultureInfo.InvariantCulture);
+
+    private string? RangeStyle => StyleWith(Orientation == ShadcnOrientation.Vertical
+        ? $"height: {Percent.ToString("0.###", CultureInfo.InvariantCulture)}%"
+        : $"width: {Percent.ToString("0.###", CultureInfo.InvariantCulture)}%");
+
+    private string ThumbStyle
+    {
+        get
+        {
+            var percent = Percent.ToString("0.###", CultureInfo.InvariantCulture);
+            return Orientation == ShadcnOrientation.Vertical
+                ? $"bottom: calc({percent}% - 0.5rem); left: 50%; transform: translateX(-50%)"
+                : $"left: calc({percent}% - 0.5rem); top: 50%; transform: translateY(-50%)";
+        }
+    }
+
+    private async Task HandleInputAsync(ChangeEventArgs args)
+    {
+        if (double.TryParse(args.Value?.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var next))
+        {
+            Value = next;
+            await ValueChanged.InvokeAsync(next);
+        }
+    }
+
+    private string? Classes => MergeClass(
+        "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 " +
+        "data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 " +
+        "data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col");
+
+    private static string TrackClasses =>
+        "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:h-1.5 " +
+        "data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5";
+
+    private static string RangeClasses =>
+        "absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full";
+
+    private static string ThumbClasses =>
+        "pointer-events-none absolute block size-4 shrink-0 rounded-full border border-primary " +
+        "bg-background shadow-sm ring-ring/50 transition-[color,box-shadow]";
+}

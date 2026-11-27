@@ -338,6 +338,17 @@ else if (Slug == "input-otp")
         </Preview>
     </DocPage>
 }
+else if (Slug == "slider")
+{
+    <DocPage Title="Slider" Description="An input where the user selects a value from within a given range."
+             Code="@SliderCode" Usage="@SliderUsage">
+        <Preview>
+            <div style="width: 100%; max-width: 360px">
+                <Slider Value="sliderValue" ValueChanged="@(value => sliderValue = value)" AriaLabel="Volume" />
+            </div>
+        </Preview>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
@@ -530,6 +541,17 @@ else if (Slug == "input-otp")
         <InputOTPSlot Index="0" /><InputOTPSlot Index="1" /><InputOTPSlot Index="2" />
     </InputOTPGroup>
 </InputOTP>
+""";
+    private double sliderValue = 50;
+
+    private const string SliderCode = """
+<Slider Value="value" ValueChanged="@(v => value = v)" AriaLabel="Volume" />
+""";
+
+    private const string SliderUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Slider Value="50" AriaLabel="Volume" />
 """;
     private const string EmptyCode = """
 <Empty>
