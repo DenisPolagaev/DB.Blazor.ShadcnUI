@@ -144,8 +144,20 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Radix's accordion animation variables, so the component keeps the original class list. */
+  --animate-caret-blink: dp-caret-blink 1s ease-out infinite;
   --animate-accordion-down: dp-accordion-down 200ms ease-out both;
   --animate-accordion-up: dp-accordion-up 200ms ease-out both;
+}
+
+@keyframes dp-caret-blink {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  20%,
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes dp-accordion-down {

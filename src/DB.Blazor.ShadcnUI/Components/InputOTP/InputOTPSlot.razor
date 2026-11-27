@@ -4,6 +4,12 @@
 <div data-slot="input-otp-slot" data-active="@(Owner?.IsActive(Index) == true ? "true" : "false")"
      class="@Classes" style="@Style" @attributes="AdditionalAttributes">
     @Owner?.CharAt(Index)
+    @if (Owner?.IsActive(Index) == true)
+    {
+        <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div class="h-4 w-px animate-caret-blink bg-foreground duration-1000"></div>
+        </div>
+    }
 </div>
 
 @code {
