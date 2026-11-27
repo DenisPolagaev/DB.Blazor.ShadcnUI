@@ -7,6 +7,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddScoped<DB.Blazor.ShadcnUI.Components.ToastService>();
+
 var app = builder.Build();
 
 app.UseAntiforgery();

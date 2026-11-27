@@ -1,4 +1,5 @@
 @namespace DB.Blazor.ShadcnUI.Demo.Client.Docs
+@inject DB.Blazor.ShadcnUI.Components.ToastService Toasts
 
 @if (Slug == "aspect-ratio")
 {
@@ -349,10 +350,21 @@ else if (Slug == "slider")
         </Preview>
     </DocPage>
 }
+else if (Slug == "sonner")
+{
+    <DocPage Title="Sonner" Description="An opinionated toast component for React."
+             Code="@SonnerCode" Usage="@SonnerUsage">
+        <Preview>
+            <Button Variant="ButtonVariant.Outline" OnClick="ShowToast">Show toast</Button>
+        </Preview>
+    </DocPage>
+}
 @code {
     [Parameter] public string? Slug { get; set; }
 
     private bool collapsibleOpen = true;
+
+    private void ShowToast() => Toasts.Show("Event has been created", "Monday, January 3rd at 6:00pm");
 
     private const string aspectCode = "@radix-ui/react";
     private const string radix = "@radix-ui";
@@ -552,6 +564,23 @@ else if (Slug == "slider")
 @using DB.Blazor.ShadcnUI.Components
 
 <Slider Value="50" AriaLabel="Volume" />
+""";
+    private const string SonnerCode = """
+<Toaster />
+
+@code {
+    [Inject] private ToastService Toasts { get; set; } = default!;
+
+    private void ShowToast() => Toasts.Show("Event has been created", "Monday, January 3rd at 6:00pm");
+}
+""";
+
+    private const string SonnerUsage = """
+@using DB.Blazor.ShadcnUI.Components
+
+<Toaster />
+
+builder.Services.AddScoped<ToastService>();
 """;
     private const string EmptyCode = """
 <Empty>

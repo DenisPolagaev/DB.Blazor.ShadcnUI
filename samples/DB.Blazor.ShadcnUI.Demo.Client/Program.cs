@@ -10,6 +10,7 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        builder.Services.AddScoped<DB.Blazor.ShadcnUI.Components.ToastService>();
         await builder.Build().RunAsync();
     }
 }
